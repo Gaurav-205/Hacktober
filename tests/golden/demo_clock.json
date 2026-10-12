@@ -1,0 +1,172 @@
+{
+  "explicit_17_25": {
+    "due_date": "2026-04-19",
+    "days_late": 177,
+    "interest_paise": 4290370,
+    "total_paise": 54290370,
+    "steps": [
+      {
+        "kind": "due",
+        "start": "2026-03-20",
+        "end": "2026-04-19",
+        "rate_percent": "0",
+        "days": 0,
+        "period_days": 0,
+        "opening_paise": 50000000,
+        "interest_paise": 0,
+        "closing_paise": 50000000
+      },
+      {
+        "kind": "month",
+        "start": "2026-04-20",
+        "end": "2026-05-20",
+        "rate_percent": "17.25",
+        "days": 30,
+        "period_days": 30,
+        "opening_paise": 50000000,
+        "interest_paise": 718750,
+        "closing_paise": 50718750
+      },
+      {
+        "kind": "month",
+        "start": "2026-05-20",
+        "end": "2026-06-20",
+        "rate_percent": "17.25",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 50718750,
+        "interest_paise": 729082,
+        "closing_paise": 51447832
+      },
+      {
+        "kind": "month",
+        "start": "2026-06-20",
+        "end": "2026-07-20",
+        "rate_percent": "17.25",
+        "days": 30,
+        "period_days": 30,
+        "opening_paise": 51447832,
+        "interest_paise": 739563,
+        "closing_paise": 52187395
+      },
+      {
+        "kind": "month",
+        "start": "2026-07-20",
+        "end": "2026-08-20",
+        "rate_percent": "17.25",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 52187395,
+        "interest_paise": 750194,
+        "closing_paise": 52937589
+      },
+      {
+        "kind": "month",
+        "start": "2026-08-20",
+        "end": "2026-09-20",
+        "rate_percent": "17.25",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 52937589,
+        "interest_paise": 760978,
+        "closing_paise": 53698567
+      },
+      {
+        "kind": "partial",
+        "start": "2026-09-20",
+        "end": "2026-10-13",
+        "rate_percent": "17.25",
+        "days": 23,
+        "period_days": 30,
+        "opening_paise": 53698567,
+        "interest_paise": 591803,
+        "closing_paise": 54290370
+      }
+    ]
+  },
+  "seeded_table": {
+    "due_date": "2026-04-19",
+    "days_late": 177,
+    "interest_paise": 4097671,
+    "total_paise": 54097671,
+    "steps": [
+      {
+        "kind": "due",
+        "start": "2026-03-20",
+        "end": "2026-04-19",
+        "rate_percent": "0",
+        "days": 0,
+        "period_days": 0,
+        "opening_paise": 50000000,
+        "interest_paise": 0,
+        "closing_paise": 50000000
+      },
+      {
+        "kind": "month",
+        "start": "2026-04-20",
+        "end": "2026-05-20",
+        "rate_percent": "16.50",
+        "days": 30,
+        "period_days": 30,
+        "opening_paise": 50000000,
+        "interest_paise": 687500,
+        "closing_paise": 50687500
+      },
+      {
+        "kind": "month",
+        "start": "2026-05-20",
+        "end": "2026-06-20",
+        "rate_percent": "16.50",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 50687500,
+        "interest_paise": 696953,
+        "closing_paise": 51384453
+      },
+      {
+        "kind": "month",
+        "start": "2026-06-20",
+        "end": "2026-07-20",
+        "rate_percent": "16.50",
+        "days": 30,
+        "period_days": 30,
+        "opening_paise": 51384453,
+        "interest_paise": 706536,
+        "closing_paise": 52090989
+      },
+      {
+        "kind": "month",
+        "start": "2026-07-20",
+        "end": "2026-08-20",
+        "rate_percent": "16.50",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 52090989,
+        "interest_paise": 716251,
+        "closing_paise": 52807240
+      },
+      {
+        "kind": "month",
+        "start": "2026-08-20",
+        "end": "2026-09-20",
+        "rate_percent": "16.50",
+        "days": 31,
+        "period_days": 31,
+        "opening_paise": 52807240,
+        "interest_paise": 726100,
+        "closing_paise": 53533340
+      },
+      {
+        "kind": "partial",
+        "start": "2026-09-20",
+        "end": "2026-10-13",
+        "rate_percent": "16.50",
+        "days": 23,
+        "period_days": 30,
+        "opening_paise": 53533340,
+        "interest_paise": 564331,
+        "closing_paise": 54097671
+      }
+    ]
+  }
+}

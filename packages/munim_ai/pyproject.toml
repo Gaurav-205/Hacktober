@@ -1,0 +1,25 @@
+[project]
+name = "munim-ai"
+version = "0.1.0"
+description = "Munim model layer: schemas, image preparation, providers (Ollama, Gemini, replay), extraction and repair."
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+    "munim-core",
+    "pydantic>=2.9",
+    "pillow>=11.0",
+    "pillow-heif>=0.20",
+    "pypdfium2>=4.30",
+    "httpx>=0.27",
+    "ollama>=0.4",
+]
+
+[project.optional-dependencies]
+gemini = ["google-genai>=1.0"]
+
+[tool.uv.sources]
+munim-core = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.9,<0.12"]
+build-backend = "uv_build"

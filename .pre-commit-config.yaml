@@ -1,0 +1,49 @@
+# Local hooks only: every tool comes from the uv-locked environment, so commits work offline
+# and use the same versions as CI.
+default_install_hook_types: [pre-commit]
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run --no-sync ruff check --force-exclude
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run --no-sync ruff format --check --force-exclude
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy
+        entry: uv run --no-sync mypy packages/munim_core/src packages/munim_ai/src packages/munim_web/src packages/munim_mcp/src scripts
+        language: system
+        pass_filenames: false
+        types: [python]
+      - id: detect-secrets
+        name: detect-secrets
+        entry: uv run --no-sync detect-secrets-hook --baseline .secrets.baseline
+        language: system
+        exclude: ^(uv\.lock|\.secrets\.baseline)$
+      - id: repo-files
+        name: large files, image locations, GSTIN-shaped strings
+        entry: uv run --no-sync python scripts/check_repo_files.py
+        language: system
+      - id: design-lint
+        name: design lint
+        entry: uv run --no-sync python scripts/design_lint.py
+        language: system
+        files: ^packages/munim_web/src/munim_web/(templates|static/css|static/js|i18n)/
+        exclude: ^packages/munim_web/src/munim_web/static/js/vendor/
+      - id: check-i18n
+        name: i18n key parity
+        entry: uv run --no-sync python scripts/check_i18n.py
+        language: system
+        pass_filenames: false
+        files: ^packages/munim_web/src/munim_web/(i18n|templates)/
+      - id: tokens
+        name: tokens.css matches DESIGN.md
+        entry: uv run --no-sync python scripts/build_tokens.py --check
+        language: system
+        pass_filenames: false
+        files: ^(DESIGN\.md|packages/munim_web/src/munim_web/static/css/tokens\.css)$

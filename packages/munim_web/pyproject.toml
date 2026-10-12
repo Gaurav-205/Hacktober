@@ -1,0 +1,30 @@
+[project]
+name = "munim-web"
+version = "0.1.0"
+description = "Munim web application: FastAPI, Jinja2 and htmx, local first."
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+    "munim-core",
+    "munim-ai",
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+    "jinja2>=3.1.4",
+    "python-multipart>=0.0.18",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "structlog>=24.4",
+    "pyyaml>=6.0.2",
+    "python-ulid>=3.0",
+]
+
+[project.scripts]
+munim = "munim_web.main:run"
+
+[tool.uv.sources]
+munim-core = { workspace = true }
+munim-ai = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.9,<0.12"]
+build-backend = "uv_build"

@@ -1,0 +1,19 @@
+[project]
+name = "munim-core"
+version = "0.1.0"
+description = "Pure domain logic for Munim: money, dates, identifiers, verification rules and the MSMED payment clock."
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+    "python-stdnum>=2.0",
+    "python-dateutil>=2.9",
+    "rapidfuzz>=3.10",
+    "pydantic>=2.9",
+]
+
+[project.scripts]
+munim-core = "munim_core.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.9,<0.12"]
+build-backend = "uv_build"

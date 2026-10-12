@@ -1,0 +1,190 @@
+[project]
+name = "munim-workspace"
+version = "0.1.0"
+description = "Munim workspace root: tool configuration and the dev dependency group."
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+dependencies = [
+    "munim-core",
+    "munim-ai",
+    "munim-web",
+    "munim-mcp",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+munim-core = { workspace = true }
+munim-ai = { workspace = true }
+munim-web = { workspace = true }
+munim-mcp = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6.0",
+    "hypothesis>=6.120",
+    # Pinned: 1.56.0 drives Chromium build 1194, the build pre-installed in CI images
+    # and in the cloud container this project was built in.
+    "playwright==1.56.0",
+    "pytest-playwright>=0.7",
+    "axe-playwright-python>=0.1.4",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "bandit>=1.8",
+    "pip-audit>=2.7",
+    "import-linter>=2.1",
+    "pre-commit>=4.0",
+    "detect-secrets>=1.5",
+    "reportlab>=4.2",
+    "fonttools>=4.55",
+    "brotli>=1.1",
+    "jsonschema>=4.23",
+    "pypdf>=5.1",
+    "types-pyyaml>=6.0",
+    "types-python-dateutil>=2.9",
+]
+
+# ---------------------------------------------------------------- ruff
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["packages/munim_web/src/munim_web/static/js/vendor"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "S", "C4", "PLE", "PLW", "PLR"]
+ignore = [
+    "PLR0913", # many arguments: frozen dataclasses and route handlers legitimately take many
+    "PLR2004", # magic values: domain constants (45 days, 15 MB) are clearer inline in rules
+    "PLR0911", # many returns: rule functions return early per status
+    "PLR0912",
+    "PLR0915",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S108", "S603", "S607", "PLR", "S105", "S106"]
+"scripts/**" = ["S603", "S607", "T201"]
+"eval/**" = ["S311"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["munim_core", "munim_ai", "munim_web", "munim_mcp"]
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.12"
+mypy_path = [
+    "packages/munim_core/src",
+    "packages/munim_ai/src",
+    "packages/munim_web/src",
+    "packages/munim_mcp/src",
+]
+explicit_package_bases = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["munim_core.*", "munim_ai.*"]
+strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "stdnum.*",
+    "pillow_heif.*",
+    "pypdfium2.*",
+    "reportlab.*",
+    "axe_playwright_python.*",
+    "ulid.*",
+    "google.*",
+]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "unit: pure, fast tests of one function or module",
+    "property: hypothesis property tests",
+    "integration: routes, services and repositories against a temporary database",
+    "contract: provider interface conformance",
+    "golden: compare output with reviewed golden files",
+    "e2e: Playwright browser journeys",
+    "a11y: axe-core accessibility checks in a browser",
+    "live: needs a real model; skipped unless MUNIM_LIVE=1",
+]
+filterwarnings = [
+    "error::pytest.PytestUnraisableExceptionWarning",
+]
+
+# ---------------------------------------------------------------- coverage
+[tool.coverage.run]
+branch = true
+source = ["munim_core", "munim_ai", "munim_web"]
+omit = ["*/munim_web/__main__.py"]
+
+[tool.coverage.report]
+show_missing = false
+skip_covered = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "\\.\\.\\.$",
+]
+
+# ---------------------------------------------------------------- import-linter
+[tool.importlinter]
+root_packages = ["munim_core", "munim_ai", "munim_web", "munim_mcp"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Core is pure: no I/O, network, framework or model imports"
+type = "forbidden"
+source_modules = ["munim_core"]
+forbidden_modules = [
+    "munim_ai",
+    "munim_web",
+    "munim_mcp",
+    "fastapi",
+    "starlette",
+    "jinja2",
+    "httpx",
+    "ollama",
+    "google",
+    "PIL",
+    "pypdfium2",
+    "sqlite3",
+    "socket",
+    "urllib",
+    "http",
+    "subprocess",
+    "shutil",
+    "pathlib",
+    "yaml",
+    "structlog",
+]
+
+[[tool.importlinter.contracts]]
+name = "The model layer does not import the web layer"
+type = "forbidden"
+source_modules = ["munim_ai"]
+forbidden_modules = ["munim_web", "munim_mcp", "fastapi", "starlette", "jinja2"]
+
+[[tool.importlinter.contracts]]
+name = "Nothing imports the web layer"
+type = "forbidden"
+source_modules = ["munim_core", "munim_ai", "munim_mcp"]
+forbidden_modules = ["munim_web"]
+
+# ---------------------------------------------------------------- bandit
+[tool.bandit]
+exclude_dirs = ["tests", "packages/munim_web/src/munim_web/static"]

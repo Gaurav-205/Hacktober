@@ -37,6 +37,8 @@ static: ## Lint, format check, types, import contracts, security, licences
 	$(UV) run bandit -q -c pyproject.toml -r packages
 	$(PY) scripts/check_licences.py
 	$(PY) scripts/check_repo_files.py
+	$(UV) run detect-secrets scan --baseline .secrets.baseline
+	$(PY) scripts/check_secrets_baseline.py
 
 design: ## Design lint, contrast, fonts, i18n, tokens up to date
 	$(PY) scripts/build_tokens.py --check

@@ -1,0 +1,16 @@
+# RBI Bank Rate rows seeded into a new database (insert-or-ignore on effective_from, so a
+# person's confirmations and own rows are never overwritten). docs/DOMAIN_RULES.md 5.4.
+# None of these was read from an RBI notification: rbi.org.in could not be reached from the
+# build machine. Each row stays "not confirmed" until the person confirms it in the app.
+- effective_from: "2025-06-06"
+  percent: "5.75"
+  source: "Press reports of the RBI policy of 6 Jun 2025 (repo 5.50%, MSF and Bank Rate 5.75%)"
+  confirmed: false
+- effective_from: "2025-12-05"
+  percent: "5.50"
+  source: "Press reports of the RBI policy of 5 Dec 2025 (repo 5.25%, MSF 5.50%); Bank Rate assumed equal to MSF"
+  confirmed: false
+- effective_from: "2026-10-07"
+  percent: "5.75"
+  source: "RBI home page read 12 Oct 2026; press reports of the RBI policy of 7 Oct 2026 (repo 5.50%, MSF 5.75%)"
+  confirmed: false

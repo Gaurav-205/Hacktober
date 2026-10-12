@@ -3,7 +3,7 @@
 Blocks, for the given files (pre-commit passes staged files) or for every tracked file:
 - R1 files larger than 2 MB;
 - R2 images or PDFs outside eval/fixtures/ and docs/screens/;
-- R3 strings shaped like a GSTIN outside eval/fixtures/, tests/ and docs/.
+- R3 strings shaped like a GSTIN outside eval/fixtures/, tests/, docs/ and .claude/.
 
 Exit 0 when clean, 1 with findings, 2 when git or a file cannot be read.
 """
@@ -19,14 +19,39 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MAX_BYTES = 2 * 1024 * 1024
 IMAGE_SUFFIXES = {
-    ".png", ".jpg", ".jpeg", ".webp", ".heic", ".heif", ".gif", ".bmp", ".tif", ".tiff", ".pdf",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".heic",
+    ".heif",
+    ".gif",
+    ".bmp",
+    ".tif",
+    ".tiff",
+    ".pdf",
 }
 IMAGE_DIRS = ("eval/fixtures/", "docs/screens/")
-GSTIN_DIRS = ("eval/fixtures/", "tests/", "docs/")
+# .claude/ holds the pre-event reviewer briefs, which quote the published stdnum test vectors.
+GSTIN_DIRS = ("eval/fixtures/", "tests/", "docs/", ".claude/")
 GSTIN_RE = re.compile(r"\b\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b")
 TEXT_SUFFIXES = {
-    ".py", ".md", ".txt", ".json", ".yaml", ".yml", ".toml", ".html", ".j2", ".css", ".js",
-    ".sql", ".cfg", ".ini", ".sh", "",
+    ".py",
+    ".md",
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".html",
+    ".j2",
+    ".css",
+    ".js",
+    ".sql",
+    ".cfg",
+    ".ini",
+    ".sh",
+    "",
 }
 
 

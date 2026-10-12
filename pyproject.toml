@@ -56,6 +56,10 @@ line-length = 100
 target-version = "py312"
 extend-exclude = ["packages/munim_web/src/munim_web/static/js/vendor"]
 
+[tool.ruff.format]
+# The spec documents hold compact pseudo-code in Python fences; they are prose, not code.
+exclude = ["*.md"]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "S", "C4", "PLE", "PLW", "PLR"]
 ignore = [
@@ -109,6 +113,8 @@ ignore_missing_imports = true
 # ---------------------------------------------------------------- pytest
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# The repository root is importable so tests can share tests/ref_gstin.py and fixtures.
+pythonpath = ["."]
 addopts = "-ra --strict-markers --strict-config"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"

@@ -25,7 +25,8 @@ Maintained by hand and checked by `scripts/check_licences.py`. Versions come fro
 | Mukta (Ek Type) | [ ] | OFL-1.1 | UI font, Latin + Devanagari | No (WOFF2 conversion only) |
 | Kalam (Indian Type Foundry) | [ ] | OFL-1.1 | Handwriting face for corrections | No (WOFF2 conversion only) |
 | IBM Plex Sans (+ Devanagari) | [ ] | OFL-1.1 | Fallback UI font, only if Mukta lacks `tnum` | No |
-| Dev: pytest, hypothesis, playwright, axe-playwright-python, ruff, mypy, bandit, pip-audit, import-linter, pre-commit, detect-secrets, reportlab, fonttools, brotli | [ ] | various permissive | Quality tooling | No |
+| Dev: pytest, pytest-asyncio, pytest-cov, hypothesis, playwright (pinned 1.56.0 for Chromium build 1194), pytest-playwright, axe-playwright-python, ruff, mypy, types-pyyaml, types-python-dateutil, bandit, pip-audit, import-linter, pre-commit, detect-secrets, reportlab, fonttools, brotli, jsonschema, pypdf | see `uv.lock` | MIT, BSD, Apache-2.0, MPL-2.0 (checked by `scripts/check_licences.py`) | Quality tooling, fixture generation, report schema validation (jsonschema), PDF text checks in E2E-10 (pypdf) | No |
+| text-unidecode (transitive, dev only, via pytest-playwright and python-slugify) | see `uv.lock` | Artistic License or GPL (dual); used under the Artistic License | Not used by Munim directly | No; exception recorded in `docs/adr/0007-dev-only-licence-exception.md` |
 | razorpay/ifsc data (stretch) | [commit] | MIT (data stated public domain by the repository) | IFSC check | No |
 
 ## Ideas studied, no code copied

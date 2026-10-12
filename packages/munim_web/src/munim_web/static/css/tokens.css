@@ -1,0 +1,82 @@
+/* Generated from DESIGN.md by scripts/build_tokens.py. Do not edit by hand:
+   change the front matter of DESIGN.md, then run
+   `uv run python scripts/build_tokens.py`. */
+:root {
+  /* Colours */
+  --color-bond: #F3F4F6;
+  --color-sheet: #FFFFFF;
+  --color-ink: #15171C;
+  --color-ink-2: #4A4F5A;
+  --color-muted: #5C6272;
+  --color-hairline: #D5D8DE;
+  --color-hairline-strong: #80879A;
+  --color-ballpoint: #1F3DB8;
+  --color-ballpoint-pressed: #162E91;
+  --color-ballpoint-wash: #E6EBFA;
+  --color-red-pen: #C4281C;
+  --color-red-wash: #FBE4E1;
+  --color-tick: #1E7A4F;
+  --color-tick-wash: #E3F2EA;
+  --color-highlighter: #F5D547;
+  --color-highlighter-wash: #FBF1C4;
+  --color-carbon-pink: #F2D4CF;
+  --color-carbon-yellow: #F3E7B0;
+
+  /* Typography */
+  --font-ui: Mukta, 'IBM Plex Sans', 'Noto Sans Devanagari', system-ui, sans-serif;
+  --font-hand: Kalam, 'Noto Sans Devanagari', cursive;
+  --type-display-amount-size: 40px;
+  --type-display-amount-line: 44px;
+  --type-display-amount-weight: 600;
+  --type-display-amount-tracking: -0.01em;
+  --type-h1-size: 28px;
+  --type-h1-line: 34px;
+  --type-h1-weight: 600;
+  --type-h2-size: 20px;
+  --type-h2-line: 28px;
+  --type-h2-weight: 600;
+  --type-h3-size: 16px;
+  --type-h3-line: 24px;
+  --type-h3-weight: 600;
+  --type-body-size: 16px;
+  --type-body-line: 26px;
+  --type-body-weight: 400;
+  --type-body-sm-size: 14px;
+  --type-body-sm-line: 22px;
+  --type-body-sm-weight: 400;
+  --type-label-size: 13px;
+  --type-label-line: 18px;
+  --type-label-weight: 500;
+  --type-number-size: 15px;
+  --type-number-line: 22px;
+  --type-number-weight: 500;
+  --type-hand-size: 20px;
+  --type-hand-line: 28px;
+  --type-hand-weight: 400;
+
+  /* Radii */
+  --radius-field: 2px;
+  --radius-panel: 6px;
+  --radius-stamp: 3px;
+  --radius-none: 0px;
+
+  /* Spacing (base 4px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Motion (reduced motion turns these into instant state changes) */
+  --motion-stamp-duration: 160ms;
+  --motion-stamp-easing: cubic-bezier(.2,.9,.3,1.2);
+  --motion-stamp-from: scale(1.18) rotate(-4deg);
+  --motion-stamp-to: scale(1) rotate(-2deg);
+  --motion-strike-duration: 220ms;
+  --motion-strike-easing: ease-out;
+  --motion-write-duration: 380ms;
+  --motion-write-easing: steps(18, end);
+}

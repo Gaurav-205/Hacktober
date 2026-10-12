@@ -10,7 +10,7 @@ The model is replaceable: anything that implements the `Provider` interface can 
 
 ## 2. What the model does not do
 
-It does not decide whether a paper is correct, calculate what is owed, interpret the law, or write the notice. Those are deterministic code and templates that anyone can read in `packages/munim_core` and `app/notices`. The model's output is treated as untrusted input, validated, checked, and confirmed by the person.
+It does not decide whether a paper is correct, calculate what is owed, interpret the law, or write the notice. Those are deterministic code and templates that anyone can read in `packages/munim_core` and `packages/munim_web/src/munim_web/notices`. The model's output is treated as untrusted input, validated, checked, and confirmed by the person.
 
 ## 3. Why an open-weight model matters here
 

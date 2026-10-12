@@ -31,20 +31,20 @@ Principle: the parts that decide money and trust are pure code with exhaustive t
 - The three published GSTIN vectors pass; each with its last character changed fails `InvalidChecksum`.
 - Bad length, bad state code (`99`, `00`), lowercase input normalised, spaces and hyphens stripped.
 - PAN extraction equals characters 3 to 12.
-- Look-alike repair: `27AAPFU0939F1ZV` with `0` replaced by `O` at position 9 is fixed exactly once; two-error strings are not "fixed"; a string where two candidates pass returns no unique candidate.
+- Look-alike repair: `27AAPFU0939F1ZV` with the `0` at position 8 (1-indexed) replaced by `O` fails `GSTIN-FORMAT` and is fixed by exactly one candidate, which stays `needs_review` (`GSTIN-LOOKALIKE`); two-error strings are not "fixed"; a string where two candidates pass returns no unique candidate; a check character misread outside the look-alike map has zero candidates (the model re-read path).
 - Aadhaar mask: a valid Verhoeff 12-digit number becomes `XXXX XXXX dddd`; an invalid 12-digit run is untouched.
 
 ### verify rules (each rule: passing case, failing case, boundary, missing-input -> skipped)
-- `INV-TOTAL`: exact, off by 99 paise (pass), off by 100 paise (pass), 101 (fail); round-off larger than ₹1 fails.
+- `INV-TOTAL`: with a printed round-off the sum must be exact (1 paisa off passes, 2 fails), a sign-flipped round-off fails, and a round-off of exactly ₹1.00 fails; with no round-off line, off by 99 paise (pass), 100 paise (pass), 101 (fail).
 - `INV-TAX-SPLIT`: intra-state with IGST present fails; inter-state with CGST present fails; mismatched place of supply -> needs_review.
-- `INV-TAX-RATE`: 18% valid on 2026-01-01; 12% valid on 2025-01-01 but `needs_review` on 2026-01-01 (outside slab set); 28% likewise.
+- `INV-TAX-RATE`: 18% valid on 2026-01-01; 12% valid on 2025-01-01 but `needs_review` on 2026-01-01 (outside slab set); 28% likewise; boundary: 12% passes on 2025-09-21 and is `needs_review` on 2025-09-22.
 - `X-*`: name normalisation (`M/s Shree Ram Fabricators Pvt. Ltd.` vs `Shree Ram Fabricators Private Limited` similar; `Delta Textiles` vs `Delta Textile Mills` below threshold -> needs_review).
-- `INV-DATE-AMBIGUOUS`: `04/07/2026` ambiguous, `25/07/2026` not.
+- `DATE-AMBIGUOUS`: `04/07/2026` ambiguous, `25/07/2026` not, `04 Jul 2026` and `2026-07-04` not, `07/07/2026` not; ambiguous challan date is blocking, ambiguous PO date is a warning.
 - Every rule returns `message_key` present in `en.json` and `hi.json` (checked by `check_i18n.py` and a test).
 
 ### clock
 - Due date: written 30 days, 45 days, 60 days (capped to 45), none (15); leap-year Feb 29 acceptance; 31 Jan + 30 days; year boundary.
-- Interest: the two golden outputs; as_on before due (0); as_on equal to due (0); one day after due (partial month of 1 day); exactly one month; month-end clamping starting 31 Jan (periods 31 Jan to 28 Feb in 2027).
+- Interest: the two golden outputs; as_on before due (0); as_on equal to due (0); as_on = due + 1 (0, the as-on day is not counted); as_on = due + 2 (partial month of 1 day); exactly one month; month-end clamping starting 31 Jan (periods 31 Jan to 28 Feb in 2027); no Bank Rate on or before a period start raises the typed error.
 - Rate change midway: table with two rows; month before change uses old, after uses new.
 - Part payment: balance reduced at the payment date and rests restart from that date (hand-computed example in the test); payment equal to the full balance closes the account; overpayment rejected.
 - Steps list is complete: the sum of step interests equals the total.
@@ -59,7 +59,7 @@ Principle: the parts that decide money and trust are pure code with exhaustive t
 2. Interest is non-negative, non-decreasing in `as_on`, and monotonic in principal.
 3. `interest(as_on = due) == 0`; `interest(as_on < due) == 0`.
 4. Closed-form agreement: for whole months, `abs(computed - closed_form) <= months` paise.
-5. Restart invariance: computing to month k, then restarting with the new balance for the remaining months equals computing straight through.
+5. Restart invariance: computing to month k, then restarting with the new balance for the remaining months equals computing straight through, for period start days 1 to 28 (a restart re-anchors clamped month ends; see `DOMAIN_RULES.md` 5.3).
 6. GSTIN: for any generated valid 14-character prefix, appending the computed check char passes; changing any single character of a valid GSTIN fails (the checksum detects single-character substitutions with weights 1 and 2 except where the substitution leaves the same residue; assert instead that `validate` result equals the pure-Python reference implementation in `tests/ref_gstin.py` for arbitrary strings).
 7. Box conversion: `to_pixels(to_grid(box, w, h), w, h)` is within 1 px of the original for any box inside the image.
 8. Normalisers are idempotent: `normalise(normalise(x)) == normalise(x)`.
@@ -71,7 +71,7 @@ Principle: the parts that decide money and trust are pure code with exhaustive t
 - Read: replay fixtures for a clean invoice, a malformed-JSON response (retry then hand-entry path), a runaway-length value, a `ReplayMiss`.
 - Repair: replay of a GSTIN misread -> look-alike candidate path; replay of a model re-read path; an unrepairable one -> `check_by_hand` and the row says so.
 - Confirm: 409 while a blocking finding is unresolved; 200 after acceptance with reason; stamp flag false before and true after.
-- Delete: after deleting a case, no file under `data/uploads` remains, no rows remain (`PRAGMA foreign_key_check` clean), the SQLite file does not contain the original filename or any claim value (scan bytes after `VACUUM`).
+- Delete: after deleting a case, no file under `data/uploads` remains, no rows remain (`PRAGMA foreign_key_check` clean), and no file under `data/` (including `munim.db-wal` and `munim.db-shm`) contains any claim value, scanned while the server is still running (after `VACUUM` and `wal_checkpoint(TRUNCATE)`).
 - CSRF: POST without token -> 403.
 - i18n: every route renders in `en` and `hi` without missing-key markers (`⟦key⟧` placeholder in dev mode fails the test).
 - Provider contract: the same test suite runs against `ReplayProvider` and a `FakeOllama` (an httpx mock transport that returns canned JSON and also simulates timeouts and 500s).
@@ -81,8 +81,10 @@ Principle: the parts that decide money and trust are pure code with exhaustive t
 
 | Id | Scenario | Key assertions |
 | --- | --- | --- |
+| E2E-1a | Gate 3 slice (en): create case, add three papers, read, all blocking checks pass, confirm | confirm succeeds and the confirmed state shows; no stamp, clock or evidence-file assertions |
 | E2E-1 | Happy path (en): create case, add three papers, read, all pass, confirm, open dossier | stamp visible only after confirm; clock strip shows expected owed amount for fixture dates; dossier has 5 sections |
-| E2E-2 | Red-pen: invoice with misread GSTIN | row starts red; after repair, strike element and handwriting element appear; row ends Passed; the original value is still in the DOM (struck) |
+| E2E-2 | Red-pen: invoice whose buyer GSTIN check character was misread (recorded first read) | row starts red with the checksum message; the model re-read runs (no look-alike candidate exists); strike element and handwriting element appear; row ends Passed; the original value is still in the DOM (struck) |
+| E2E-3a | Gate 3 slice: a GSTIN that fails its checks | row shows "Doesn't match"; confirm is refused (409) until the finding is accepted with a reason |
 | E2E-3 | Unrepairable field | row ends "Check by hand"; Confirm button disabled until user accepts with reason |
 | E2E-4 | Hindi: same as E2E-1 with `hi` | no clipped text (bounding boxes within container), Devanagari font loaded (`document.fonts.check`), numbers use Indian grouping |
 | E2E-5 | Keyboard only | tab order logical; focus ring visible; claims table navigable with arrows; Escape cancels edit; all completed without a pointer |
@@ -92,7 +94,7 @@ Principle: the parts that decide money and trust are pure code with exhaustive t
 | E2E-9 | Provider failure | stop the fake Ollama; message with the exact fix command; hand-entry still works |
 | E2E-10 | Print (Chromium only: Playwright generates PDFs only in Chromium) | `page.pdf()` of the dossier: 4+ pages, A4, text contains the case name, the stamp text, and no page has overflow (checked via pdf text extraction) |
 
-Screenshots from E2E-1/2/4/7 at 360, 768, 1440 are saved to `docs/screens/` for the README and the submission (generated, not hand-edited).
+Screenshots from E2E-1/2/4/7 at 360, 768, 1024, 1440 are saved to `docs/screens/` for the README and the submission (generated, not hand-edited).
 
 ## 6. Accessibility
 

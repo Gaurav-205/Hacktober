@@ -17,7 +17,7 @@ Glossary used consistently:
 | amount owed | बकाया रकम | |
 | due date | देय तिथि | |
 | interest | ब्याज | |
-| passed / doesn't match / check by hand | जाँच में सही / मेल नहीं खाता / हाथ से जाँचें | |
+| passed / doesn't match / check by hand | जाँच में पास / मेल नहीं खाता / हाथ से जाँचें | "पास" reports the check's outcome; "सही" (correct) would claim the value is true |
 
 > English UI uses **"evidence file"** for what the design doc calls the dossier. Route names and code may keep `dossier`; the visible word is "evidence file" (Hindi: "सबूत की फ़ाइल").
 
@@ -32,7 +32,7 @@ Glossary used consistently:
 | nav.about | About | परिचय |
 | nav.settings | Settings | सेटिंग |
 | cases.title | Cases | मामले |
-| cases.empty | No cases yet. Add the first paper: a tax invoice, a delivery challan or a purchase order. | अभी कोई मामला नहीं है। पहला कागज़ जोड़ें: टैक्स इनवॉइस, डिलीवरी चालान या खरीद आदेश। |
+| cases.empty | No cases yet. Start a case, then add its papers: a tax invoice, a delivery challan and a purchase order. | अभी कोई मामला नहीं है। एक मामला शुरू करें, फिर उसके कागज़ जोड़ें: टैक्स इनवॉइस, डिलीवरी चालान और खरीद आदेश। |
 | cases.new | New case | नया मामला |
 | cases.col.case | Case | मामला |
 | cases.col.parties | Supplier and buyer | सप्लायर और खरीदार |
@@ -70,7 +70,7 @@ Glossary used consistently:
 | claims.original | Originally read | पहले यह पढ़ा गया था |
 | claims.accept | Accept anyway | फिर भी मानें |
 | claims.accept.reason | Why are you accepting this? (for example, "I checked the paper by hand") | आप इसे क्यों मान रहे हैं? (जैसे, "मैंने कागज़ हाथ से देख लिया") |
-| check.passed | Passed | जाँच में सही |
+| check.passed | Passed | जाँच में पास |
 | check.failed | Doesn't match | मेल नहीं खाता |
 | check.review | Check by hand | हाथ से जाँचें |
 | check.skipped | Not enough to check | जाँच के लिए जानकारी कम है |
@@ -85,7 +85,7 @@ Glossary used consistently:
 | rule.INV-TAXABLE-SUM | The lines add up to {computed}, but the taxable total is {printed}. | लाइनों का जोड़ {computed} है, पर कर-योग्य कुल {printed} है। |
 | rule.INV-LINE-AMOUNT | Line {n}: quantity times rate is {computed}, but the amount is {printed}. | लाइन {n}: मात्रा गुणा दर {computed} है, पर रकम {printed} है। |
 | rule.INV-TAX-SPLIT | The supplier and buyer are in {same_or_different} states, so the tax should be {expected}. | सप्लायर और खरीदार {same_or_different} राज्यों में हैं, इसलिए टैक्स {expected} होना चाहिए। |
-| rule.INV-DATE-AMBIGUOUS | The date {printed} can be read as {a} or {b}. Pick the right one. | तारीख {printed} को {a} या {b} पढ़ा जा सकता है। सही वाली चुनें। |
+| rule.DATE-AMBIGUOUS | The date {printed} can be read as {a} or {b}. Pick the right one. | तारीख {printed} को {a} या {b} पढ़ा जा सकता है। सही वाली चुनें। |
 | rule.X-INVOICE-REF | The challan names invoice {on_challan}, but this invoice is {on_invoice}. | चालान में इनवॉइस {on_challan} लिखा है, पर यह इनवॉइस {on_invoice} है। |
 | rule.X-QTY | Line "{item}": the challan says {challan_qty}, the invoice says {invoice_qty}. | "{item}": चालान में {challan_qty}, इनवॉइस में {invoice_qty} है। |
 | rule.X-RECEIVER-ACK | No receiver's stamp or signature found. The delivery date may be disputed. | प्राप्तकर्ता की मुहर या दस्तख़त नहीं मिले। डिलीवरी की तारीख़ पर विवाद हो सकता है। |
@@ -101,7 +101,7 @@ Glossary used consistently:
 | clock.rate | Interest rate: 3 times the Bank Rate of {bank_rate}% = {rate}% a year, compounded every month. | ब्याज दर: बैंक दर {bank_rate}% की 3 गुना = {rate}% सालाना, हर महीने चक्रवृद्धि। |
 | clock.rate.unconfirmed | This Bank Rate hasn't been confirmed by you. Check it against the RBI notification. | इस बैंक दर की आपने पुष्टि नहीं की है। इसे आरबीआई की अधिसूचना से मिलाएँ। |
 | elig.title | Who the Act protects | अधिनियम किसे सुरक्षा देता है |
-| elig.body | See `DOMAIN_RULES.md` section 4 text; shown verbatim in the UI with the cited cases. | `DOMAIN_RULES.md` खंड 4 का पाठ; हिंदी अनुवाद की समीक्षा ज़रूरी। |
+| elig.body | The Act's protection applies to micro and small suppliers. Courts have taken different views on whether the registration must exist on the date the contract was made. The Supreme Court in NBCC (India) Ltd v State of West Bengal (January 2025) held that prior registration is not mandatory for a Section 18 reference, and referred the point to a larger bench. Earlier decisions (Silpi Industries, 2021; Mahakali Foods, 2023) took the opposite view. Check with a lawyer or your industry association before filing. | अधिनियम की सुरक्षा सूक्ष्म और लघु सप्लायरों के लिए है। अदालतों की राय इस पर अलग-अलग रही है कि अनुबंध की तारीख पर पंजीकरण होना ज़रूरी है या नहीं। सुप्रीम कोर्ट ने NBCC (India) Ltd बनाम पश्चिम बंगाल राज्य (जनवरी 2025) में कहा कि धारा 18 के अंतर्गत भेजने के लिए पहले से पंजीकरण अनिवार्य नहीं है, और यह प्रश्न बड़ी पीठ को भेजा। पहले के फ़ैसलों (Silpi Industries, 2021; Mahakali Foods, 2023) में उल्टी राय थी। दावा करने से पहले किसी वकील या अपने उद्योग संघ से पूछें। (हिंदी अनुवाद की समीक्षा बाकी है) |
 | confirm.button | Confirm these values | इन मानों की पुष्टि करें |
 | confirm.blocked | {n} checks still need you. Fix them or accept them with a reason. | {n} जाँचों पर आपका ध्यान चाहिए। उन्हें ठीक करें या कारण लिखकर मानें। |
 | stamp.word | CHECKED | जाँचा गया |
@@ -210,10 +210,10 @@ Signature: ____________________
 | --- | --- |
 | Supplier | Sample Fabricators Pvt Ltd (Ghaziabad; GSTIN constructed with state 09) |
 | Buyer | Demo Textiles Ltd (Pune; GSTIN constructed with state 27) |
-| PO | PO-2026-0117, dated 2026-03-02 |
-| Challan | CH-0412, dated 2026-03-20, receiver stamp present |
+| PO | PO-2026-0117, dated 2026-03-02 (printed as `02 Mar 2026`, so the date is not ambiguous) |
+| Challan | CH-0412, dated 2026-03-20 (printed `20/03/2026`), receiver stamp present, no separate received date, so acceptance is 20 Mar 2026 |
 | Invoice | SF/2025-26/0412, dated 2026-03-21, taxable ₹4,23,729.00, IGST 18% ₹76,271.22 (inter-state), round-off −₹0.22, total ₹5,00,000.00 (checked: 4,23,729.00 + 76,271.22 − 0.22 = 5,00,000.00) |
 | Terms | Written agreement, 30 credit days -> due 2026-04-19; interest from 2026-04-20 |
-| Misread in first read | Buyer GSTIN, one `0` read as `O` |
+| Misread in first read | Buyer GSTIN: the check character (position 15) is read as a different character outside the look-alike map, so `GSTIN-CHECKSUM` fails, no look-alike candidate passes and the model re-read returns the printed value. The misread exists only in the recorded response; the paper prints the correct GSTIN, so a live read may not show it |
 
-(The ₹5,00,000 total ties to the golden interest vector family used in the tests. The generator constructs the GSTINs with the checksum algorithm; they are synthetic.)
+(The ₹5,00,000 total ties to the golden interest vector family used in the tests. On the seeded Bank Rate table the demo shows ₹40,976.71 interest and ₹5,40,976.71 owed at 16.5%; at the golden vector's explicit 17.25% it would be ₹42,903.70 and ₹5,42,903.70. The generator constructs the GSTINs with the checksum algorithm; they are synthetic.)

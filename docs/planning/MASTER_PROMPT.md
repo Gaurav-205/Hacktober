@@ -202,8 +202,8 @@ Use these as the seams for tests. The pure Python reference for the GSTIN checks
 | 0 | Tasks T0.0 to T0.9 | `make check`; `python scripts/check_contrast.py`; `python scripts/check_fonts.py`; first CI run green (or local `make ci` if no remote) |
 | 1 | Tasks T1.1 to T1.8 | `uv run pytest tests/unit tests/property tests/golden -q --cov=munim_core --cov-branch --cov-fail-under=95`; `uv run mypy --strict packages/munim_core`; `uv run lint-imports` |
 | 2 | Tasks T2.1 to T2.8 | `uv run pytest tests -q -m "not e2e and not live" --cov=munim_core --cov=munim_ai`; `make fixtures && make eval`; `jsonschema` validation of the report |
-| 3 | Tasks T3.1 to T3.9 | `make check`; `make e2e -k "E2E-1 or E2E-3"`; axe results; screenshot review |
-| 4 | Tasks T4.1 to T4.6 | `make e2e -k "E2E-2 or E2E-10"`; golden tests; run the whole `DEMO_SCRIPT.md` on replay and walk through it with Playwright |
+| 3 | Tasks T3.1 to T3.9 | `make check`; `make e2e -k "E2E-1a or E2E-3a"`; axe results; screenshot review |
+| 4 | Tasks T4.1 to T4.6 | `make e2e -k "E2E-1 or E2E-2 or E2E-3 or E2E-10"`; golden tests; run the whole `DEMO_SCRIPT.md` on replay and walk through it with Playwright |
 | 5 | Tasks T5.1 to T5.7 | `make ci`; every E2E scenario in Chromium and Firefox; design lint |
 | 6 | Tasks T6.1 to T6.5 (+ stretch) | clean-clone install test in a temp directory; `make ci`; secrets scan; licences check |
 

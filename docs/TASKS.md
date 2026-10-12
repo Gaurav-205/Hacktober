@@ -53,7 +53,7 @@ Order matters: each item is test-first.
 - [ ] T2.7 `eval/run_eval.py` and report schema; run against the replay provider to prove the harness; **run against a live provider (Ollama if available, else Gemini) and record fixtures with `record` mode**; write `eval/reports/latest.json`.
 - [ ] T2.8 Preflight probes for Ollama (model present, vision, JSON format) and the Settings messages.
 
-**Exit:** `make eval` produces a valid report with all metrics; recorded fixtures exist for the demo set; `uv run pytest tests -q -m "not e2e and not live" --cov=munim_core --cov=munim_ai` green; if no live model is reachable, the report is explicitly labelled "replay only" and Gate 6 includes a live run.
+**Exit:** `make eval` produces a valid report with all metrics (replay runs write `eval/reports/replay.json`; only a live provider writes `latest.json`); recorded fixtures exist for every synthetic paper; `uv run pytest tests -q -m "not e2e and not live" --cov=munim_core --cov=munim_ai` green; if no live model is reachable, the report is explicitly labelled "replay only" and Gate 6 includes a live run.
 
 ---
 
@@ -69,9 +69,9 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 - [ ] T3.6 Upload endpoint with the validation in API.md; thumbnails; rotate; delete paper.
 - [ ] T3.7 Read flow: background task, status polling fragment, claims panel with rows, boxes on the viewer (SVG overlay), selection sync, edit with original struck through.
 - [ ] T3.8 Findings in the claims panel (run core verify after each change), accept-with-reason, confirm endpoint with 409 rules.
-- [ ] T3.9 Integration tests for all of the above; E2E-1 (happy path) and E2E-3 (unrepairable) pass.
+- [ ] T3.9 Integration tests for all of the above; E2E-1a (slice happy path) and E2E-3a (failing GSTIN, accept with reason) pass.
 
-**Exit:** `make check` green; `make e2e -k "E2E-1 or E2E-3"` green; axe zero serious/critical on workbench states; a screenshot at 1440px looks like `DESIGN.md` section 5 wireframe.
+**Exit:** `make check` green; `make e2e -k "E2E-1a or E2E-3a"` green; axe zero serious/critical on workbench states; a screenshot at 1440px looks like `DESIGN.md` section 5 wireframe.
 **Fallback trigger:** if this gate is not green at hour 6, stop adding features, fix what is broken, and go to Gate 4 with the reduced scope in PRD section 10.
 
 ---
@@ -85,7 +85,7 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 - [ ] T4.5 `make dossier-pdf` + E2E-10.
 - [ ] T4.6 Golden tests for dossier and notices; bless once after manual review.
 
-**Exit:** the full demo (DEMO_SCRIPT.md) runs end to end on the replay provider; the printed PDF is 4+ pages A4 and passes visual review.
+**Exit:** E2E-1, E2E-2, E2E-3 and E2E-10 pass; the full demo (DEMO_SCRIPT.md) runs end to end on the replay provider; the printed PDF is 4+ pages A4 and passes visual review.
 
 ---
 

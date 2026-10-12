@@ -19,18 +19,22 @@ Property tests: `parse(format(x)) == x`; formatting is monotonic in length; sums
 
 | Type | Required fields | Optional fields |
 | --- | --- | --- |
-| Tax invoice | supplier_name, supplier_gstin, buyer_name, buyer_gstin, invoice_number, invoice_date, place_of_supply (state), line_items[], taxable_total, cgst, sgst, igst, round_off, invoice_total | hsn_sac per line, po_reference, challan_reference, bank_ifsc, irn, due_terms_text |
-| Delivery challan | supplier_name, supplier_gstin, buyer_name, challan_number, challan_date, line_items[] (description, quantity, unit) | buyer_gstin, invoice_reference, po_reference, receiver_stamp_present (bool), receiver_signature_present (bool), received_date, vehicle_number |
+| Tax invoice | supplier_name, supplier_gstin, buyer_name, buyer_gstin, invoice_number, invoice_date, place_of_supply (state), line_items[], taxable_total, cgst, sgst, igst, invoice_total | round_off (absent means no round-off line), supplier_pan, hsn_sac per line, po_reference, challan_reference, bank_ifsc, irn, due_terms_text |
+| Delivery challan | supplier_name, supplier_gstin, buyer_name, challan_number, challan_date, line_items[] (description, quantity, unit) | buyer_gstin, invoice_reference, po_reference, receiver_stamp_present and receiver_signature_present (`yes`, `no` or `unknown`), received_date, vehicle_number |
 | Purchase order | buyer_name, buyer_gstin, po_number, po_date, line_items[] (description, quantity, unit, rate) | supplier_name, supplier_gstin, payment_terms_text, credit_days, delivery_date |
 
 Each extracted field has: `value` (string as read), `normalized` (typed), `box_2d` ([y1,x1,y2,x2] on a 0 to 1000 grid, or null), `confidence_note` (optional free text from the model, never shown as a percentage), `source` (`model`, `repair`, `user`).
+
+A case holds at most one paper of each type (v1). PDFs are read from their first page (v1).
 
 ## 3. Verification rules
 
 All rules are pure functions in `munim_core.verify` returning `Finding(rule_id, status, severity, message_key, params, fields)`.
 
 - `status`: `passed`, `failed`, `needs_review`, `skipped` (inputs missing).
-- `severity` (only meaningful when not passed): `blocking` or `warning`.
+- `severity` (only meaningful when not passed): `blocking` or `warning`. Each rule's severity is in its table's "On failure" column.
+- **Confirmation.** A finding blocks "Confirm these values" when its severity is `blocking` and its status is `failed` or `needs_review`, until the value is changed so the rule passes or the user accepts the finding with a typed reason (3.4). Warnings never block.
+- `params` are strings. Names ending in `_paise` hold integer paise as digits, names ending in `_date` hold ISO dates, and names ending in `_key` hold an i18n key that the web layer translates. Core never formats for display.
 - `message_key` indexes into the i18n files; `params` fill the message. No English strings in `munim_core`.
 
 ### 3.1 Identifier rules
@@ -45,6 +49,7 @@ All rules are pure functions in `munim_core.verify` returning `Finding(rule_id, 
 | `AADHAAR-MASK` | any text matching 12-digit Aadhaar pattern with Verhoeff checksum | Not a check: the value is masked to `XXXX XXXX 1234` on read and never stored or shown | n/a | Security rule |
 | `UDYAM-FORMAT` | Udyam number | Matches `UDYAM-XX-00-0000000` (state code letters, two digits, seven digits) | warning | Format only; Munim cannot verify the registration |
 | `IFSC-KNOWN` | bank IFSC | 4 letters + `0` + 6 alphanumerics, and present in bundled dataset | warning | Dataset from razorpay/ifsc (MIT); may be out of date; stretch |
+| `GSTIN-LOOKALIKE` | any GSTIN changed by the look-alike repair | Always `needs_review` while the look-alike value stands unedited and unaccepted | blocking | A checksum can pass for a wrong string; the person must look at the paper |
 
 **GSTIN check-character algorithm** (verified against stdnum and three published vectors):
 1. Take the first 14 characters. Map `0-9` to 0-9 and `A-Z` to 10-35.
@@ -55,41 +60,45 @@ Vectors: `27AAPFU0939F1Z` -> `V`; `27AABCU9603R1Z` -> `N`; `09AAACT2727Q1Z` -> `
 
 Implementation: call `stdnum`. A pure Python re-implementation lives in `tests/` only, to cross-check stdnum in a hypothesis test.
 
-**Candidate generation for repair (deterministic aid).** Before asking the model again, try single-character confusions on the GSTIN (`0/O`, `1/I`, `5/S`, `8/B`, `2/Z`, `6/G`) and accept a candidate only when exactly one single substitution makes the checksum pass. If exactly one candidate passes, present it as "A single look-alike letter fixes the checksum"; still mark the finding as `needs_review` because the checksum can pass for a wrong string. If zero or several pass, fall back to the model re-read.
+**Candidate generation for repair (deterministic aid).** Before asking the model again, try single-character confusions on the GSTIN (`0/O`, `1/I`, `5/S`, `8/B`, `2/Z`, `6/G`) and accept a candidate only when exactly one single substitution passes full validation (`stdnum.in_.gstin.validate`: format, state code and checksum). If exactly one candidate passes, present it as "A single look-alike letter fixes the checksum"; still mark the finding as `needs_review` because the checksum can pass for a wrong string. If zero or several pass, fall back to the model re-read. The look-alike flag is stored with the claim, so `GSTIN-LOOKALIKE` keeps the field `needs_review` (blocking) after the checksum passes, until the user edits or accepts it.
+
+**Position note.** In `27AAPFU0939F1ZV` the `0` is at position 8 (1-indexed). An `O` in a digit position (1-2, 8-11) fails the format check (`GSTIN-FORMAT`), not the checksum. Only the check character (position 15) can produce `GSTIN-CHECKSUM` alone.
 
 ### 3.2 Arithmetic rules (tax invoice)
 
 Tolerance: 1 paisa per line for rate x quantity; ₹1.00 total for round-off.
 
-| Id | Check |
-| --- | --- |
-| `INV-LINE-AMOUNT` | For each line with quantity, rate and amount: `round(quantity * rate) == amount` within 1 paisa. If a discount column is present, rate x quantity - discount |
-| `INV-TAXABLE-SUM` | Sum of line taxable amounts equals `taxable_total` |
-| `INV-TAX-SPLIT` | If supplier and buyer state codes (first two GSTIN digits) are equal, intra-state: `igst == 0` and `cgst == sgst`. If they differ, inter-state: `cgst == sgst == 0`. Place of supply wins over buyer state when the invoice states it differently (status `needs_review`) |
-| `INV-TAX-RATE` | Tax amount / taxable total corresponds to an allowed rate for the invoice date: from 22 Sep 2025 the slabs are 0, 5, 18, 40 (and 3 for gold, 0.25 for rough stones); before that 0, 5, 12, 18, 28 plus cess. Mixed-rate invoices are `needs_review` unless every line carries a rate. Source note: GST 2.0 effective 22 Sep 2025 (earlier research; re-check before relying) |
-| `INV-TOTAL` | `taxable_total + cgst + sgst + igst + round_off == invoice_total` within ₹1.00; and `abs(round_off) < 1.00` |
-| `INV-NUMBER-FORMAT` | Invoice number is at most 16 characters of letters, digits, `/` and `-` (GST rule 46). Violation is a warning because older papers vary |
-| `INV-DATE-SANE` | Invoice date on or before today and not before 1 Jul 2017 |
-| `INV-DATE-AMBIGUOUS` | If the printed date has day <= 12 and the day-first reading differs from the month-first reading, add a `needs_review` finding showing both readings; the UI shows the day-first reading by default |
+| Id | Check | On failure |
+| --- | --- | --- |
+| `INV-LINE-AMOUNT` | For each line with quantity, rate and amount: `round(quantity * rate) == amount` within 1 paisa. If a discount column is present, rate x quantity - discount | blocking |
+| `INV-TAXABLE-SUM` | Sum of line taxable amounts equals `taxable_total` (exact, in paise) | blocking |
+| `INV-TAX-SPLIT` | If supplier and buyer state codes (first two GSTIN digits) are equal, intra-state: `igst == 0` and `cgst == sgst`. If they differ, inter-state: `cgst == sgst == 0`. If the printed place of supply names a different state from the buyer's GSTIN, the result is `needs_review` (place of supply decides the split) | blocking |
+| `INV-TAX-RATE` | The effective rate `(cgst + sgst + igst) / taxable_total` matches an allowed slab for the invoice date within a tolerance of 1 paisa per line: `abs(tax - round(taxable * slab)) <= lines`. From 22 Sep 2025 the slabs are 0, 5, 18, 40 (and 3 for gold, 0.25 for rough stones); before that 0, 5, 12, 18, 28. An effective rate outside the set is `needs_review`, because a mixed-rate invoice cannot be told apart from a wrong one without a per-line tax rate. Cess is not modelled in v1. Source note: GST 2.0 effective 22 Sep 2025 (secondary sources; re-check against CBIC before relying) | warning |
+| `INV-TOTAL` | If a round-off line is printed: `taxable_total + cgst + sgst + igst + round_off == invoice_total` within 1 paisa, and `abs(round_off) < 1.00`. If no round-off line is printed: the same sum without round-off may differ from `invoice_total` by at most ₹1.00 | blocking |
+| `INV-NUMBER-FORMAT` | Invoice number is at most 16 characters of letters, digits, `/` and `-` (GST rule 46) | warning (older papers vary) |
+| `INV-DATE-SANE` | Invoice date on or before today and not before 1 Jul 2017 | blocking |
+| `DATE-AMBIGUOUS` | Any date field printed with numbers only where both day and month are 12 or less and they differ (`04/07/2026`) is `needs_review` and shows both readings; the day-first reading is the default. Dates printed with the month as a word, or year first (`2026-07-04`), are not ambiguous | blocking for `challan_date` and `received_date` (they set the acceptance date); warning for other dates |
 
 ### 3.3 Cross-paper rules
 
-| Id | Check |
-| --- | --- |
-| `X-SUPPLIER-GSTIN` | Supplier GSTIN equal on invoice, challan, PO (where present) |
-| `X-BUYER-GSTIN` | Buyer GSTIN equal across papers |
-| `X-NAME-SIMILAR` | Buyer and supplier names have normalised token-set similarity >= 0.8 across papers (`rapidfuzz` ratio after lowercasing and stripping `pvt`, `ltd`, `limited`, `private`, `m/s`, punctuation). Below is `needs_review`, never `failed`, because trade names vary |
-| `X-INVOICE-REF` | Invoice number quoted on the challan equals the invoice number (normalise leading zeros and separators) |
-| `X-PO-REF` | PO number quoted on invoice or challan equals the PO number |
-| `X-QTY` | For each pair of lines matched by description similarity >= 0.7 or by HSN, challan quantity >= invoice quantity is acceptable only if equal; otherwise `failed` with both numbers shown. Unit mismatch (kg vs g) converts if a conversion is known, otherwise `needs_review` |
-| `X-DATE-ORDER` | PO date <= challan date <= (invoice date + 30 days). Violations are warnings except challan date after the clock end date, which is blocking |
-| `X-RECEIVER-ACK` | Challan shows a receiver stamp or signature (model-reported boolean). If false or unknown: `needs_review`, severity warning, message "No receiver's stamp or signature found; the delivery date may be disputed" |
+| Id | Check | On failure |
+| --- | --- | --- |
+| `X-SUPPLIER-GSTIN` | Supplier GSTIN equal on invoice, challan, PO (where present) | blocking |
+| `X-BUYER-GSTIN` | Buyer GSTIN equal across papers | blocking |
+| `X-NAME-SIMILAR` | Buyer and supplier names have `rapidfuzz.fuzz.token_set_ratio >= 80` (0 to 100 scale) across papers, after lowercasing and stripping `pvt`, `ltd`, `limited`, `private`, `m/s` and punctuation. Below is `needs_review`, never `failed`, because trade names vary | warning |
+| `X-INVOICE-REF` | Invoice number quoted on the challan equals the invoice number (normalise case, leading zeros and the separators `/`, `-`, space) | blocking |
+| `X-PO-REF` | PO number quoted on invoice or challan equals the PO number (same normalisation) | warning |
+| `X-QTY` | Pair each invoice line with the challan line whose normalised description has the highest `rapidfuzz.fuzz.token_set_ratio`, if it is at least 70. After unit conversion (kg and g, l and ml, numbers and nos), equal quantities pass; any difference is `failed` and shows both numbers. An invoice line with no matching challan line, or units that cannot be converted, is `needs_review`. One challan per case in v1 | blocking |
+| `X-DATE-ORDER` | PO date <= challan date <= invoice date + 30 days. The challan date (or received date) must also be on or before the case's as-on date: an acceptance after the end of the interest period is blocking | warning, except a challan or received date after the as-on date, which is blocking |
+| `X-RECEIVER-ACK` | Challan shows a receiver stamp or signature (model-reported `yes`, `no` or `unknown`). If neither is `yes`: `needs_review`, message "No receiver's stamp or signature found; the delivery date may be disputed" | warning |
 
 ### 3.4 Confidence and the Passed word
 
 - `passed` means the rule's computation succeeded on the value as read. It does not mean the value is true. UI copy and the dossier say "Passed" or "Doesn't match", never "Verified".
 - The model's own comment about certainty is never converted to a number. The UI does not show percentages that imply calibration.
 - A field is **blocking-clear** when every blocking finding about it is `passed`, or the user has edited it and the re-run passes, or the user has explicitly accepted it with a typed reason ("I checked the paper by hand").
+- An acceptance is tied to the finding (rule id and the fields it names) and to the versions of those claims. If any of those values changes later, the acceptance lapses and the finding must be looked at again.
+- Any change to a claim, a paper, the case inputs or the payments clears the confirmation; the person confirms again.
 
 ## 4. Eligibility panel (not a rule engine)
 
@@ -127,12 +136,13 @@ Edge cases tested: leap day, month end, year boundary, `credit_days = 0`.
 
 - Annual rate `R = 3 x BankRate` where BankRate is from `rules/bank_rate.yaml` (percent per annum). Example 3 x 5.75 = 17.25.
 - Compound interest with monthly rests: the unpaid amount (principal + interest to date) is the base for the next month. Monthly rate `r = R / 12`.
-- Period boundaries: month `k` (k = 0, 1, ...) starts on `S + k months` where `S = due + 1 day`, using calendar months (`relativedelta`); month-end clamping: if `S` is the 31st, month starts clamp to the last day of shorter months.
+- Period boundaries: month `k` (k = 0, 1, ...) starts on `S + k months` where `S = due + 1 day`, using calendar months (`relativedelta`) from the original `S` (never chained); month-end clamping: if `S` is the 31st, month starts clamp to the last day of shorter months.
+- **Day count.** Interest accrues over `[S, as_on)`: the as-on day itself is not counted. For a partial period `d = (as_on - period_start).days` and `D = (next_period_start - period_start).days`. `days_late = (as_on - due).days` (so the demo shows 177 days late and 176 days of interest). `as_on = due + 1` gives zero interest; `as_on = due + 2` gives a partial period of one day.
 - For a complete month: `balance_next = balance + round(balance * r)`; the rounding happens each month at paise using ROUND_HALF_UP. A test also checks the unrounded closed form within 1 paisa per month.
 - For the final partial month with `d` days elapsed out of `D` days in that period: `interest = round(balance * r * d / D)`.
-- If the Bank Rate changes (table has more than one entry), the rate used for month `k` is the rate with the latest effective date on or before the month's start date.
+- If the Bank Rate changes (table has more than one entry), the rate used for month `k` is the rate with the latest effective date on or before the month's start date. If no row is effective on or before a period's start, the computation stops with a typed error that the UI shows as "Add a Bank Rate effective on or before <date>". Munim never extends a rate backwards.
 - Interest base `P`: `invoice_total` (default) or `taxable_total` (toggle).
-- **Part-payments (should-have).** Compute interest up to the payment date (using the partial-month rule if it falls inside a period), add it to the balance, subtract the payment (the balance is a single running amount, so interest-first or principal-first allocation does not change the total owed; the working labels the split as principal paid / interest paid with interest first, `assumed`), then **restart the monthly rests from the payment date** with the reduced balance. Restarting the rests is an `assumed` simplification and is stated on the working page. A payment larger than the balance is rejected. If part-payments are not implemented in time, the UI shows "Part-payments are not included in this figure" whenever the user records one (or hides the form) rather than silently ignoring them.
+- **Part-payments (should-have).** Compute interest up to the payment date (using the partial-month rule if it falls inside a period), add it to the balance, subtract the payment (the balance is a single running amount, so interest-first or principal-first allocation does not change the total owed; the working labels the split as principal paid / interest paid with interest first, `assumed`), then **restart the monthly rests from the payment date** with the reduced balance. Restarting the rests re-anchors the month boundaries on the payment date; it is an `assumed` simplification and is stated on the working page. A payment larger than the balance is rejected. If part-payments are not implemented in time, the UI shows "Part-payments are not included in this figure" whenever the user records one (or hides the form) rather than silently ignoring them.
 - Interest ends on the chosen "as on" date or the date of full payment.
 
 **Test vectors (computed, closed form, verified):**
@@ -155,32 +165,46 @@ Third golden case, the demo case (principal 50,000,000 paise; rate 17.25%; inter
 
 The 12-month figure is one paisa above the closed form because rounding happens each month; the tests therefore assert the exact paise above **and** `abs(result - closed_form) <= 1 paisa x months`.
 
-Hypothesis properties: interest is non-negative; non-decreasing in days; zero when `as_on <= due`; monotonic in principal; splitting a computation at a month boundary and restarting with the new balance gives the same result.
+Hypothesis properties: interest is non-negative; non-decreasing in days; zero when `as_on <= due + 1`; monotonic in principal; splitting a computation at a month boundary and restarting with the new balance gives the same result when the period start day is 1 to 28 (a restart re-anchors clamped month ends, so days 29 to 31 can differ by design).
 
 ### 5.4 Bank Rate table
 
-`rules/bank_rate.yaml`:
+`rules/bank_rate.yaml` ships three rows. Every row is `confirmed: false` until the user confirms it in the UI. The Bank Rate is aligned with the RBI's marginal standing facility (MSF) rate, so each row follows an MSF change reported in the press. None was read from an RBI notification, because rbi.org.in could not be reached from the build machine.
 ```yaml
-- effective_from: "2026-10-01"      # PLACEHOLDER: the real effective date is not verified
-  percent: 5.75
-  source: "RBI home page, read 12 Oct 2026"
-  verified: false
+- effective_from: "2025-06-06"
+  percent: "5.75"
+  source: "Press reports of the RBI policy of 6 Jun 2025 (repo 5.50%, MSF and Bank Rate 5.75%)"
+  confirmed: false
+- effective_from: "2025-12-05"
+  percent: "5.50"
+  source: "Press reports of the RBI policy of 5 Dec 2025 (repo 5.25%, MSF 5.50%); Bank Rate assumed equal to MSF"
+  confirmed: false
+- effective_from: "2026-10-07"
+  percent: "5.75"
+  source: "RBI home page read 12 Oct 2026; press reports of the RBI policy of 7 Oct 2026 (repo 5.50%, MSF 5.75%)"
+  confirmed: false
 ```
-Until the user confirms the table in the UI, the dossier prints a line "Bank Rate used: 5.75% (to be confirmed against RBI notification)". The agent must not invent historical entries; the user can add rows in the UI.
+Seeding uses insert-or-ignore on `effective_from`, so a user's confirmation or rows are never overwritten. Until the user confirms the rows used, the working page and the evidence file print "Bank Rate used: <rate>% (to be confirmed against the RBI notification)". Do not add rows without a source; the user can add rows in the UI.
+
+**The demo case on the seeded table.** Every demo period starts before 7 Oct 2026, so the 5.50% row applies: 16.5% a year, interest 4,097,671 paise (₹40,976.71), total 54,097,671 paise (₹5,40,976.71), 177 days late. The 4,290,370 golden above is the algorithm's test vector at an explicit 17.25%; it is not a statement about the rate in force.
 
 ## 6. Notice template rules
 
-- Templates live in `app/notices/notice.en.md.j2` and `notice.hi.md.j2`.
+- Templates live in `packages/munim_web/src/munim_web/notices/notice.en.md.j2` and `notice.hi.md.j2`, rendered by a separate plain-text Jinja environment (autoescape off, because the output is text that the HTML page escapes when it shows it).
 - Structure: parties and addresses (user input), reference to the supply (invoice number, date, amount), delivery details (challan number and date), due date and its basis, interest basis and amount to date, demand for payment within a stated number of days (user input, default 15), statement that the supplier reserves rights under the MSMED Act including reference to the Facilitation Council, signature line. Every legal sentence is tagged with a rule id in a comment.
 - The model does not write notices.
 - The header says "Draft for review. Not legal advice." in both languages.
 
+| Id | Notice statement | Status |
+| --- | --- | --- |
+| `SEC-18-REFERENCE` | The supplier reserves the right to refer the dispute to the Micro and Small Enterprises Facilitation Council under section 18 of the Act | unverified until read from indiacode.nic.in |
+
 ## 7. Open questions (record, do not resolve silently)
 
 1. **Registration timing** (section 4).
-2. **Bank Rate selection** when it changes during the delay: month-start rate assumed.
+2. **Bank Rate selection** when it changes during the delay: month-start rate assumed. A period with no rate on or before its start is an error the user resolves by adding a row; Munim never extends a rate backwards.
 3. **Interest on GST**: toggle; default invoice total.
-4. **Partial month**: days over period length assumed.
+4. **Partial month**: days over period length assumed; the as-on day is not counted.
 5. **Part-payments**: balance is reduced at the payment date and monthly rests restart from that date; interest-first split for labelling only; both assumed.
 6. **Deemed acceptance** wording around "objection within 15 days" simplified.
 7. **Section 43B(h)** deliberately excluded.
@@ -193,6 +217,7 @@ Until the user confirms the table in the UI, the dossier prints a line "Bank Rat
 | --- | --- | --- | --- |
 | MSMED payment deadline and interest | IIFL explainer; Vinod Kothari note on MSMED Act | Oct 2026 | secondary, consistent |
 | Registration eligibility | LiveLaw on NBCC v State of West Bengal | Oct 2026 | secondary; matter referred to larger bench |
-| Bank Rate | RBI home page | 12 Oct 2026 | primary; effective date unknown |
+| Bank Rate | RBI home page (planning pack); press reports of RBI policy of 6 Jun 2025, 5 Dec 2025 and 7 Oct 2026 (Taxmann, Business Standard, SCC Online, TeamLease RegTech, SuperKalam, TaxGuru) | 12 Oct 2026 | secondary; not confirmed against an RBI notification |
 | GSTIN algorithm | python-stdnum 2.2 source and tests | Oct 2026 | primary |
-| GST slabs | Press coverage of GST 2.0, 22 Sep 2025 | earlier research | secondary; re-check |
+| GST slabs | Press coverage of GST 2.0, 22 Sep 2025 (Tally Solutions, WION) | 12 Oct 2026 | secondary; re-check against CBIC |
+| Registration eligibility (update) | NBCC (India) Ltd v State of West Bengal, 2025 INSC 54 (LiveLaw, Verdictum): referred to a three-judge bench | 12 Oct 2026 | secondary; no larger-bench ruling found |

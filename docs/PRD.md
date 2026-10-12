@@ -57,7 +57,7 @@ Priority key: **M** must (v1 demo breaks without it), **S** should, **C** could 
 | ID | Story | Acceptance criteria | P |
 | --- | --- | --- | --- |
 | A1 | As a supplier I can create a case naming the buyer and the supplier. | Case has a title, buyer name, supplier name. Appears in the case list. | M |
-| A2 | I can add a paper by choosing a file or dropping it. | Accepts JPEG, PNG, WebP, HEIC (converted), PDF (first 4 pages). Rejects others with a message. Max 15 MB. Shows a thumbnail. | M |
+| A2 | I can add a paper by choosing a file or dropping it. | Accepts JPEG, PNG, WebP, HEIC (converted), PDF (first page read in v1). Rejects others with a message. Max 15 MB. Shows a thumbnail. One paper of each type per case. | M |
 | A3 | I choose the paper type (tax invoice, delivery challan, purchase order). | Type is required, colour-coded per `DESIGN.md`. Changing type re-runs the checks. | M |
 | A4 | I can delete a paper or the whole case and everything is wiped. | Files and database rows are removed; a test proves no bytes of the original remain in `data/`. | M |
 | A5 | I can rotate and crop a photo before reading. | Rotate in 90° steps. Auto-deskew is a should. | S |
@@ -77,8 +77,8 @@ Priority key: **M** must (v1 demo breaks without it), **S** should, **C** could 
 | C1 | Munim checks GSTIN structure, state code and checksum. | Uses `python-stdnum`; cases in `docs/DOMAIN_RULES.md` section 3. | M |
 | C2 | Munim checks that PAN inside GSTIN matches a PAN printed on the paper, if any. | Mismatch is "Doesn't match". | S |
 | C3 | Munim checks GST arithmetic. | Per line: quantity x rate = amount (within 1 paisa tolerance after rounding); taxable total = sum of lines; tax = rate x taxable per rule; invoice total = taxable + tax +/- round-off (at most ₹1). Intra-state uses CGST+SGST, inter-state IGST, decided from the two state codes. | M |
-| C4 | Munim checks date logic. | Invoice date not in the future; challan date not before PO date; invoice date not more than 60 days before the challan (warn); date formats parsed with an explicit day-first assumption shown to the user. | M |
-| C5 | Munim checks the papers against each other. | Buyer and supplier GSTIN equal across papers; invoice number cited on the challan matches; quantities per line item agree between challan and invoice (within the stated tolerance); PO number cited on invoice matches. | M |
+| C4 | Munim checks date logic. | Invoice date not in the future; challan date not before PO date; challan not more than 30 days after the invoice (warn); any numeric date that could be read day-first or month-first is flagged with both readings, and the day-first reading is the default shown to the user. | M |
+| C5 | Munim checks the papers against each other. | Buyer and supplier GSTIN equal across papers; invoice number cited on the challan matches; quantities per line item are equal between challan and invoice after unit conversion; PO number cited on invoice matches. | M |
 | C6 | On a failed check tied to a single field, Munim crops that box and asks Gemma to re-read only it, then re-runs the check. | At most 2 repair attempts per field. Outcome is one of: **Corrected** (check now passes), **Unchanged** (model returns the same value), **Check by hand**. | M |
 | C7 | A repaired value is never accepted silently. | Corrected values appear in ballpoint handwriting with the reason; the user still presses "Confirm these values". | M |
 | C8 | IFSC on the invoice bank details is checked against the bundled IFSC dataset. | Unknown code is "Check by hand" (dataset may be out of date). | C |
@@ -111,7 +111,7 @@ Priority key: **M** must (v1 demo breaks without it), **S** should, **C** could 
 
 ## 6. The signature moment (must work in the demo)
 
-1. The user adds an invoice photo whose GSTIN was misread (a `0` read as `O`).
+1. The user adds an invoice photo whose buyer GSTIN was misread in the first read (the check character read wrongly, in the recorded demo responses).
 2. The claims table shows the GSTIN row in `red-wash` with "Doesn't match: the last character doesn't match the other 14 characters".
 3. Munim crops the GSTIN box, asks Gemma to re-read it, and the red-pen strike draws over the wrong value; the corrected value is written beside it in ballpoint handwriting.
 4. The checksum now passes; the row turns to "Passed".
@@ -148,8 +148,8 @@ If steps 2 to 4 do not work live, the recorded provider replays them; the About 
 - C2. Hardware: a laptop with 16 GB RAM is assumed for Gemma 4 E4B. If the laptop is slower, use the Gemini API provider or the recorded one, and say so.
 - C3. Test data are synthetic. The team may test real papers locally but commits none.
 - A1. The user knows their documents are Indian GST invoices (post-July 2017).
-- A2. The challan date is treated as the acceptance date unless the user overrides it; objection within 15 days changes acceptance (see `DOMAIN_RULES.md`); Munim asks, it does not infer.
-- A3. The RBI Bank Rate seeded in `rules/bank_rate.yaml` was read on 12 Oct 2026 from the RBI home page; its effective date and history are unverified and the UI says so.
+- A2. The acceptance date defaults to the challan's received date if one is printed, else the challan date, unless the user overrides it; objection within 15 days changes acceptance (see `DOMAIN_RULES.md` 5.1); Munim asks, it does not infer.
+- A3. The RBI Bank Rate rows seeded in `rules/bank_rate.yaml` come from the RBI home page (12 Oct 2026) and press reports of the 2025 and 2026 policy changes; none is confirmed against an RBI notification, and the UI says so until the user confirms them.
 
 ## 10. Risks
 

@@ -154,14 +154,16 @@ two moments carry the product.
 **Families**
 - **Interface: Mukta** (Latin and Devanagari in one family, Ek Type, SIL Open Font License).
   It was designed for Indian scripts, which is the reason to choose it over a default
-  Western grotesque. Self-host the WOFF2 files in `app/static/fonts/`; the app must work offline.
+  Western grotesque. Self-host the WOFF2 files in `packages/munim_web/src/munim_web/static/fonts/`; the app must work offline.
 - **Hand: Kalam** (Latin and Devanagari handwriting, Indian Type Foundry, SIL OFL).
   Used for corrections, margin notes, and nothing else. Never for body copy or labels.
 - **Verification step.** Before committing fonts run `scripts/check_fonts.py` (fontTools): it must
   confirm Devanagari coverage, OFL licence text in the font files, and the `tnum` and `lnum`
   OpenType features for Mukta. If Mukta lacks `tnum`, switch the interface family to
   **IBM Plex Sans with IBM Plex Sans Devanagari** (OFL) and update the front matter.
-- Include each family's licence file under `app/static/fonts/LICENSES/` and list them in `THIRD_PARTY.md`.
+  (Checked 12 Oct 2026: Mukta 5.3.0 from Fontsource has `tnum`; it has no `lnum` feature because its
+  figures are lining by default, with no `onum`. `check_fonts.py` accepts lining-by-default.)
+- Include each family's licence file under `packages/munim_web/src/munim_web/static/fonts/LICENSES/` and list them in `THIRD_PARTY.md`.
 
 **Scale** (rem values assume 16px root)
 
@@ -186,18 +188,20 @@ two moments carry the product.
 - Sentence case everywhere. No all-caps labels, no tracked eyebrow text above headings.
   The only capitals are inside the stamp graphic, because stamps are printed in capitals.
 - Headlines are plain. Do not italicise, bold or recolour a single word in a heading for effect.
-- Identifiers (GSTIN, PAN, invoice numbers) are copyable, show a visible 1-character-group rhythm
-  (`27 AAPFU0939F 1 Z V` with 2px gaps via `letter-spacing: 0.02em` on that element only), and never wrap mid-token.
+- Identifiers (GSTIN, PAN, invoice numbers) are copyable, show a visible group rhythm
+  (`27 AAPFU0939F 1 Z V`) and never wrap mid-token. The groups are adjacent inline spans with a
+  2px margin between them and no space characters, inside a `white-space: nowrap` element, so a copy
+  gives the contiguous characters. Identifiers are never truncated.
 
 ---
 
 ## 4. Component stylings
 
-All components below are implemented once as Jinja macros in `app/templates/components/`
-and styled in `app/static/css/components.css`. Names are stable; tests refer to them.
+All components below are implemented once as Jinja macros in `packages/munim_web/src/munim_web/templates/components/`
+and styled in `packages/munim_web/src/munim_web/static/css/components.css`. Names are stable; tests refer to them.
 
 ### 4.1 Buttons
-- **Primary:** background `ballpoint`, text `sheet`, `rounded.field`, height 40px, padding 0 16px, weight 500.
+- **Primary:** background `ballpoint`, text `sheet`, `rounded.field`, height 44px (the touch-target minimum), padding 0 16px, weight 500.
   Hover darkens by switching to a second declared token `ballpoint-pressed` (`#162E91`, add to tokens).
   Focus: 2px `ballpoint` outline with 2px `sheet` gap outside. One primary button per view.
 - **Secondary:** background `sheet`, 1px `hairline-strong` border, text `ink`.
@@ -206,7 +210,7 @@ and styled in `app/static/css/components.css`. Names are stable; tests refer to 
 - Labels name the action: "Check this paper", "Open evidence file", "Delete case". Never "Submit", never an arrow glyph appended.
 
 ### 4.2 Inputs and forms
-- Label above the field (13px/500). Helper text below in `muted`. The field is `sheet`, 1px `hairline-strong`, `rounded.field`, 40px tall.
+- Label above the field (13px/500). Helper text below in `muted`. The field is `sheet`, 1px `hairline-strong`, `rounded.field`, 44px tall. An input always sits on `sheet`, also when its row is washed (the edit cell gets a `sheet` background).
 - Error: border and message in `red-pen`, message names the rule and what to do ("Invoice date is after the due date. Enter the date printed on the invoice.").
 - Date fields accept `DD/MM/YYYY` as typed on Indian papers and show the parsed date in words next to the field ("12 October 2026") so a swapped day and month is visible.
 - Money fields accept Indian grouping while typing and store integer paise.
@@ -219,13 +223,14 @@ and styled in `app/static/css/components.css`. Names are stable; tests refer to 
 
 ### 4.4 Document viewer
 - The photo sits on `sheet` with its own aspect ratio. Zoom and pan with pointer and keyboard (`+`, `-`, arrow keys, `0` to reset).
-- Field boxes are 2px outlines in the status colour with a 2px `sheet` inner gap so they stay visible on dark photo areas. They are SVG, not canvas, so they take focus and have accessible names.
+- Field boxes are 2px outlines in the status colour with a 2px `sheet` inner gap so they stay visible on dark photo areas: solid `tick` for Passed, solid `red-pen` for Doesn't match, and a dashed `ink` outline for Check by hand (`highlighter` is only 1.45:1 on white, so it is never an outline). They are SVG, not canvas, so they take focus and have accessible names.
 - Selecting a row in the claims table focuses its box and vice versa. The selected box gets a `ballpoint-wash` fill at 40% opacity.
 
 ### 4.5 Claims table (what Gemma read)
 Columns: Field, Value read, Check, Source.
 - Row height 48px minimum. Header 13px/500 `ink-2`, bottom rule `hairline-strong`.
-- **Check cell** contains a status mark and a word: tick and "Passed", strike and "Doesn't match", bracket and "Check by hand". The row background takes the matching wash only when the row is selected or the status is not Passed.
+- **Check cell** contains a status mark and a word: tick and "Passed", strike and "Doesn't match", bracket and "Check by hand". The row background takes the status wash when the status is not Passed. A selected row gets a 2px `ballpoint` left rule (and `ballpoint-wash` only on Passed rows); the check word stays `ink` on any wash, with the mark in the status colour. The check word may wrap under its mark.
+- Below 1440px the Source crop sits under the value instead of in its own column. A correction always stacks: struck original above, handwriting below.
 - **Source cell** shows a 64x40 crop of the box from the photo, or "Not found on the paper" in `muted`.
 - Edited values appear in the hand face in `ballpoint`, with the original struck through in `red-pen` above or beside it. Do not hide the original.
 - Keyboard: arrow keys move between rows, Enter edits, Escape cancels.
@@ -247,10 +252,18 @@ Sequence, each step as a state change that also works with reduced motion (steps
 If the re-read still fails, no handwriting appears; the row becomes "Check by hand" with the reason, and the box stays highlighted.
 
 ### 4.9 Clock strip
-A full-width strip at the bottom of the workbench on `sheet` with a top rule. Left to right: Delivered on, Due on, Days late, Interest to date, Amount owed (the `display-amount`). Each has a label (13px) above its value. Below the strip a single link opens the working: "How this is worked out". No sparkline, no progress ring.
+A full-width strip at the bottom of the workbench on `sheet` with a top rule. Left to right: Delivered on, Due on, Days late, Interest to date, Amount owed (the `display-amount`). Each has a label (13px) above its value. Inside the strip, a single link opens the working: "How this is worked out". No sparkline, no progress ring.
+
+States (every number has a source, so the strip never fills a default the person did not give):
+- **Input missing:** no delivery date, no agreement choice, or no credit days with a written agreement. The strip names what is missing and links to that field. No amount is shown.
+- **No Bank Rate:** a period starts before every Bank Rate row. The strip says "Add a Bank Rate effective on or before <date>" and links to the table.
+- **Provisional:** all inputs exist but the values are not confirmed. Figures show with the label "Provisional until you confirm the values".
+- **Not yet late:** the as-on date is on or before the due date. Days late 0, interest ₹0.00.
+- **Interest off:** the supplier is a medium enterprise and "Calculate anyway" is not chosen. The strip shows the due date and the explanatory note.
+- **Bank Rate not confirmed:** a note under the strip (`clock.rate.unconfirmed`).
 
 ### 4.10 Tables of documents (case list)
-A plain table, not a card grid: Case, Parties, Papers (shown as up to three small coloured sheet tabs), Amount owed, Updated. Row height 56px. The empty state is a sheet with a tear-off dotted line and the sentence "No cases yet. Add the first paper: a tax invoice, a delivery challan or a purchase order." plus the primary button "Add a paper".
+A plain table, not a card grid: Case, Parties, Papers (shown as up to three small coloured sheet tabs), Amount owed, Updated. Row height 56px. The page's primary action is "New case" (a case must exist before a paper can be added; "Add a paper" is the workbench's action). The empty state is a sheet with a tear-off dotted line and the sentence "No cases yet. Start a case, then add its papers: a tax invoice, a delivery challan and a purchase order." plus the primary button "New case".
 
 ### 4.11 Dropzone
 A `sheet` with a 2px dotted top rule (like a tear-off line) and the text "Drop a photo or PDF here, or choose a file." No dashed border, no cloud icon, no animation. During drag-over the border becomes `ballpoint`. After choosing, the file name, size and a thumbnail appear.
@@ -267,11 +280,13 @@ A `sheet` with a 2px dotted top rule (like a tear-off line) and the text "Drop a
 
 **Pages**
 
-1. **Cases** (`/`): header, table of cases, "Add a paper".
+1. **Cases** (`/`): header, table of cases, "New case".
 2. **Workbench** (`/cases/{id}`): the main screen.
 3. **Dossier** (`/cases/{id}/dossier`): screen preview and print layout.
 4. **Rules and sources** (`/rules`): the rule set in use, versions, bank-rate table, links to the sources.
 5. **About** (`/about`): what it is, licence, model licence, privacy in five sentences.
+6. **How well it reads** (`/evaluation`): the latest evaluation report as one table and a short list of failure examples, single 720px column. A replay run is labelled as recorded responses, never as a live read.
+7. **Settings** (`/settings`): reader choice, the preflight report with plain fixes, the hosted-model consent line, and language. Single 720px column.
 
 **Workbench wireframe (≥1200px)**
 
@@ -358,7 +373,7 @@ There are no drop shadows, no blurs, no gradients and no translucency except the
 | --- | --- |
 | ≥1200px | Three-column workbench as drawn above |
 | 900 to 1199px | Papers rail collapses to a horizontal strip of tabs above the viewer; claims panel stays at the right |
-| 600 to 899px | Single column: viewer first, claims table below, clock strip sticky at the bottom |
+| 600 to 899px | Single column: viewer first, claims table below. Only the Amount owed and the link to the working are sticky at the bottom; the rest of the strip scrolls with the page |
 | <600px | Single column, claims table becomes a list of rows (value and check on two lines), source crop below the value. The clock strip shows only "Amount owed" with a button "See how this is worked out" |
 
 - Touch targets are at least 44x44px. Inputs are 16px minimum font size so mobile browsers do not zoom.
@@ -393,7 +408,7 @@ There are no drop shadows, no blurs, no gradients and no translucency except the
 
 ## 10. Icons
 
-Draw these as inline SVG at 16px and 20px, 1.5px stroke, square caps, `currentColor`. Keep them in `app/templates/components/icons.html`.
+Draw these as inline SVG at 16px and 20px, 1.5px stroke, square caps, `currentColor`. Keep them in `packages/munim_web/src/munim_web/templates/components/icons.html`.
 `tick`, `strike` (a short wavy line), `bracket-hand` (a square bracket with a small pointing mark), `box` (a dashed rectangle with corner marks), `sheet`, `plus`, `trash`, `copy`, `print`, `zoom-in`, `zoom-out`, `fit`. No other icons in v1.
 
 ---
@@ -404,20 +419,20 @@ Draw these as inline SVG at 16px and 20px, 1.5px stroke, square caps, `currentCo
 - Refer to the model once, plainly, where it matters: "Gemma read this paper". Never "AI-powered" and never imply the model is certain.
 - Every number has a source: a box on a paper, a rule, or a setting.
 - Use one name per concept throughout: "Check this paper" produces a message "Paper checked".
-- The full English and Hindi string table is `docs/CONTENT.md`. All UI strings live in `app/i18n/en.json` and `app/i18n/hi.json`; there are no hard-coded strings in templates.
+- The full English and Hindi string table is `docs/CONTENT.md`. All UI strings live in `packages/munim_web/src/munim_web/i18n/en.json` and `packages/munim_web/src/munim_web/i18n/hi.json`; there are no hard-coded strings in templates.
 - Legal wording: Munim explains and calculates; it does not give legal advice. This sentence appears on the dossier, the rules page and the About page.
 
 ---
 
 ## 12. Design lint (enforced, not aspirational)
 
-`scripts/design_lint.py` runs in CI and in `make check`. It scans `app/templates`, `app/static/css`, `app/static/js` and inline SVG and fails on:
+`scripts/design_lint.py` runs in CI and in `make check`. It scans `packages/munim_web/src/munim_web/templates`, `packages/munim_web/src/munim_web/static/css`, `packages/munim_web/src/munim_web/static/js` (except vendored files in `static/js/vendor/`, which are covered by `check_licences.py` and `THIRD_PARTY.md`) and inline SVG, fails if a scan root is missing, and fails on:
 
 1. Any hex colour outside `tokens.css` and the SVG icon files' `currentColor` usage.
 2. `box-shadow` (except a focus ring marked with a `/* focus-ring */` comment), `backdrop-filter`, `linear-gradient(`, `radial-gradient(`, `conic-gradient(`.
 3. `border-radius` values above 6px, and the value `9999px` or `50%`.
 4. `text-transform: uppercase` outside the `.stamp` selector, and any `letter-spacing` above `0.02em`.
-5. Any emoji code point or the characters `✨`, `→`, `—` used as a UI separator in strings under `app/i18n` and templates.
+5. Any emoji code point or the characters `✨`, `→`, `—` used as a UI separator in strings under `packages/munim_web/src/munim_web/i18n` and templates.
 6. Fonts other than the declared families (Mukta, Kalam, the declared fallbacks).
 7. Missing `lang` attributes on elements that contain Devanagari.
 8. Animation or transition on `opacity` combined with `translate` on scroll-triggered selectors, and any use of `IntersectionObserver` for entrance effects.

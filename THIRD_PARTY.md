@@ -21,7 +21,7 @@ Maintained by hand and checked by `scripts/check_licences.py`. Versions come fro
 | structlog | [ ] | MIT / Apache-2.0 | Logging | No |
 | PyYAML | [ ] | MIT | Rule files | No |
 | python-ulid | [ ] | MIT | IDs | No |
-| htmx | 2.x [pin] | BSD-2-Clause | Partial updates (vendored file with licence) | No |
+| htmx | 2.0.11 | 0BSD (Zero-Clause BSD) | Partial updates (vendored file `static/js/vendor/htmx.min.js` with `htmx.LICENSE`) | No |
 | Mukta (Ek Type) | [ ] | OFL-1.1 | UI font, Latin + Devanagari | No (WOFF2 conversion only) |
 | Kalam (Indian Type Foundry) | [ ] | OFL-1.1 | Handwriting face for corrections | No (WOFF2 conversion only) |
 | IBM Plex Sans (+ Devanagari) | [ ] | OFL-1.1 | Fallback UI font, only if Mukta lacks `tnum` | No |

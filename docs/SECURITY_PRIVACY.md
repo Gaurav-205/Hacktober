@@ -17,7 +17,7 @@ Munim handles photographs of business papers containing GSTINs, names, addresses
 
 | Threat | Example | Control |
 | --- | --- | --- |
-| Spoofing / CSRF | A web page the user visits posts to `127.0.0.1:8765` | Bind to loopback; CSRF token on all non-GET; `Host` header allow-list (`127.0.0.1`, `localhost`); CORS disabled; `SameSite=Strict` cookie |
+| Spoofing / CSRF | A web page the user visits posts to `127.0.0.1:8765` | Bind to loopback; CSRF token on all non-GET (double-submit: HttpOnly `SameSite=Strict` cookie named per port, compared with the `X-CSRF-Token` header or a form field); `Host` header allow-list (`127.0.0.1:{port}`, `localhost:{port}`); CORS disabled; upload size capped before any form parsing |
 | DNS rebinding | Attacker site resolves to 127.0.0.1 | Host header allow-list |
 | Tampering with uploads | Polyglot file, decompression bomb, path traversal | Magic-byte detection, pixel limit, generated filenames, no client-controlled paths |
 | Repudiation | Dispute about what Munim said | Append-only events; the dossier prints rule versions, provider and model, prompt version |
@@ -55,7 +55,7 @@ Munim handles photographs of business papers containing GSTINs, names, addresses
 | Action | Effect |
 | --- | --- |
 | Delete paper | File, crops, claims, findings removed; event row "paper_deleted" keeps ids only |
-| Delete case | All of the above for the case; SQLite `VACUUM` run after deletion; `secure_delete` on |
+| Delete case | All of the above for the case; SQLite `VACUUM` then `PRAGMA wal_checkpoint(TRUNCATE)` run after deletion; `secure_delete` on. Pages carry `Cache-Control: no-store` so the browser cache keeps no copy |
 | Export | Writes a ZIP the user chooses; the app does not retain it |
 | Uninstall | Delete the `data/` folder; README shows the command |
 

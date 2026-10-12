@@ -1,0 +1,7 @@
+Munim
+Copyright 2026 Gaurav Khandelwal and Munim contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It includes or depends on third-party software and fonts listed, with their licences, in THIRD_PARTY.md.
+It is designed to run with Gemma 4 open-weight models (Apache 2.0 per the model card). Model weights are not included in this repository.

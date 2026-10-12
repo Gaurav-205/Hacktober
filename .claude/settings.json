@@ -1,0 +1,114 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv *)",
+      "Bash(make *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git init *)",
+      "Bash(git rev-parse *)",
+      "Bash(git ls-files *)",
+      "Bash(git branch *)",
+      "Bash(git switch *)",
+      "Bash(git tag *)",
+      "Bash(git stash *)",
+      "Bash(git clone *)",
+      "Bash(git ls-remote *)",
+      "Bash(python3 scripts/*)",
+      "Bash(python3 -m json.tool *)",
+      "Bash(ollama list)",
+      "Bash(ollama ps)",
+      "Bash(ollama show *)",
+      "Bash(ollama pull gemma4*)",
+      "Bash(curl -s http://127.0.0.1:11434/*)",
+      "Bash(curl -s http://127.0.0.1:8765/*)",
+      "Bash(curl -fsSL https://www.apache.org/licenses/LICENSE-2.0.txt *)",
+      "Bash(npm view *)",
+      "Bash(npm pack *)",
+      "Bash(tar -xzf *)",
+      "Bash(date *)",
+      "Bash(ls *)",
+      "Bash(wc *)",
+      "Bash(which *)",
+      "Bash(mkdir *)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:docs.astral.sh)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:ollama.com)",
+      "WebFetch(domain:htmx.org)",
+      "WebFetch(domain:playwright.dev)",
+      "WebFetch(domain:fontsource.org)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:arthurdejong.org)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(git reset *)",
+      "Bash(git checkout -- *)",
+      "Bash(git restore *)",
+      "Bash(ollama rm *)",
+      "Bash(rm -r *)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git commit *--no-verify*)",
+      "Bash(git clean *)",
+      "Bash(git filter-branch *)",
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Read(./.env)",
+      "Edit(./.env)",
+      "Read(./data/**)",
+      "Edit(./data/**)",
+      "Read(./eval/real/**)",
+      "Edit(./eval/real/**)",
+      "Edit(./.claude/settings.json)",
+      "Edit(./.claude/settings.local.json)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"${CLAUDE_PROJECT_DIR}/scripts/hooks/pre_write_guard.py\"; if [ -f \"$f\" ] && command -v uv >/dev/null 2>&1; then uv run --no-project --quiet python \"$f\"; fi",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=\"${CLAUDE_PROJECT_DIR}/scripts/hooks/post_edit.py\"; if [ -f \"$f\" ] && command -v uv >/dev/null 2>&1; then uv run --no-project --quiet python \"$f\"; fi",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"${CLAUDE_PROJECT_DIR:-.}\" || exit 0; if [ -f docs/PROGRESS.md ]; then echo \"Munim build log (last 30 lines of docs/PROGRESS.md):\"; tail -n 30 docs/PROGRESS.md; if [ -f docs/TASKS.md ]; then echo \"Next open tasks in docs/TASKS.md:\"; grep -n -m 3 -e \"- \\[ \\]\" docs/TASKS.md; fi; echo \"Run /pickup before continuing.\"; fi; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

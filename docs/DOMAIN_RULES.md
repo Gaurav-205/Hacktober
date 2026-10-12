@@ -70,6 +70,7 @@ Tolerance: 1 paisa per line for rate x quantity; ₹1.00 total for round-off.
 
 | Id | Check | On failure |
 | --- | --- | --- |
+| `VALUE-FORMAT` | Every amount, date and quantity the rules use can be read: amounts in Indian or Western grouping with at most two decimals (unit rates may have more), dates as in `DATE-AMBIGUOUS`, quantities as decimals. An unreadable value is `failed` so no rule silently skips it | blocking for invoice amounts and lines, the invoice date, challan dates and quantities; warning for purchase-order values |
 | `INV-LINE-AMOUNT` | For each line with quantity, rate and amount: `round(quantity * rate) == amount` within 1 paisa. If a discount column is present, rate x quantity - discount | blocking |
 | `INV-TAXABLE-SUM` | Sum of line taxable amounts equals `taxable_total` (exact, in paise) | blocking |
 | `INV-TAX-SPLIT` | If supplier and buyer state codes (first two GSTIN digits) are equal, intra-state: `igst == 0` and `cgst == sgst`. If they differ, inter-state: `cgst == sgst == 0`. If the printed place of supply names a different state from the buyer's GSTIN, the result is `needs_review` (place of supply decides the split) | blocking |

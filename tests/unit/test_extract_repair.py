@@ -84,6 +84,28 @@ def test_parse_json_object(text: str, expected: object) -> None:
     assert parse_json_object(text) == expected
 
 
+# Gemma 4 closes the first line item early, so its `amount` object is left unclosed and the whole
+# document has no JSON reading. Every other field is scalar and no rule reads a line item, so the
+# trailing array is dropped and the rest of the paper is kept.
+def malformed_line_items() -> str:
+    return (
+        '{"supplier_gstin": {"value": "'
+        f"{SUPPLIER_GSTIN}"
+        '", "box_2d": [10, 10, 20, 200]}, "buyer_gstin": {"value": "'
+        f"{BUYER_GSTIN}"
+        '", "box_2d": [30, 10, 40, 200]}, '
+        '"invoice_total": {"value": "5,00,000.00", "box_2d": [900, 700, 920, 900]}, '
+        '"line_items": [{"description": "Cotton yarn", "amount": {"value": "1,00,000.00"}]}'
+    )
+
+
+def test_parse_drops_a_broken_trailing_line_item_array() -> None:
+    parsed = parse_json_object(malformed_line_items())
+    assert parsed is not None
+    assert "line_items" not in parsed
+    assert parsed["invoice_total"] == {"value": "5,00,000.00", "box_2d": [900, 700, 920, 900]}
+
+
 # ---------------------------------------------------------------- extract_paper
 async def test_valid_first_answer_is_used_without_retry() -> None:
     provider = ScriptedProvider([good_invoice()])
@@ -126,6 +148,14 @@ async def test_schema_invalid_answer_without_anchors_fails_soft() -> None:
     answer = json.dumps({"invoice_number": "INV-1", "line_items": [{}] * 13})
     outcome = await extract_paper(ScriptedProvider([answer, answer]), b"img", "invoice", CTX)
     assert outcome.ok is False
+
+
+async def test_read_survives_a_broken_line_item_array() -> None:
+    broken = malformed_line_items()
+    outcome = await extract_paper(ScriptedProvider([broken, broken]), b"img", "invoice", CTX)
+    assert outcome.ok is True
+    assert values(outcome)["supplier_gstin"] == SUPPLIER_GSTIN
+    assert values(outcome)["invoice_total"] == "5,00,000.00"
 
 
 async def test_runaway_value_is_dropped_and_flagged() -> None:

@@ -46,8 +46,31 @@ def parse_json_object(text: str) -> dict[str, Any] | None:
     start, end = stripped.find("{"), stripped.rfind("}")
     if start < 0 or end <= start:
         return None
+    body = stripped[start : end + 1]
     try:
-        value = json.loads(stripped[start : end + 1])
+        value = json.loads(body)
+    except json.JSONDecodeError:
+        value = _without_trailing_array(body)
+        if value is None:
+            return None
+    return value if isinstance(value, dict) else None
+
+
+# A trailing list-valued field, comma and all, up to the object's closing brace.
+_TRAILING_ARRAY = re.compile(r',\s*"[a-z_]+"\s*:\s*\[.*\]\s*(?=\}$)', re.DOTALL)
+
+
+def _without_trailing_array(body: str) -> dict[str, Any] | None:
+    """Drop a trailing list-valued field and parse again, or None.
+
+    Gemma 4 misspells the `line_items` array often enough to matter: it writes the first item's
+    `amount` as a sibling of the item object, so the document has no valid JSON reading at all.
+    Every other field on the paper is scalar, and no verify rule reads a line item, so dropping
+    that one array is better than dropping the whole paper. The dropped field is absent from the
+    result, and the schema treats it as optional.
+    """
+    try:
+        value = json.loads(_TRAILING_ARRAY.sub("", body))
     except json.JSONDecodeError:
         return None
     return value if isinstance(value, dict) else None

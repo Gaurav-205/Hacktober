@@ -95,7 +95,9 @@ class GeminiProvider:
             for attempt in range(3):
                 try:
                     response = self._client.models.generate_content(
-                        model=self.model, contents=[uploaded, user], config=_config(system, thinking)
+                        model=self.model,
+                        contents=[uploaded, user],
+                        config=_config(system, thinking),
                     )
                     break
                 except Exception as exc:

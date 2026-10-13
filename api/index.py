@@ -43,7 +43,7 @@ def deploy_hosts(env: Mapping[str, str]) -> tuple[str, ...]:
 
 
 # Vercel serverless has a writable ephemeral directory at /tmp
-data_dir_env = os.environ.get("MUNIM_DATA_DIR", "/tmp/munim_data")  # noqa: S108
+data_dir_env = os.environ.get("MUNIM_DATA_DIR", "/tmp/munim_data")  # noqa: S108  # nosec B108
 data_dir = Path(data_dir_env)
 data_dir.mkdir(parents=True, exist_ok=True)
 

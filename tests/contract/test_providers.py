@@ -319,7 +319,10 @@ async def test_gemini_uploads_generates_then_deletes() -> None:
 
 async def test_gemini_retries_transient_errors_and_succeeds() -> None:
     client = FakeClient()
-    client.models.errors = [RuntimeError("503 UNAVAILABLE (high demand)"), RuntimeError("500 internal")]
+    client.models.errors = [
+        RuntimeError("503 UNAVAILABLE (high demand)"),
+        RuntimeError("500 internal"),
+    ]
     result = await GeminiProvider("k", "gemma-4-31b-it", client=client).extract(
         IMAGE, "invoice", None, CTX
     )

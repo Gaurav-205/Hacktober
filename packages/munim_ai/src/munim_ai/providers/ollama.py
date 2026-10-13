@@ -137,6 +137,12 @@ class OllamaProvider:
         names = {m.model for m in listing.models if m.model}
         present = self.model in names or f"{self.model}:latest" in names
         if not present:
+            try:
+                await self._client(10.0).show(self.model)
+                present = True
+            except Exception:
+                pass
+        if not present:
             return PreflightReport(
                 self.name, self.model, False, problems=("fix.ollama.model",), params=params
             )

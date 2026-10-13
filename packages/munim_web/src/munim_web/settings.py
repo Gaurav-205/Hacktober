@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     # An explicitly set provider pins the reader; Settings then shows it locked (PLAN_REVIEW D12).
     provider: str | None = None
     ollama_url: str = "http://127.0.0.1:11434"
-    ollama_model: str = "gemma4:e4b"
+    ollama_model: str = "gemma4:31b-cloud"
     ollama_json_format: bool = False
     gemini_model: str = "gemma-4-31b-it"
     gemini_api_key: str | None = Field(default=None, validation_alias="GEMINI_API_KEY")

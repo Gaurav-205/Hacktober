@@ -231,4 +231,3 @@ def test_non_default_case_settings_flow(web: Web) -> None:
     notice_hi = web.client.get(f"/cases/{case_id}/notice?lang=hi").text
     assert "यह मामला मध्यम उद्यम के रूप में चिह्नित है, इसलिए ब्याज की मांग नहीं की गई है।" in notice_hi
     assert "24 अप्रैल 2026" in notice_hi
->>>>>>> origin/main

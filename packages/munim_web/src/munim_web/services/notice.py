@@ -12,6 +12,7 @@ from importlib import resources
 
 from jinja2 import Environment, StrictUndefined
 
+from munim_core.dates import DateParseError, parse_date_dayfirst
 from munim_core.money import MoneyParseError, parse_inr
 from munim_core.tax_disallowance import compute_43b_disallowance
 from munim_web.services.case_service import CaseSnapshot

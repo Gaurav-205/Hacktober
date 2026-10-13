@@ -26,3 +26,8 @@ playwright-report/
 *.HEIC
 .DS_Store
 .vercel
+
+# Local agent and skill tooling, vendored from third parties. Not project code.
+# skills-lock.json is kept so the sources and hashes are recorded.
+.agents/
+.claude/skills/

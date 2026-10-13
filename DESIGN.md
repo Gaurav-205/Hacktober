@@ -30,14 +30,16 @@ colors:
 typography:
   family-ui: "Mukta, 'IBM Plex Sans', 'Noto Sans Devanagari', system-ui, sans-serif"
   family-hand: "Kalam, 'Noto Sans Devanagari', cursive"
-  display-amount: { family: ui, size: 40px, line: 44px, weight: 600, tracking: -0.01em, features: [tnum, lnum] }
-  h1: { family: ui, size: 28px, line: 34px, weight: 600 }
-  h2: { family: ui, size: 20px, line: 28px, weight: 600 }
-  h3: { family: ui, size: 16px, line: 24px, weight: 600 }
+  display-amount: { family: ui, size: 56px, line: 60px, weight: 600, tracking: -0.02em, features: [tnum, lnum] }
+  display: { family: ui, size: 34px, line: 40px, weight: 600, tracking: -0.01em }
+  h1: { family: ui, size: 32px, line: 38px, weight: 600, tracking: -0.01em }
+  h2: { family: ui, size: 24px, line: 30px, weight: 600 }
+  h3: { family: ui, size: 18px, line: 26px, weight: 600 }
   body: { family: ui, size: 16px, line: 26px, weight: 400 }
   body-sm: { family: ui, size: 14px, line: 22px, weight: 400 }
   label: { family: ui, size: 13px, line: 18px, weight: 500, case: sentence }
-  number: { family: ui, size: 15px, line: 22px, weight: 500, features: [tnum, lnum] }
+  number: { family: ui, size: 16px, line: 23px, weight: 500, features: [tnum, lnum] }
+  check: { family: ui, size: 15px, line: 20px, weight: 500 }
   hand: { family: hand, size: 20px, line: 28px, weight: 400 }
 rounded:
   field: 2px      # a printed box on a form
@@ -169,14 +171,16 @@ two moments carry the product.
 
 | Style | Size / line | Weight | Use |
 | --- | --- | --- | --- |
-| display-amount | 40 / 44 | 600, tabular lining figures | The amount owed in the clock strip and on the dossier cover |
-| h1 | 28 / 34 | 600 | Page title (case name) |
-| h2 | 20 / 28 | 600 | Panel titles |
-| h3 | 16 / 24 | 600 | Field group titles |
+| display-amount | 56 / 60 | 600, tabular lining figures | The amount owed in the clock strip and on the evidence file cover |
+| display | 34 / 40 | 600 | The overall verdict word for a case |
+| h1 | 32 / 38 | 600 | Page title (case name) |
+| h2 | 24 / 30 | 600 | Panel titles |
+| h3 | 18 / 26 | 600 | Field group titles |
 | body | 16 / 26 | 400 | Running text, notices |
 | body-sm | 14 / 22 | 400 | Table cells, helper text |
 | label | 13 / 18 | 500 | Form labels; sentence case, no tracking |
-| number | 15 / 22 | 500, tabular lining figures | Every amount, date, quantity and identifier |
+| number | 16 / 23 | 500, tabular lining figures | Every amount, date, quantity and identifier |
+| check | 15 / 20 | 500 | The verdict word inside a claims row |
 | hand | 20 / 28 | 400 | Corrections and margin notes, never below 18px |
 
 **Principles**
@@ -388,6 +392,7 @@ There are no drop shadows, no blurs, no gradients and no translucency except the
 **Quick reference for building any screen**
 - Desk `#F3F4F6`, sheets `#FFFFFF`, text `#15171C`, accent ballpoint `#1F3DB8`, failure `#C4281C`, pass `#1E7A4F`, review `#F5D547`.
 - Font Mukta for everything, Kalam for corrections only. Radii 2px for fields and chips, 6px for panels.
+- Three type registers: `display-amount` (56px) for money, `display` (34px) for a verdict word, `h1`–`h3` for structure, `body` for reading. Body copy never changes size.
 - No shadows, gradients, emoji or scroll animations. The case list is a table.
 - A paper has a type colour: invoice white, challan `#F2D4CF`, purchase order `#F3E7B0`.
 

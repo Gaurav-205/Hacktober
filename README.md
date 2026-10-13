@@ -32,6 +32,14 @@ make run                        # http://127.0.0.1:8765
 
 No Ollama? `MUNIM_PROVIDER=replay make run` uses recorded responses on the bundled synthetic papers (the interface says so on screen). To use hosted Gemma 4 instead, set `GEMINI_API_KEY`, choose it in Settings and accept the consent line: your photos are then sent to Google's servers.
 
+### Connect the MCP server in VS Code
+
+Open this repository in VS Code with the Python and MCP extensions enabled. The checked-in
+`.vscode/mcp.json` starts Munim's local stdio server through `uv`; run `uv sync` once, then
+reload the window if the `munim` server is not shown in the MCP tools list. It exposes
+deterministic GSTIN, invoice arithmetic and MSMED interest checks. It does not expose document
+uploads.
+
 ## Privacy
 
 - Papers and what is read from them are stored in `./data` on your computer. **Delete case** removes the files and rows.

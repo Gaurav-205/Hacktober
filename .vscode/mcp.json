@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "munim": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${workspaceFolder}",
+        "--package",
+        "munim-mcp",
+        "munim-mcp"
+      ]
+    }
+  }
+}

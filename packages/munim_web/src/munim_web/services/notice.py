@@ -16,7 +16,7 @@ from munim_core.dates import DateParseError, parse_date_dayfirst
 from munim_web.services.case_service import CaseSnapshot
 from munim_web.translate import translator
 
-_ENV = Environment(autoescape=False, undefined=StrictUndefined, keep_trailing_newline=True)  # noqa: S701 - plain text, never HTML
+_ENV = Environment(autoescape=False, undefined=StrictUndefined, keep_trailing_newline=True)  # noqa: S701  # nosec B701 - plain text; the page escapes it
 
 
 def _template(lang: str) -> str:

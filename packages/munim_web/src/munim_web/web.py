@@ -26,7 +26,7 @@ _CODE = re.compile(r"`([^`]+)`")
 def with_code(text: str) -> Markup:
     """Escape the text, then show `backticked` parts as code. Safe: escaping comes first."""
     escaped = str(escape(text))
-    return Markup(_CODE.sub(lambda m: f"<code>{m.group(1)}</code>", escaped))  # noqa: S704
+    return Markup(_CODE.sub(lambda m: f"<code>{m.group(1)}</code>", escaped))  # noqa: S704  # nosec B704 - escaped above
 
 
 def gstin_groups(value: str | None) -> list[str]:

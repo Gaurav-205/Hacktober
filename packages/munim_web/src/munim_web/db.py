@@ -20,6 +20,56 @@ from ulid import ULID
 
 __all__ = ["Database", "new_id", "now"]
 
+# Column names that update helpers may set. Values are always bound as parameters; names are
+# checked against these sets so no caller-supplied text reaches the SQL.
+CASE_COLUMNS = frozenset(
+    {
+        "title",
+        "supplier_name",
+        "buyer_name",
+        "supplier_address",
+        "buyer_address",
+        "udyam_number",
+        "udyam_date",
+        "enterprise_size",
+        "agreement",
+        "credit_days",
+        "objection_removed_on",
+        "acceptance_date",
+        "interest_base",
+        "as_on_date",
+        "notice_days",
+    }
+)
+PAPER_COLUMNS = frozenset(
+    {
+        "kind",
+        "derived_path",
+        "width",
+        "height",
+        "rotation",
+        "status",
+        "provider",
+        "model",
+        "prompt_version",
+        "replayed",
+        "read_at",
+        "error",
+        "dark",
+        "blurred",
+    }
+)
+CLAIM_COLUMNS = frozenset(
+    {"repair_attempts", "repair_via", "repair_outcome", "repair_reason", "review_flag", "animate"}
+)
+
+
+def _columns(keys: list[str], allowed: frozenset[str]) -> str:
+    unknown = set(keys) - allowed
+    if unknown:
+        raise ValueError(f"unknown columns: {sorted(unknown)}")
+    return ", ".join(f"{k} = ?" for k in keys)
+
 
 def new_id() -> str:
     return str(ULID())
@@ -61,11 +111,9 @@ class Database:
             if not entry.name.endswith(".sql") or entry.name in done:
                 continue
             script = entry.read_text(encoding="utf-8")
-            self.conn.executescript(
-                "BEGIN;\n"
-                + script
-                + f"\nINSERT INTO schema_migrations VALUES ('{entry.name}', '{now()}');\nCOMMIT;"
-            )
+            self.conn.executescript("BEGIN;\n" + script)  # the transaction stays open
+            self.conn.execute("INSERT INTO schema_migrations VALUES (?, ?)", (entry.name, now()))
+            self.conn.execute("COMMIT")
             applied.append(entry.name)
         return applied
 
@@ -128,29 +176,12 @@ class Database:
         return self.all("SELECT * FROM cases ORDER BY updated_at DESC")
 
     def update_case(self, case_id: str, values: Mapping[str, Any]) -> None:
-        allowed = {
-            "title",
-            "supplier_name",
-            "buyer_name",
-            "supplier_address",
-            "buyer_address",
-            "udyam_number",
-            "udyam_date",
-            "enterprise_size",
-            "agreement",
-            "credit_days",
-            "objection_removed_on",
-            "acceptance_date",
-            "interest_base",
-            "as_on_date",
-            "notice_days",
-        }
-        keys = [k for k in values if k in allowed]
+        keys = [k for k in values if k in CASE_COLUMNS]
         if not keys:
             return
-        sets = ", ".join(f"{k} = ?" for k in keys)
+        sets = _columns(keys, CASE_COLUMNS)
         self.run(
-            f"UPDATE cases SET {sets}, confirmed_at = NULL, updated_at = ? WHERE id = ?",  # noqa: S608 - keys are allow-listed
+            f"UPDATE cases SET {sets}, confirmed_at = NULL, updated_at = ? WHERE id = ?",  # noqa: S608  # nosec B608 - allow-listed names
             [values[k] for k in keys] + [now(), case_id],
         )
 
@@ -196,8 +227,8 @@ class Database:
 
     def update_paper(self, paper_id: str, **values: Any) -> None:
         keys = list(values)
-        sets = ", ".join(f"{k} = ?" for k in keys)
-        self.run(f"UPDATE papers SET {sets} WHERE id = ?", [values[k] for k in keys] + [paper_id])  # noqa: S608 - internal keys only
+        sets = _columns(keys, PAPER_COLUMNS)
+        self.run(f"UPDATE papers SET {sets} WHERE id = ?", [values[k] for k in keys] + [paper_id])  # noqa: S608  # nosec B608 - allow-listed names
 
     def delete_paper(self, paper_id: str) -> None:
         self.run("DELETE FROM papers WHERE id = ?", (paper_id,))
@@ -244,16 +275,16 @@ class Database:
 
     def set_claim_value(self, claim_id: str, value: str | None, source: str, **extra: Any) -> None:
         keys = list(extra)
-        sets = "".join(f", {k} = ?" for k in keys)
+        sets = (", " + _columns(keys, CLAIM_COLUMNS)) if keys else ""
         self.run(
-            f"UPDATE claims SET value_current = ?, source = ?, version = version + 1{sets} WHERE id = ?",  # noqa: S608 - internal keys only
+            f"UPDATE claims SET value_current = ?, source = ?, version = version + 1{sets} WHERE id = ?",  # noqa: S608  # nosec B608 - allow-listed names
             [value, source, *[extra[k] for k in keys], claim_id],
         )
 
     def update_claim(self, claim_id: str, **values: Any) -> None:
         keys = list(values)
-        sets = ", ".join(f"{k} = ?" for k in keys)
-        self.run(f"UPDATE claims SET {sets} WHERE id = ?", [values[k] for k in keys] + [claim_id])  # noqa: S608 - internal keys only
+        sets = _columns(keys, CLAIM_COLUMNS)
+        self.run(f"UPDATE claims SET {sets} WHERE id = ?", [values[k] for k in keys] + [claim_id])  # noqa: S608  # nosec B608 - allow-listed names
 
     # ------------------------------------------------------------ acceptances, payments, rates
     def add_acceptance(

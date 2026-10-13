@@ -1,0 +1,13 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.hypothesis
+.ruff_cache
+.mypy_cache
+tests
+.git
+.agents
+.claude
+node_modules
+C:\Users\khand\.gemini

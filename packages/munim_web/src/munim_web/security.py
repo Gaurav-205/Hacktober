@@ -75,7 +75,11 @@ class SecurityMiddleware:
                 ]
             await send(message)
 
-        if host not in self.hosts:
+        if (
+            "*" not in self.hosts
+            and host not in self.hosts
+            and host.split(":")[0] not in self.hosts
+        ):
             await _plain(send_with_headers, 400, b"Bad Host header")
             return
         length = headers.get(b"content-length")

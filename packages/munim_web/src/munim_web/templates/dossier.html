@@ -53,7 +53,7 @@
     <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=2) }}</span></header>
     <h2 id="d-table">{{ t("evidence.table") }}</h2>
     {% for item in papers %}
-      <h3>{{ sheet_tab(item.paper.kind) }} {{ t("paper.kind." ~ item.paper.kind) }}</h3>
+      <h3>{{ sheet_tab(item.paper.kind) }} {{ loop.index }}: {{ t("paper.kind." ~ item.paper.kind) }}</h3>
       {% if item.paper.provider %}<p class="muted">{% if item.paper.replayed %}{{ t("evidence.reader.replay") }}{% else %}{{ t("evidence.reader", provider=item.paper.provider, model=item.paper.model, version=item.paper.prompt_version) }}{% endif %}</p>{% endif %}
       <table class="evidence">
         <thead><tr><th scope="col">{{ t("claims.col.field") }}</th><th scope="col">{{ t("claims.col.value") }}</th><th scope="col">{{ t("claims.col.check") }}</th><th scope="col">{{ t("claims.col.source") }}</th></tr></thead>
@@ -84,7 +84,7 @@
   {% for item in papers %}
   <section class="d-page d-original" aria-labelledby="d-orig-{{ loop.index }}">
     <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=3 + loop.index) }}</span></header>
-    <h2 id="d-orig-{{ loop.index }}">{{ t("evidence.originals") }}: {{ t("paper.kind." ~ item.paper.kind) }}</h2>
+    <h2 id="d-orig-{{ loop.index }}">{{ t("evidence.originals") }} {{ loop.index }}: {{ t("paper.kind." ~ item.paper.kind) }}</h2>
     <div class="viewer-canvas">
       <img src="/papers/{{ item.paper.id }}/image" alt="{{ t('paper.photo', kind_key='paper.kind.' ~ item.paper.kind) }}" width="{{ item.paper.width }}" height="{{ item.paper.height }}">
       <svg class="boxes" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">

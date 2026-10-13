@@ -10,16 +10,16 @@ Legend: `[ ]` open, `[x]` done. "Exit" lines are commands that must pass.
 
 ## Gate 0: Foundations (0:00 to 0:45)
 
-- [ ] T0.0 Event-rule confirmation recorded and preflight commands run (the master prompt, sections 0 and 5; in the Claude Code kit it is `docs/planning/MASTER_PROMPT.md`); results in `docs/PROGRESS.md`.
-- [ ] T0.1 Create the repo skeleton from `docs/ARCHITECTURE.md` section 2, after the first commit of the planning documents (`git init`, default branch `main`; the first commit contains only the pre-existing planning files).
-- [ ] T0.2 `uv` workspace: root `pyproject.toml`, four member packages (`munim_core`, `munim_ai`, `munim_web`, `munim_mcp` placeholder), Python 3.12, dev dependency group.
-- [ ] T0.3 Tooling config in root `pyproject.toml`: ruff (lint + format; rules E,F,I,B,UP,SIM,S,C4,PL minimal set), mypy strict for core and ai, pytest (strict markers, asyncio auto), coverage (branch, fail_under per package), import-linter contracts from ARCHITECTURE section 3.
-- [ ] T0.4 `Makefile`: `install`, `run`, `check`, `test`, `test-fast`, `e2e`, `eval`, `bless`, `dossier-pdf`, `fixtures`, `screens` (Playwright screenshots of every page at 360, 768 and 1440 px in en and hi into `docs/screens/`), `ci`.
-- [ ] T0.5 `scripts/build_tokens.py`: parse `DESIGN.md` front matter -> `static/css/tokens.css` (custom properties). `scripts/check_contrast.py`, `scripts/design_lint.py`, `scripts/check_fonts.py`, `scripts/check_i18n.py`, `scripts/check_licences.py` with their own unit tests (one failing and one passing sample per rule).
-- [ ] T0.6 Fonts: download Mukta and Kalam from `google/fonts` (OFL) as WOFF2, place in `static/fonts/` with licence files; run `check_fonts.py`; if Mukta lacks `tnum`, switch to IBM Plex Sans + Plex Sans Devanagari and update `DESIGN.md` front matter.
-- [ ] T0.7 Pre-commit: ruff, mypy, `detect-secrets`, large-file and image-location guard, design lint, i18n check.
-- [ ] T0.8 CI workflow per `TESTING.md` section 10 (jobs static, design, test, e2e, eval-replay). Actions pinned by SHA.
-- [ ] T0.9 `.gitignore`, `.env.example`, `LICENSE` (the unmodified Apache-2.0 text, copied from apache.org or an installed package's LICENSE file; never paraphrased), `NOTICE`, `THIRD_PARTY.md` (empty table with columns), `SECURITY.md`, `CONTRIBUTING.md`.
+- [x] T0.0 Event-rule confirmation recorded and preflight commands run (the master prompt, sections 0 and 5; in the Claude Code kit it is `docs/planning/MASTER_PROMPT.md`); results in `docs/PROGRESS.md`.
+- [x] T0.1 Create the repo skeleton from `docs/ARCHITECTURE.md` section 2, after the first commit of the planning documents (`git init`, default branch `main`; the first commit contains only the pre-existing planning files).
+- [x] T0.2 `uv` workspace: root `pyproject.toml`, four member packages (`munim_core`, `munim_ai`, `munim_web`, `munim_mcp` placeholder), Python 3.12, dev dependency group.
+- [x] T0.3 Tooling config in root `pyproject.toml`: ruff (lint + format; rules E,F,I,B,UP,SIM,S,C4,PL minimal set), mypy strict for core and ai, pytest (strict markers, asyncio auto), coverage (branch, fail_under per package), import-linter contracts from ARCHITECTURE section 3.
+- [x] T0.4 `Makefile`: `install`, `run`, `check`, `test`, `test-fast`, `e2e`, `eval`, `bless`, `dossier-pdf`, `fixtures`, `screens` (Playwright screenshots of every page at 360, 768 and 1440 px in en and hi into `docs/screens/`), `ci`.
+- [x] T0.5 `scripts/build_tokens.py`: parse `DESIGN.md` front matter -> `static/css/tokens.css` (custom properties). `scripts/check_contrast.py`, `scripts/design_lint.py`, `scripts/check_fonts.py`, `scripts/check_i18n.py`, `scripts/check_licences.py` with their own unit tests (one failing and one passing sample per rule).
+- [x] T0.6 Fonts: download Mukta and Kalam from `google/fonts` (OFL) as WOFF2, place in `static/fonts/` with licence files; run `check_fonts.py`; if Mukta lacks `tnum`, switch to IBM Plex Sans + Plex Sans Devanagari and update `DESIGN.md` front matter.
+- [x] T0.7 Pre-commit: ruff, mypy, `detect-secrets`, large-file and image-location guard, design lint, i18n check.
+- [x] T0.8 CI workflow per `TESTING.md` section 10 (jobs static, design, test, e2e, eval-replay). Actions pinned by SHA.
+- [x] T0.9 `.gitignore`, `.env.example`, `LICENSE` (the unmodified Apache-2.0 text, copied from apache.org or an installed package's LICENSE file; never paraphrased), `NOTICE`, `THIRD_PARTY.md` (empty table with columns), `SECURITY.md`, `CONTRIBUTING.md`.
 
 **Exit:** `make check` passes on the empty skeleton; `python scripts/check_contrast.py` prints all pairs passing; CI green on the first push.
 

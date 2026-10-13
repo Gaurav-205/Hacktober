@@ -8,6 +8,10 @@ dependencies = [
     "munim-core",
 ]
 
+[project.scripts]
+munim-mcp = "munim_mcp.server:main"
+
+
 [tool.uv.sources]
 munim-core = { workspace = true }
 

@@ -29,8 +29,8 @@ from munim_ai.schemas import FieldSpec, PaperKind
 
 __all__ = ["OllamaProvider"]
 
-READ_TIMEOUT_S = 90.0
-REREAD_TIMEOUT_S = 45.0
+READ_TIMEOUT_S = 240.0
+REREAD_TIMEOUT_S = 90.0
 PROBE_TEXT = "INV-0042"
 
 

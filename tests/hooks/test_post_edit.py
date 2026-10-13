@@ -100,19 +100,37 @@ def report_lines(result: subprocess.CompletedProcess[str]) -> list[str]:
 # ---------------------------------------------------------------- real tools
 @pytest.fixture
 def uv_executable() -> str:
-    found = os.environ.get("UV") or shutil.which("uv")
-    if found is None:
-        pytest.fail("uv is not on PATH; the post-edit hook runs every tool through uv")
-    return found
+    candidates = [
+        os.environ.get("UV"),
+        shutil.which("uv"),
+        str(REPO_ROOT / ".venv" / "Scripts" / "uv.exe"),
+        str(REPO_ROOT / ".venv" / "bin" / "uv"),
+    ]
+    for c in candidates:
+        if c and Path(c).is_file():
+            return str(c)
+    pytest.fail("uv is not on PATH; the post-edit hook runs every tool through uv")
 
 
 @pytest.fixture
 def real_project(tmp_path: Path) -> Path:
-    if not (REPO_ROOT / ".venv" / "bin" / "ruff").is_file():
+    ruff_candidates = [
+        REPO_ROOT / ".venv" / "bin" / "ruff",
+        REPO_ROOT / ".venv" / "Scripts" / "ruff.exe",
+    ]
+    if not any(candidate.is_file() for candidate in ruff_candidates):
         pytest.fail("the repository .venv has no ruff; run make install first")
     root = tmp_path / "project"
     root.mkdir()
-    (root / ".venv").symlink_to(REPO_ROOT / ".venv", target_is_directory=True)
+    try:
+        (root / ".venv").symlink_to(REPO_ROOT / ".venv", target_is_directory=True)
+    except OSError:
+        if os.name == "nt":
+            import _winapi
+
+            _winapi.CreateJunction(str(REPO_ROOT / ".venv"), str(root / ".venv"))
+        else:
+            raise
     put(
         root,
         "pyproject.toml",
@@ -181,7 +199,8 @@ def test_report_is_capped_at_40_lines(run_real: RunHook, real_project: Path) -> 
     path = put(real_project, "app/many.py", source)
     lines = report_lines(run_real(path))
     assert len(lines) == 40
-    assert "  " + "app/many.py:1:7: F821 Undefined name `undefined_0`" in lines
+    file_part = os.path.join("app", "many.py")
+    assert f"  {file_part}:1:7: F821 Undefined name `undefined_0`" in lines
     assert any(line.strip().startswith("...") and "more lines" in line for line in lines)
 
 
@@ -190,7 +209,8 @@ def test_template_with_box_shadow_blocks(run_real: RunHook, real_project: Path) 
     path = put(real_project, f"{WEB}/templates/page.html", template)
     lines = report_lines(run_real(path))
     assert "[design_lint]" in lines
-    assert f"  {WEB}/templates/page.html:2: STUB-SHADOW: shadows are not allowed" in lines
+    expected_path = os.path.normpath(f"{WEB}/templates/page.html")
+    assert f"  {expected_path}:2: STUB-SHADOW: shadows are not allowed" in lines
 
 
 def test_clean_template_passes_silently(run_real: RunHook, real_project: Path) -> None:
@@ -201,7 +221,8 @@ def test_clean_template_passes_silently(run_real: RunHook, real_project: Path) -
 def test_static_css_is_design_linted(run_real: RunHook, real_project: Path) -> None:
     path = put(real_project, f"{WEB}/static/css/app.css", ".card {\n  box-shadow: none;\n}\n")
     lines = report_lines(run_real(path))
-    assert f"  {WEB}/static/css/app.css:2: STUB-SHADOW: shadows are not allowed" in lines
+    expected_path = os.path.normpath(f"{WEB}/static/css/app.css")
+    assert f"  {expected_path}:2: STUB-SHADOW: shadows are not allowed" in lines
 
 
 def test_vendored_js_is_not_design_linted(run_real: RunHook, real_project: Path) -> None:
@@ -296,14 +317,20 @@ class FakeUv:
     def __init__(self, tmp_path: Path, run_hook: RunHook) -> None:
         self.root = tmp_path / "project"
         self.log = tmp_path / "uv-calls.jsonl"
-        self.executable = tmp_path / "fake-uv"
         self._run_hook = run_hook
         for tool in ("ruff", "pytest"):
             put(self.root, f".venv/bin/{tool}", "")
         for script in ("design_lint", "check_i18n", "build_tokens", "check_contrast"):
             put(self.root, f"scripts/{script}.py", "")
-        self.executable.write_text(f"#!{sys.executable}\n{FAKE_UV_BODY}", encoding="utf-8")
-        self.executable.chmod(0o755)
+        if os.name == "nt":
+            self.executable = tmp_path / "fake-uv.cmd"
+            py_body = tmp_path / "fake_uv.py"
+            py_body.write_text(FAKE_UV_BODY, encoding="utf-8")
+            self.executable.write_text(f'@"{sys.executable}" "{py_body}" %*\n', encoding="utf-8")
+        else:
+            self.executable = tmp_path / "fake-uv"
+            self.executable.write_text(f"#!{sys.executable}\n{FAKE_UV_BODY}", encoding="utf-8")
+            self.executable.chmod(0o755)
 
     def run(
         self,

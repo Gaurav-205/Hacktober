@@ -21,6 +21,7 @@ from munim_core.money import MoneyParseError, parse_inr
 from munim_core.samadhaan import SamadhaanInput, build_samadhaan_packet
 from munim_core.stamp_forensics import analyze_challan_stamp
 from munim_core.tax_disallowance import compute_43b_disallowance
+from munim_core.text import whole_number
 from munim_core.verify.catalog import RULES
 from munim_core.verify.models import FieldRef
 from munim_web.db import Database
@@ -80,7 +81,11 @@ async def cases(request: Request) -> Response:
         snap = load_case(db, case["id"], today(request))
         owed = None
         if snap and snap.clock.outcome and snap.clock.outcome.result:
-            owed = snap.clock.outcome.result.total_paise
+            result = snap.clock.outcome.result
+            if snap.clock.interest_off:
+                owed = result.total_paise - result.interest_paise
+            else:
+                owed = result.total_paise
         rows.append(
             {"case": case, "kinds": [p["kind"] for p in db.papers(case["id"])], "owed": owed}
         )
@@ -173,16 +178,18 @@ async def case_settings(request: Request, case_id: str) -> Response:
         values["agreement"] = get("agreement") if get("agreement") in ("written", "none") else None
     if "credit_days" in form:
         days = get("credit_days")
-        if days and not days.isdigit():
+        credit_days = whole_number(days)
+        if days and credit_days is None:
             return back(f"/cases/{case_id}?error=settings.case.err.days#terms")
-        values["credit_days"] = int(days) if days else None
+        values["credit_days"] = credit_days
     if "enterprise_size" in form:
         size = get("enterprise_size")
         values["enterprise_size"] = size if size in ("micro", "small", "medium") else None
     if "interest_base" in form and get("interest_base") in ("invoice_total", "taxable_total"):
         values["interest_base"] = get("interest_base")
-    if "notice_days" in form and get("notice_days").isdigit():
-        values["notice_days"] = max(1, min(90, int(get("notice_days"))))
+    notice_days = whole_number(get("notice_days")) if "notice_days" in form else None
+    if notice_days is not None:
+        values["notice_days"] = max(1, min(90, notice_days))
     for name in ("udyam_number", "supplier_address", "buyer_address"):
         if name in form:
             values[name] = get(name)[:300] or None

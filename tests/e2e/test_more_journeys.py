@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import pytest
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Locator, Page, expect
 
 from tests.e2e.conftest import DEMO
 from tests.e2e.test_journeys import add_and_read, create_case
@@ -11,14 +11,30 @@ from tests.e2e.test_journeys import add_and_read, create_case
 pytestmark = pytest.mark.e2e
 
 
+def tab_to(page: Page, target: Locator, limit: int = 120) -> None:
+    """Reach a control the way a keyboard user does.
+
+    :focus-visible is modality-aware: it is granted to a control reached by keyboard and is not
+    guaranteed after a programmatic focus(), so a ring assertion on a programmatically focused
+    control tests the engine's heuristic rather than the CSS. Tabbing in is the interaction the
+    ring is actually specified for.
+    """
+    page.evaluate("document.activeElement && document.activeElement.blur()")
+    for _ in range(limit):
+        page.keyboard.press("Tab")
+        if target.evaluate("el => el === document.activeElement"):
+            return
+    raise AssertionError(f"never reached {target} by Tab")
+
+
 def test_keyboard_only_edit_and_cancel(page: Page, server: str) -> None:
     create_case(page, server)
     add_and_read(page, "invoice", "Tax invoice")
     page.goto(page.url)  # a settled workbench: this test is about the table, not the read
     first = page.locator("tr.row").first
-    first.focus()
-    page.keyboard.press("ArrowDown")
     second = page.locator("tr.row").nth(1)
+    tab_to(page, first)
+    page.keyboard.press("ArrowDown")
     expect(second).to_be_focused()
     page.keyboard.press("Enter")
     value = second.locator("input[name=value]")
@@ -26,10 +42,10 @@ def test_keyboard_only_edit_and_cancel(page: Page, server: str) -> None:
     page.keyboard.press("Escape")
     expect(second.locator("details.edit")).not_to_have_attribute("open", "")
     expect(second).to_be_focused()
-    # The focus ring is visible on a focused control.
+    # The focus ring is visible on a control reached by keyboard.
     button = page.get_by_role("button", name="Read this paper again")
-    button.focus()
-    assert button.evaluate("el => getComputedStyle(el).outlineStyle") == "solid"
+    tab_to(page, button)
+    expect(button).to_have_css("outline-style", "solid")
 
 
 def test_phone_width_has_no_sideways_scroll_and_44px_targets(page: Page, server: str) -> None:

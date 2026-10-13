@@ -104,7 +104,10 @@
   <section class="claims sheet" aria-labelledby="claims-title">
     <h2 id="claims-title">{{ t("claims.title") if selected and selected.status != "failed" else t("claims.title.hand") }}</h2>
     {% if rows %}
-    <p class="muted" role="status">{{ t("claims.summary", passed=counts.passed, open=counts.open) }}</p>
+    <p class="verdict-hero verdict-hero-{{ counts.overall }}" role="status">
+      <span class="verdict-hero-word">{% if counts.overall == "failed" %}{{ icon("strike") }}{% elif counts.overall == "review" %}{{ icon("bracket-hand") }}{% elif counts.overall == "passed" %}{{ icon("tick") }}{% endif %}{{ t("check." ~ counts.overall) }}</span>
+      <span class="small muted">{{ t("claims.summary", passed=counts.passed, open=counts.open) }}</span>
+    </p>
     <table class="claims-table">
       <thead><tr>
         <th scope="col">{{ t("claims.col.field") }}</th>

@@ -124,10 +124,25 @@ def rows_for(snapshot: CaseSnapshot, paper_id: str, t: Translator) -> list[Row]:
     return out
 
 
-def counts(rows: list[Row]) -> dict[str, int]:
+def counts(rows: list[Row]) -> dict[str, int | str]:
+    failed = sum(r.status == "failed" for r in rows)
+    review = sum(r.status == "review" for r in rows)
+    passed = sum(r.status == "passed" for r in rows)
+    if failed:
+        overall = "failed"
+    elif review:
+        overall = "review"
+    elif passed:
+        overall = "passed"
+    else:
+        overall = "none"
     return {
-        "passed": sum(r.status == "passed" for r in rows),
-        "open": sum(r.status in ("failed", "review") for r in rows),
+        "passed": passed,
+        "open": failed + review,
+        "failed": failed,
+        "review": review,
+        "total": len(rows),
+        "overall": overall,
     }
 
 
@@ -164,7 +179,7 @@ def step_label(step: Any, t: Translator) -> str:
     if kind == "partial":
         return t("working.step.partial", days=step.days, period_days=step.period_days)
     if kind == "payment":
-        return t("working.step.payment", amount_paise=step.payment_paise)
+        return t("working.step.payment", amount=t.money(step.payment_paise))
     if kind == "month":
         return t("working.step.month")
     return t("working.step.due")

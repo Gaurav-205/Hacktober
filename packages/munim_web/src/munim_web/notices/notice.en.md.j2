@@ -13,11 +13,13 @@ Subject: Payment due for invoice {{ invoice_number }} dated {{ invoice_date }}
 
 2. {{ due_basis_sentence }} Payment therefore fell due on {{ due_date }}.      {# rule: CLOCK-DUE #}
 
-3. As on {{ as_on }}, {{ days_late }} days have passed since the due date. Under sections 15 and 16
+3. As on {{ as_on }}, {{ days_late }} day{% if days_late != 1 %}s have{% else %} has{% endif %} passed since the due date.{% if interest_off %}
+   Under the Act, statutory compound interest applies to micro and small suppliers. This case is marked medium, so interest is not demanded. Total principal due is {{ total_owed }}.
+{% else %} Under sections 15 and 16
    of the Micro, Small and Medium Enterprises Development Act, 2006, interest is payable at three
    times the Bank Rate notified by the Reserve Bank of India, compounded with monthly rests, from the
-   day after the due date. At the Bank Rate of {{ bank_rate }}%, that is {{ rate }}% a year.
-   Interest to {{ as_on }} is {{ interest }}, making {{ total_owed }} due. The working is attached.  {# rule: CLOCK-INTEREST #}
+   day after the due date.{% if bank_rate %} At the Bank Rate of {{ bank_rate }}%, that is {{ rate }}% a year.{% endif %}
+   Interest to {{ as_on }} is {{ interest }}, making {{ total_owed }} due. The working is attached.{% endif %}  {# rule: CLOCK-INTEREST #}
 
 4. Please pay {{ total_owed }}, with interest accruing until payment, within {{ notice_days }} days of this notice.
    If we do not receive payment, we reserve all our rights, including referring the dispute to the

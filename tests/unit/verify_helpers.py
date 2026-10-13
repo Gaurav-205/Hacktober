@@ -119,6 +119,7 @@ def case(
     order: Mapping[str, str | None] | None = None,
     as_on: date | None = TODAY,
     udyam: str | None = None,
+    extra: Mapping[str, str] = (),
 ) -> CaseState:
     papers: dict[str, PaperState] = {}
     if inv is not None:
@@ -131,7 +132,7 @@ def case(
         )
     if order is not None:
         papers["po"] = paper("po", order)
-    return CaseState(papers=papers, as_on=as_on, udyam_number=udyam)
+    return CaseState(papers=papers, as_on=as_on, udyam_number=udyam, extra=dict(extra))
 
 
 def only(findings: Iterable[Finding], rule_id: str, field: str | None = None) -> list[Finding]:

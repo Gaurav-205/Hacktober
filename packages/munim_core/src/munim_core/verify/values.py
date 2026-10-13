@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from munim_core.text import whole_number
 from munim_core.verify.common import (
     amount,
     finding,
@@ -40,12 +41,7 @@ FIELD_KINDS: dict[str, tuple[tuple[str, Reader, str, Severity], ...]] = {
     "po": (
         ("po_date", parsed_date, "date", Severity.WARNING),
         ("delivery_date", parsed_date, "date", Severity.WARNING),
-        (
-            "credit_days",
-            lambda t: int(t) if t and t.strip().isdigit() else None,
-            "number",
-            Severity.WARNING,
-        ),
+        ("credit_days", whole_number, "number", Severity.WARNING),
     ),
 }
 LINE_KINDS: dict[str, tuple[tuple[str, Reader, str, Severity], ...]] = {
@@ -82,12 +78,23 @@ def _one(
 
 def _runaway(ref: FieldRef) -> Finding:
     """The model wrote an over-long value that was dropped (AI_SPEC 6): someone must look."""
+    severity = Severity.WARNING
+    if ref.paper_kind in FIELD_KINDS:
+        for name, _, _, sev in FIELD_KINDS[ref.paper_kind]:
+            if name == ref.field:
+                severity = sev
+                break
+    if ref.paper_kind in LINE_KINDS and ref.index is not None:
+        for name, _, _, sev in LINE_KINDS[ref.paper_kind]:
+            if name == ref.field:
+                severity = sev
+                break
     return finding(
         "VALUE-FORMAT",
         Status.NEEDS_REVIEW,
         (ref,),
         message_key="rule.VALUE-FORMAT.runaway",
-        severity=Severity.WARNING,
+        severity=severity,
     )
 
 

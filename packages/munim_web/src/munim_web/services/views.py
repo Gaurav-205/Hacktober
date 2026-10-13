@@ -124,10 +124,25 @@ def rows_for(snapshot: CaseSnapshot, paper_id: str, t: Translator) -> list[Row]:
     return out
 
 
-def counts(rows: list[Row]) -> dict[str, int]:
+def counts(rows: list[Row]) -> dict[str, int | str]:
+    failed = sum(r.status == "failed" for r in rows)
+    review = sum(r.status == "review" for r in rows)
+    passed = sum(r.status == "passed" for r in rows)
+    if failed:
+        overall = "failed"
+    elif review:
+        overall = "review"
+    elif passed:
+        overall = "passed"
+    else:
+        overall = "none"
     return {
-        "passed": sum(r.status == "passed" for r in rows),
-        "open": sum(r.status in ("failed", "review") for r in rows),
+        "passed": passed,
+        "open": failed + review,
+        "failed": failed,
+        "review": review,
+        "total": len(rows),
+        "overall": overall,
     }
 
 

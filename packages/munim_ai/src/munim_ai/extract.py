@@ -46,11 +46,36 @@ def parse_json_object(text: str) -> dict[str, Any] | None:
     start, end = stripped.find("{"), stripped.rfind("}")
     if start < 0 or end <= start:
         return None
+    sub = stripped[start : end + 1]
     try:
-        value = json.loads(stripped[start : end + 1])
+        value = json.loads(sub)
+        if isinstance(value, dict):
+            return value
     except json.JSONDecodeError:
-        return None
-    return value if isinstance(value, dict) else None
+        pass
+
+    # Resilient repair for models omitting closing braces in line_items
+    candidate = re.sub(r'(\]\s*\}),\s*(\{\s*"description")', r'\1}, \2', sub)
+    if candidate.endswith('}]}') and not candidate.endswith('}]}}'):
+        candidate = candidate[:-3] + ']}}}'
+    try:
+        value = json.loads(candidate)
+        if isinstance(value, dict):
+            return value
+    except json.JSONDecodeError:
+        pass
+
+    # Salvage all top-level keys before line_items if line_items has broken syntax
+    if '"line_items"' in sub:
+        before = sub.split('"line_items"')[0].rstrip(', \r\n\t') + "}"
+        try:
+            value = json.loads(before)
+            if isinstance(value, dict):
+                return value
+        except json.JSONDecodeError:
+            pass
+
+    return None
 
 
 def _validate(kind: str, data: dict[str, Any]) -> Any | None:

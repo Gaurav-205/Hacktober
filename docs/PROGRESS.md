@@ -93,6 +93,6 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
   - CI run 8 (`29c6924`) passed.
 - The demo numbers on screen, from the seeded Bank Rate table: due 19 Apr 2026, 177 days late, interest Rs 40,976.71, owed Rs 5,40,976.71.
 - Bugs found on the way: the `i18n/` string folder shadowed `i18n.py` (now `translate.py`); an audit `kind` detail collided with the event's `kind` argument; a template variable name clash; the status line rendered before its paper was set; Starlette's 404 skipped the error page.
-- T4.6 (golden files for the evidence file and notices) is not done yet.
+- T4.6: golden files `tests/golden/notice.{en,hi}.txt` and `evidence_summary.json`, blessed after reading every line (see the commit).
 
-STATUS: IN PROGRESS (Gate 4: T4.6; then Gate 5)
+STATUS: IN PROGRESS (Gate 5)

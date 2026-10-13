@@ -79,4 +79,6 @@ def notice_text(snap: CaseSnapshot, lang: str, today: date | None = None) -> str
         "udyam_number": case["udyam_number"] or "",
         "udyam_date": t.date(case["udyam_date"]) if case["udyam_date"] else "",
     }
-    return _ENV.from_string(_template(lang)).render(**context)
+    text = _ENV.from_string(_template(lang)).render(**context)
+    # The template's rule comments leave trailing spaces; a notice has none.
+    return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"

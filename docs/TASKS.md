@@ -83,7 +83,7 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 - [x] T4.3 Clock strip + working page (steps table), bank-rate table UI with "not confirmed" state.
 - [x] T4.4 Evidence file (dossier): screen layout, print stylesheet, stamp SVG + conditions, originals pages, notice (en, hi) via templates, copy buttons.
 - [x] T4.5 `make dossier-pdf` + E2E-10.
-- [ ] T4.6 Golden tests for dossier and notices; bless once after manual review.
+- [x] T4.6 Golden tests for dossier and notices; bless once after manual review.
 
 **Exit:** E2E-1, E2E-2, E2E-3 and E2E-10 pass; the full demo (DEMO_SCRIPT.md) runs end to end on the replay provider; the printed PDF is 4+ pages A4 and passes visual review.
 

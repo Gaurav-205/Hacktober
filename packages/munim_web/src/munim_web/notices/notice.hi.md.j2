@@ -23,5 +23,5 @@
    सूक्ष्म और लघु उद्यम सुविधा परिषद को विवाद भेजना शामिल है।
 
 {{ supplier_name }}
-उद्यम पंजीकरण: {{ udyam_number }} ({{ udyam_date }})
-हस्ताक्षर: ____________________
+{% if udyam_number %}उद्यम पंजीकरण: {{ udyam_number }}{% if udyam_date %} ({{ udyam_date }}){% endif %}
+{% endif %}हस्ताक्षर: ____________________

@@ -427,7 +427,7 @@ async def dossier(request: Request, case_id: str) -> Response:
     for paper in snap.papers:
         rows = views.rows_for(snap, paper["id"], t)
         papers.append({"paper": paper, "rows": rows})
-    notices = {code: notice_text(snap, code) for code in LANGS}
+    notices = {code: notice_text(snap, code, today(request)) for code in LANGS}
     db_of(request).event(case_id, "evidence.viewed")
     return render(
         request,
@@ -445,7 +445,7 @@ async def dossier(request: Request, case_id: str) -> Response:
 @router.get("/cases/{case_id}/notice")
 async def notice(request: Request, case_id: str, lang: str = "en") -> Response:
     snap = snapshot_or_404(request, case_id)
-    text = notice_text(snap, lang if lang in LANGS else "en")
+    text = notice_text(snap, lang if lang in LANGS else "en", today(request))
     if text is None:
         raise HTTPException(status_code=409, detail="notice.unavailable")
     return PlainTextResponse(text)

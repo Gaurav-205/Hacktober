@@ -61,7 +61,7 @@ function setup(root = document) {
       if (event.target !== row) return;
       if (event.key === "ArrowDown" && rows[index + 1]) { rows[index + 1].focus(); event.preventDefault(); }
       if (event.key === "ArrowUp" && rows[index - 1]) { rows[index - 1].focus(); event.preventDefault(); }
-      if (event.key === "Enter") { const edit = $("details.edit", row); if (edit) { edit.open = true; $("input[name=value]", edit)?.focus(); } }
+      if (event.key === "Enter") { event.preventDefault(); const edit = $("details.edit", row); if (edit) { edit.open = true; $("input[name=value]", edit)?.focus(); } }
     });
   });
   $$("details.edit, details.accept", root).filter((el) => once(el, "Esc")).forEach((details) => {

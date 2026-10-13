@@ -97,10 +97,9 @@ def parse_date_dayfirst(text: str) -> ParsedDate:
         first, second, year = int(match[1]), int(match[2]), _year(match[3])
         day_first = _make(year, second, first)
         month_first = _make(year, first, second)
-        if day_first is None and month_first is None:
-            raise DateParseError("not a real date")
         if day_first is None:
-            assert month_first is not None  # noqa: S101 - narrowed by the check above
+            if month_first is None:
+                raise DateParseError("not a real date")
             return ParsedDate(month_first)
         if month_first is not None and month_first != day_first:
             return ParsedDate(day_first, ambiguous=True, alt=month_first)

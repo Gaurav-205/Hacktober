@@ -98,14 +98,15 @@ def _similar_names(state: CaseState, role: str) -> Finding:
     refs = [FieldRef(k, name) for k, p in present_papers(state) if name in p.fields]
     if len(values) < 2:
         return finding("X-NAME-SIMILAR", Status.SKIPPED, refs, params={"role_key": role_key})
-    worst: tuple[float, tuple[str, str], tuple[str, str]] | None = None
-    for i, a in enumerate(values):
-        for b in values[i + 1 :]:
-            score = fuzz.token_set_ratio(normalise_name(a[1]), normalise_name(b[1]))
-            if worst is None or score < worst[0]:
-                worst = (score, a, b)
-    assert worst is not None  # noqa: S101 - at least one pair exists
-    score, (a_kind, a_text), (b_kind, b_text) = worst
+    # The lowest-scoring pair; min() keeps the first pair on a tie, in paper order.
+    score, (a_kind, a_text), (b_kind, b_text) = min(
+        (
+            (fuzz.token_set_ratio(normalise_name(a[1]), normalise_name(b[1])), a, b)
+            for i, a in enumerate(values)
+            for b in values[i + 1 :]
+        ),
+        key=lambda pair: pair[0],
+    )
     if score >= NAME_THRESHOLD:
         return finding("X-NAME-SIMILAR", Status.PASSED, refs, params={"role_key": role_key})
     params = {

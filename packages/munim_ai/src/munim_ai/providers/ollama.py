@@ -93,7 +93,7 @@ class OllamaProvider:
                 )
             except httpx.TimeoutException as exc:
                 raise ProviderTimeout(f"no answer within {timeout:g} s") from exc
-            except (httpx.ConnectError, httpx.NetworkError) as exc:
+            except (httpx.ConnectError, httpx.NetworkError, ConnectionError) as exc:
                 raise ProviderUnavailable(f"cannot reach Ollama at {self.host}") from exc
             except ollama.ResponseError as exc:
                 if exc.status_code == 404:
@@ -130,7 +130,7 @@ class OllamaProvider:
         params = {"url": self.host, "model": self.model}
         try:
             listing = await self._client(10.0).list()
-        except (httpx.HTTPError, ollama.ResponseError):
+        except (httpx.HTTPError, ollama.ResponseError, ConnectionError):
             return PreflightReport(
                 self.name, self.model, False, problems=("fix.ollama.down",), params=params
             )

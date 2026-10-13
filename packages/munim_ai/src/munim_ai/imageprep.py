@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import io
+import warnings
 from dataclasses import dataclass
 from typing import Literal
 
@@ -101,13 +102,17 @@ def _decode(data: bytes, kind: FileType) -> Image.Image:
 
         pillow_heif.register_heif_opener()
     try:
-        image = Image.open(io.BytesIO(data))
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", Image.DecompressionBombWarning)
+            image = Image.open(io.BytesIO(data))
         # Pillow only refuses images above twice its limit; refuse anything above it, before
         # any pixel is decoded.
         if image.width * image.height > MAX_PIXELS:
             raise ImageError("the image has too many pixels")
         image.load()
-    except Image.DecompressionBombError as exc:
+    except ImageError:
+        raise
+    except (Image.DecompressionBombError, Image.DecompressionBombWarning) as exc:
         raise ImageError("the image has too many pixels") from exc
     except (UnidentifiedImageError, OSError, ValueError, SyntaxError) as exc:
         raise ImageError("the image cannot be decoded") from exc

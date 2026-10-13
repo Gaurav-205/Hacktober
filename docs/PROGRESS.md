@@ -161,5 +161,14 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Evidence: `pytest tests/integration/test_vercel_entry.py -q`: 5 passed (failed 5 before the change). `pytest tests -q -m "not e2e and not a11y and not live"`: 906 passed, 2 failed, 19 errors, none in touched files: 19 hook errors are `uv is not on PATH`; manifest size 345 vs 336 is a CRLF working copy (`git ls-files --eol`: `w/crlf attr/text eol=lf`); `test_verify_never_raises_on_arbitrary_values` finds a pre-existing `int()` crash on a Unicode digit in `munim_core/verify/values.py:45` (follow-up).
 - Bandit B108 on the `/tmp` default predates this change (from f2c6dda). GitNexus is not installed in this worktree, so impact/detect-changes could not run; `api/index.py` has no importers (text search).
 
+### 2026-10-13 Follow-ups closed: digit crash, lint drift, Windows checks
+- edad973 + f19da93: `munim_core.text.whole_number` reads PO credit days (VALUE-FORMAT) and the case settings `credit_days`/`notice_days`. Fixes a crash on "²", "3¹", "①" (`isdigit()` accepted, `int()` refused), and a 500 from the form on the same input and on long digit strings (20 nines overflowed SQLite; 4301 digits hit `int()`'s limit). Over nine digits now reads as unreadable. Any-script decimal digits ("३०") read as before.
+- domain-verifier on edad973: one medium (long digit strings, fixed in f19da93), two low (docstring promise, fixed by the same cap; commit wording about "३०" being new: that already worked). Golden numbers unchanged: `-k "golden or clock or due or interest"` 63 passed.
+- 9abba95: `ruff format` on three drifted files (two E501); `nosec B108` on the intended Vercel `/tmp`.
+- a97ec3b: `.secrets.baseline` exclude now matches Windows backslash paths (`eval.fixtures..*`); `check_secrets_baseline.py` exit 0 after a scan on Windows. The scan still rewrites result paths with backslashes there; do not commit that churn.
+- Worktree hygiene (no commit): 273 working files checked out before `.gitattributes` were re-checked out (`git ls-files --eol` w/crlf mismatches: 273 -> 0); `uv` 0.13.0 installed into `.venv`.
+- Evidence: `pytest tests -q -m "not e2e and not a11y and not live"`: 944 passed. `pytest -m "e2e or a11y" --browser chromium`: 10 passed. ruff check/format, mypy (65 files), lint-imports (3 kept), bandit, check_licences, check_repo_files, check_secrets_baseline, build_tokens --check, design_lint, check_contrast, check_fonts, check_i18n: all exit 0.
+- Open: running `pytest tests` with e2e and other tests in one process makes later async tests fail (`asyncio.run() cannot be called from a running event loop`, per domain-verifier); `make` runs them in separate invocations. GitNexus still not installed in this worktree.
+
 STATUS: READY FOR RELEASE (v0.1.0)
 

@@ -148,7 +148,7 @@ def handle_calculate_msmed_interest(arguments: dict[str, Any]) -> dict[str, Any]
 
         clock_in = ClockInput(
             acceptance_date=acc_dt,
-            agreement=agreement,  # type: ignore[arg-type]
+            agreement=agreement,
             credit_days=credit_days,
             principal_paise=principal,
             as_on=as_on_dt,

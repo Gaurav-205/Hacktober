@@ -36,6 +36,7 @@
       <div><dt>{{ t("tax.43b_title") }}</dt><dd class="num">{{ t("tax.43b_disallowed", fy=disallowance.financial_year) if disallowance.is_disallowed else t("tax.43b_at_risk", fy=disallowance.financial_year) }}</dd></div>
       <div><dt>{{ t("tax.43b_impact_25", amount=disallowance.estimated_tax_penalty_paise | inr) }}</dt><dd class="num">{{ disallowance.estimated_tax_penalty_paise | inr }}</dd></div>
       {% endif %}
+      {% endif %}
     </dl>
 
     {% if model.unresolved %}

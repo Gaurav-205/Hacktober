@@ -7,7 +7,7 @@ import re
 import pytest
 from playwright.sync_api import Page, expect
 
-from tests.e2e.conftest import DEMO, SCREENS
+from tests.e2e.conftest import DEMO
 
 pytestmark = pytest.mark.e2e
 
@@ -28,6 +28,9 @@ def add_and_read(page: Page, kind: str, label: str) -> None:
     expect(page.locator("#viewer-title")).to_have_text(label)
     page.get_by_role("button", name="Check this paper").click()
     expect(page.locator(".status-line")).to_have_text("Paper checked", timeout=20_000)
+    # The finished status line redirects to the refreshed workbench; wait for that page.
+    expect(page.locator(".claims-table")).to_be_visible()
+    page.wait_for_load_state("networkidle")
 
 
 def test_demo_journey_red_pen_and_confirm(page: Page, server: str) -> None:
@@ -42,8 +45,6 @@ def test_demo_journey_red_pen_and_confirm(page: Page, server: str) -> None:
     expect(row.locator(".hand")).to_have_text("27AAAPZ5678Z1Z1")
     expect(row.locator(".check-cell")).to_contain_text("Passed")
     expect(row).to_contain_text("The GSTIN checksum now passes.")
-    SCREENS.mkdir(parents=True, exist_ok=True)
-    page.screenshot(path=str(SCREENS / "workbench-1440-en.png"), full_page=True)
     add_and_read(page, "challan", "Delivery challan")
     add_and_read(page, "po", "Purchase order")
     page.get_by_label("Yes, in writing").check()
@@ -53,10 +54,8 @@ def test_demo_journey_red_pen_and_confirm(page: Page, server: str) -> None:
     expect(page.locator("[data-owed]")).to_have_text("₹5,40,976.71")
     page.get_by_role("button", name="Confirm these values").click()
     expect(page.locator("svg.stamp")).to_be_visible()
-    page.screenshot(path=str(SCREENS / "workbench-confirmed-1440-en.png"), full_page=True)
     page.get_by_role("link", name="Open evidence file").click()
     expect(page.locator(".dossier")).to_contain_text("CHECKED")
-    page.screenshot(path=str(SCREENS / "evidence-1440-en.png"))
     assert all(re.match(r"^http://127\.0\.0\.1:\d+/", url) for url in requests), requests
 
 

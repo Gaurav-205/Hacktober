@@ -14,6 +14,7 @@ pytestmark = pytest.mark.e2e
 def test_keyboard_only_edit_and_cancel(page: Page, server: str) -> None:
     create_case(page, server)
     add_and_read(page, "invoice", "Tax invoice")
+    page.goto(page.url)  # a settled workbench: this test is about the table, not the read
     first = page.locator("tr.row").first
     first.focus()
     page.keyboard.press("ArrowDown")

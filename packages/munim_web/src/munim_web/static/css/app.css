@@ -222,6 +222,8 @@ table.working td, table.working th { white-space: nowrap; }
 }
 @media (max-width: 899px) {
   .wb-grid { grid-template-columns: 1fr; }
+  /* On a phone a sticky strip with its notes would cover half the screen. */
+  .clock { position: static; }
   .claims { max-height: none; }
   .page, .workbench { padding: var(--space-4); }
 }
@@ -230,9 +232,12 @@ table.working td, table.working th { white-space: nowrap; }
   .claims-table tr, .claims-table th, .claims-table td { display: block; width: 100%; }
   .clock-strip > div:not(.clock-owed) { display: none; }
   .below { grid-template-columns: 1fr; }
-  .topbar { padding: var(--space-2) var(--space-4); }
+  .topbar { padding: var(--space-2) var(--space-4); gap: var(--space-2) var(--space-4); }
+  .nav { gap: 0 var(--space-4); }
+  .nav a { padding: var(--space-2) 0; }
 }
 
 /* A field no rule could check is not a verdict: plain muted text, no chip. */
 .verdict-skipped, .verdict-none { border: 0; background: transparent; color: var(--color-muted); padding: 0; min-height: 0; }
-.check-cell { width: 112px; }
+.check-cell { width: 1%; }
+.verdict { white-space: nowrap; }

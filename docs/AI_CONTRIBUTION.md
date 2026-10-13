@@ -4,7 +4,7 @@ Written in plain language for the Hack Day hosts, for contributors, and for anyo
 
 ## 1. What Munim's model does
 
-Munim uses **Gemma 4** (Google DeepMind; open weights; Apache 2.0 licence per the model card; **paste the exact licence link from the model card here at submission**, do not guess a URL) to look at a photograph of a business paper and write down the fields it can see, with a rectangle showing where each was found. Model used in the demo: **[gemma4:e4b via Ollama, version/digest ___]**. Hosted option: **[gemma-4-31b-it via the Gemini API]** (only if the user opts in).
+Munim uses **Gemma 4** (Google DeepMind; open weights; Apache 2.0 licence per the model card, recorded in `docs/AI_SPEC.md` section 1; the exact licence link is to be copied from the model card at submission, not guessed) to look at a photograph of a business paper and write down the fields it can see, with a rectangle showing where each was found. Default model: `gemma4:e4b` through Ollama. **No live read has been run yet**: Ollama was not available in the build environment, so every read so far used recorded responses on synthetic papers, and the app labels them "Recorded responses". Hosted option: `gemma-4-31b-it` through the Gemini API, only if the user opts in.
 
 The model is replaceable: anything that implements the `Provider` interface can be used. The recorded provider exists for tests and a fallback demo and is labelled in the UI.
 
@@ -18,7 +18,7 @@ Papers stay on the user's computer. The tool works without internet once the mod
 
 ## 4. How the model is measured
 
-`make eval` produces a report (see the Evaluation page and `docs/EVAL_REAL.md`). The most important number is "wrong and passed": how often the model's value is wrong and every automated check still accepts it. Numbers at submission time: **[fill from eval/reports/latest.json: n, field exact match, wrong-and-passed, repair outcomes, date, model]**. Synthetic results do not predict real-world performance; the real-paper section describes what was tried locally without publishing the papers.
+`make eval` produces a report (see the Evaluation page and `docs/EVAL_REAL.md`). The most important number is "wrong and passed": how often the model's value is wrong and every automated check still accepts it. There is no `eval/reports/latest.json` yet, so no model figure is claimed. The harness has been run on hand-built recordings for 30 synthetic papers (`eval/reports/replay.json`); those numbers test the checks, not the model. Synthetic results do not predict real-world performance; the real-paper section describes what was tried locally without publishing the papers.
 
 ## 5. AI coding assistance used to build the project
 
@@ -26,10 +26,9 @@ MLH requires disclosure of AI coding tools. Complete this table from the real hi
 
 | Tool | Used for | Parts of the repository touched | Human review |
 | --- | --- | --- | --- |
-| [Claude Code / model name] | [scaffolding, tests, templates...] | [paths] | [who reviewed; how] |
-| [other] | | | |
+| Claude Code (an Anthropic Claude model, named in each commit's `Co-Authored-By` trailer) | All application code, tests, scripts, fixtures generator, templates, styles, i18n strings, and the build log | `packages/`, `scripts/`, `eval/`, `tests/`, `rules/`, `.github/`, `Makefile`, `pyproject.toml` | Checked by the repository's own gates: tests (unit, property, integration, contract, golden, browser), linters, type checks, design and contrast lints, and Claude Code reviewer subagents. A human owner directed the work; a line-by-line human code review has not been done. |
 
-Every commit that includes material AI-generated code carries a trailer `Assisted-by: <tool>`. The planning documents in `docs/` and `DESIGN.md` were drafted with an AI assistant before the event, from research the team reviewed; they contain specifications, not application code. [Confirm this statement is true at submission, and describe exactly what existed before the event.]
+Every commit that includes material AI-generated code carries a trailer `Assisted-by: <tool>`. The planning documents in `docs/` and `DESIGN.md` were drafted with an AI assistant before the event, from research the team reviewed; they contain specifications, not application code. Confirmed: the planning pack (45 files, commit `f25d567`, listed in `docs/PROGRESS.md`) existed before the build. The build itself also started before the event kickoff, on 12 Oct 2026 at 18:24 UTC, with the owner's agreement, so none of this code is an event-day build.
 
 ## 6. Reused components (libraries, data, fonts)
 
@@ -52,5 +51,5 @@ Allowed by event rules (libraries and public datasets). Full list with licences 
 
 - Reading quality varies with photo quality and handwriting; some fields will need hand entry.
 - The legal rules were summarised from secondary sources; some are marked unverified in `docs/DOMAIN_RULES.md`.
-- The Hindi interface text and notice were drafted by an AI assistant and **[reviewed by ___ on ___ / not yet reviewed by a native speaker]**.
-- Munim has been tested on **[n]** synthetic papers and **[k]** real papers (not published).
+- The Hindi interface text and notice were drafted by an AI assistant and **not yet reviewed by a native speaker**.
+- Munim has been tested on 30 synthetic papers (plus 5 with injected faults) and **no real papers**.

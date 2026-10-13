@@ -2,7 +2,7 @@
 
     python -m munim_core.cli interest --principal 500000 --due 2025-12-31 \
         --as-on 2026-04-01 --rate 18
-    python -m munim_core.cli gstin 27AAPFU0939F1ZV
+    python -m munim_core.cli gstin <15-character GSTIN>
 
 `--rate` is the annual interest rate (three times the Bank Rate); `--bank-rate` gives the Bank
 Rate itself. Output is plain text for a developer, not the product's interface.

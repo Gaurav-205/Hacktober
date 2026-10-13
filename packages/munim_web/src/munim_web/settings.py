@@ -14,7 +14,9 @@ REPO_ROOT = Path(__file__).resolve().parents[4]
 class Settings(BaseSettings):
     """Munim's settings. Environment variables use the MUNIM_ prefix (GEMINI_API_KEY excepted)."""
 
-    model_config = SettingsConfigDict(env_prefix="MUNIM_", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_prefix="MUNIM_", extra="ignore", env_file=".env", env_file_encoding="utf-8"
+    )
 
     data_dir: Path = Path("data")
     host: str = "127.0.0.1"
@@ -22,7 +24,7 @@ class Settings(BaseSettings):
     # An explicitly set provider pins the reader; Settings then shows it locked (PLAN_REVIEW D12).
     provider: str | None = None
     ollama_url: str = "http://127.0.0.1:11434"
-    ollama_model: str = "gemma4:12b"
+    ollama_model: str = "gemma4:e4b"
     ollama_json_format: bool = False
     gemini_model: str = "gemma-4-31b-it"
     gemini_api_key: str | None = Field(default=None, validation_alias="GEMINI_API_KEY")

@@ -8,12 +8,14 @@ Rules (numbers as in DESIGN.md section 12; every message cites section 7):
    ``/* focus-ring */`` on the same line, or ``none``), text-shadow,
    backdrop-filter, drop-shadow()/blur() filters, and every *-gradient().
 3. border-radius above 6px, any percentage, and 9999px pills.
-4. text-transform: uppercase outside a ``.stamp`` selector; letter-spacing above
+4. text-transform: uppercase outside a ``.stamp`` selector (every selector of a list
+   must target ``.stamp``, and ``:not(.stamp)`` does not count); letter-spacing above
    0.02em.
 5. Emoji, arrows, the em dash and the middle dot used as a separator, in i18n
    values, template text and CSS strings.
 6. Font families other than the declared ones.
-7. Devanagari in a template line that has no ``lang="hi"``.
+7. Devanagari in template text or attributes outside an element whose nearest ``lang``
+   attribute is Hindi.
 8. IntersectionObserver, scroll-driven animations, and @keyframes that animate
    opacity together with translate (fade-and-slide entrances).
 9. Banned words in i18n values, template text and CSS strings.
@@ -164,7 +166,25 @@ JSON_STRING_RE = re.compile(r'"(?:[^"\\\n]|\\.)*"')
 JSON_KEY_TAIL_RE = re.compile(r"\s*:")
 
 DEVANAGARI_RE = re.compile("[\u0900-\u097f\ua8e0-\ua8ff]")
-LANG_HI_RE = re.compile(r"\blang\s*=\s*[\"']?hi\b", re.I)
+LANG_ATTR_RE = re.compile(r"(?<![\w:-])lang\s*=\s*[\"']?\s*([A-Za-z-]*)", re.I)
+ELEMENT_TAG_RE = re.compile(r"<(/?)([A-Za-z][\w:-]*)((?:[^<>\"']|\"[^\"]*\"|'[^']*')*)>")
+VOID_ELEMENTS = frozenset(
+    [
+        "area",
+        "base",
+        "br",
+        "col",
+        "embed",
+        "hr",
+        "img",
+        "input",
+        "link",
+        "meta",
+        "source",
+        "track",
+        "wbr",
+    ]
+)
 SEPARATOR_DOT_RE = re.compile("(?<=\\s)[\u00b7\u2022\u2027\u22c5](?=\\s)")
 BANNED_RE = re.compile(
     r"\b(ai[\s\-\u2010\u2011]*powered|magic(?:al|ally)?|seamless(?:ly)?|supercharg(?:e|es|ed|ing)"
@@ -455,6 +475,30 @@ def split_top_level(value: str) -> Iterator[tuple[int, str]]:
     yield start, value[start:]
 
 
+def without_not(selector: str) -> str:
+    """The selector with every ``:not(...)`` group removed (parentheses balanced)."""
+    out: list[str] = []
+    index = 0
+    while (start := selector.lower().find(":not(", index)) >= 0:
+        out.append(selector[index:start])
+        depth, cursor = 1, start + len(":not(")
+        while cursor < len(selector) and depth:
+            depth += {"(": 1, ")": -1}.get(selector[cursor], 0)
+            cursor += 1
+        index = cursor
+    out.append(selector[index:])
+    return "".join(out)
+
+
+def stamp_only(prelude: str) -> bool:
+    """True when every selector in the list targets .stamp (outside a :not())."""
+    if prelude.lstrip().startswith("@"):
+        return False
+    return all(
+        STAMP_SELECTOR_RE.search(without_not(selector)) for _, selector in split_top_level(prelude)
+    )
+
+
 def normalise_family(name: str) -> str:
     name = name.strip().removesuffix("!important").strip()
     if len(name) >= 2 and name[0] == name[-1] and name[0] in "\"'":
@@ -532,7 +576,7 @@ def check_decls(src: Source, decls: list[Decl], allow_hex: bool = False) -> None
         if (
             prop == "text-transform"
             and "uppercase" in lowered
-            and not any(STAMP_SELECTOR_RE.search(prelude) for prelude, _ in decl.scopes)
+            and not any(stamp_only(prelude) for prelude, _ in decl.scopes)
         ):
             src.add(decl.start, 4, "text-transform: uppercase is allowed only inside .stamp")
         if prop == "letter-spacing":
@@ -647,6 +691,38 @@ def visible_text(text: str) -> str:
     return TAG_RE.sub(keep_visible_attrs, text)
 
 
+def devanagari_outside_hindi(markup: str) -> Iterator[int]:
+    """Offsets of Devanagari (text or attribute values) not inside an element whose nearest
+    ``lang`` is Hindi. ``markup`` has comments, Jinja, styles and scripts blanked."""
+    markup = blank(markup, JINJA_RE)
+    stack: list[tuple[str, bool]] = []
+    position = 0
+    for match in ELEMENT_TAG_RE.finditer(markup):
+        hindi = stack[-1][1] if stack else False
+        text = DEVANAGARI_RE.search(markup, position, match.start())
+        if text and not hindi:
+            yield text.start()
+        closing, name, attrs = match.group(1), match.group(2).lower(), match.group(3)
+        if closing:
+            for depth in range(len(stack) - 1, -1, -1):
+                if stack[depth][0] == name:
+                    del stack[depth:]
+                    break
+        else:
+            lang = LANG_ATTR_RE.search(attrs)
+            own = lang.group(1).lower().startswith("hi") if lang else hindi
+            inside = DEVANAGARI_RE.search(attrs)
+            if inside and not own:
+                yield match.start(3) + inside.start()
+            if name not in VOID_ELEMENTS and not attrs.rstrip().endswith("/"):
+                stack.append((name, own))
+        position = match.end()
+    hindi = stack[-1][1] if stack else False
+    tail = DEVANAGARI_RE.search(markup, position)
+    if tail and not hindi:
+        yield tail.start()
+
+
 def lint_template(src: Source) -> None:
     text = blank(src.text, TEMPLATE_COMMENT_RE)
 
@@ -692,16 +768,13 @@ def lint_template(src: Source) -> None:
         elif decoded == "\u00b7" and text[match.start() - 1 : match.start()].isspace():
             src.add(match.start(), 5, f"middle dot {match.group()} used as a separator")
 
-    offset = 0
-    for line in text.split("\n"):
-        if DEVANAGARI_RE.search(line) and not LANG_HI_RE.search(line):
-            src.add(
-                offset,
-                7,
-                'Devanagari text on a line without lang="hi"; take Hindi from i18n or mark '
-                'the element lang="hi"',
-            )
-        offset += len(line) + 1
+    for index in devanagari_outside_hindi(markup):
+        src.add(
+            index,
+            7,
+            'Devanagari text outside an element with lang="hi"; take Hindi from i18n or mark '
+            'the element lang="hi"',
+        )
 
     for index, rule, message in word_problems(visible_text(text)):
         src.add(index, rule, message)

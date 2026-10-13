@@ -157,3 +157,57 @@ def test_code_message_key_missing_from_english_is_reported(tmp_path: Path) -> No
 def test_dynamic_code_keys_are_not_guessed(tmp_path: Path) -> None:
     result = run(tmp_path, GOOD_EN, GOOD_HI, code='Finding(message_key=f"rule.{rule_id}")\n')
     assert result.returncode == 0, result.stdout
+
+
+# ---------------------------------------------------------------- own errors: exit 2
+def run_dir(i18n: Path, *extra: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [sys.executable, str(SCRIPT), "--dir", str(i18n), *extra],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+def assert_tool_error(result: subprocess.CompletedProcess[str], *fragments: str) -> None:
+    """Exit 2 with one line on stderr naming the problem, and no findings on stdout."""
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert result.stdout == ""
+    lines = result.stderr.splitlines()
+    assert len(lines) == 1, result.stderr
+    assert lines[0].startswith("check_i18n: ")
+    for fragment in fragments:
+        assert fragment in lines[0]
+
+
+@pytest.mark.parametrize("name", ["en.json", "hi.json"])
+def test_string_file_that_is_not_utf8_is_a_tool_error(tmp_path: Path, name: str) -> None:
+    i18n = tmp_path / "i18n"
+    i18n.mkdir()
+    for good, data in (("en.json", GOOD_EN), ("hi.json", GOOD_HI)):
+        (i18n / good).write_text(json.dumps(data, ensure_ascii=False), "utf-8")
+    (i18n / name).write_bytes(b"\xff")
+
+    assert_tool_error(run_dir(i18n), name, "not valid UTF-8")
+
+
+def test_template_that_is_not_utf8_is_a_tool_error(tmp_path: Path) -> None:
+    i18n = tmp_path / "i18n"
+    i18n.mkdir()
+    (i18n / "en.json").write_text(json.dumps(GOOD_EN), "utf-8")
+    (i18n / "hi.json").write_text(json.dumps(GOOD_HI, ensure_ascii=False), "utf-8")
+    templates = tmp_path / "templates"
+    templates.mkdir()
+    (templates / "page.html").write_bytes(b"\xff")
+
+    result = run_dir(i18n, "--templates", str(templates), "--code", str(tmp_path / "none"))
+
+    assert_tool_error(result, "page.html", "not valid UTF-8")
+
+
+def test_string_file_that_cannot_be_read_is_a_tool_error(tmp_path: Path) -> None:
+    i18n = tmp_path / "i18n"
+    (i18n / "en.json").mkdir(parents=True)  # a directory where the file should be
+    (i18n / "hi.json").write_text(json.dumps(GOOD_HI, ensure_ascii=False), "utf-8")
+
+    assert_tool_error(run_dir(i18n), "en.json")

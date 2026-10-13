@@ -5,7 +5,8 @@ motion. This script turns its front matter into CSS custom properties so that no
 stylesheet ever carries a raw value. Run it after any change to DESIGN.md;
 ``--check`` fails when the committed tokens.css has drifted.
 
-Exit codes: 0 written or up to date, 1 out of date (``--check``), 2 bad input.
+Exit codes: 0 written or up to date, 1 out of date (``--check``), 2 bad input (unreadable or
+not UTF-8 input, or a front matter of the wrong shape).
 """
 
 from __future__ import annotations
@@ -42,12 +43,19 @@ class DesignError(Exception):
     """DESIGN.md is missing, unreadable or does not have the expected shape."""
 
 
+def not_utf8(exc: UnicodeDecodeError) -> str:
+    """One-line reason for a file that is not UTF-8."""
+    return f"not valid UTF-8 (byte {exc.start}: {exc.reason})"
+
+
 def read_front_matter(design: Path) -> dict[str, Any]:
     """Return the parsed YAML between the first two ``---`` lines of ``design``."""
     try:
         text = design.read_text(encoding="utf-8")
     except OSError as exc:
         raise DesignError(f"cannot read {design}: {exc.strerror or exc}") from exc
+    except UnicodeDecodeError as exc:
+        raise DesignError(f"cannot read {design}: {not_utf8(exc)}") from exc
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise DesignError(f"{design}: the first line must be '---' (YAML front matter)")
@@ -180,6 +188,9 @@ def main(argv: list[str] | None = None) -> int:
             current = None
         except OSError as exc:
             print(f"build_tokens: error: cannot read {out}: {exc}", file=sys.stderr)
+            return 2
+        except UnicodeDecodeError as exc:
+            print(f"build_tokens: error: cannot read {out}: {not_utf8(exc)}", file=sys.stderr)
             return 2
         if current != css:
             state = "is missing" if current is None else "is out of date with DESIGN.md"

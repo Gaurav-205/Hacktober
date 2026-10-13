@@ -243,6 +243,34 @@ def test_uppercase_in_a_class_that_only_starts_with_stamp_fails(lint: Lint, sele
     assert result.findings == [("static/css/app.css", 2, 4)]
 
 
+@pytest.mark.parametrize(
+    "selector",
+    [".stamp, .label", ".label,\n.stamp", ":not(.stamp)", ".row:not(.stamp) .cell"],
+    ids=["list-stamp-first", "list-stamp-last", "not-stamp", "not-stamp-descendant"],
+)
+def test_uppercase_reaching_beyond_the_stamp_fails(lint: Lint, selector: str) -> None:
+    result = lint("static/css/app.css", css_rule("text-transform: uppercase;", selector=selector))
+
+    assert result.code == 1
+    assert [rule for _, _, rule in result.findings] == [4]
+
+
+@pytest.mark.parametrize(
+    "selector",
+    [".stamp, .dossier .stamp", ".stamp:not(.draft)", ".stamp text, .stamp tspan"],
+)
+def test_uppercase_in_a_selector_list_that_is_all_stamp_passes(lint: Lint, selector: str) -> None:
+    assert_clean(
+        lint("static/css/app.css", css_rule("text-transform: uppercase;", selector=selector))
+    )
+
+
+def test_uppercase_nested_inside_a_stamp_rule_passes(lint: Lint) -> None:
+    css = ".stamp {\n  & .word {\n    text-transform: uppercase;\n  }\n}\n"
+
+    assert_clean(lint("static/css/app.css", css))
+
+
 @pytest.mark.parametrize("value", ["0.02em", "-0.01em", "0", "normal", "0.3px"])
 def test_letter_spacing_up_to_two_hundredths_em_passes(lint: Lint, value: str) -> None:
     assert_clean(lint("static/css/app.css", css_rule(f"letter-spacing: {value};")))
@@ -360,7 +388,48 @@ def test_devanagari_without_lang_hi_fails(lint: Lint) -> None:
 
     assert result.code == 1
     assert result.findings == [("templates/about.html", 2, 7)]
-    assert 'Devanagari text on a line without lang="hi"' in result.messages[0]
+    assert 'Devanagari text outside an element with lang="hi"' in result.messages[0]
+
+
+def test_devanagari_inside_a_multi_line_lang_hi_element_passes(lint: Lint) -> None:
+    template = '<section lang="hi">\n  <h2>\n    मुनीम\n  </h2>\n</section>\n'
+
+    assert_clean(lint("templates/about.html", template))
+
+
+def test_devanagari_after_the_lang_hi_element_closes_fails(lint: Lint) -> None:
+    template = '<p lang="hi">मुनीम</p><p>मुनीम</p>\n'
+
+    result = lint("templates/about.html", template)
+
+    assert result.code == 1
+    assert result.findings == [("templates/about.html", 1, 7)]
+
+
+def test_devanagari_in_a_lang_en_child_of_a_lang_hi_parent_fails(lint: Lint) -> None:
+    template = '<div lang="hi">\n  <p lang="en">\n    मुनीम\n  </p>\n</div>\n'
+
+    result = lint("templates/about.html", template)
+
+    assert result.code == 1
+    assert result.findings == [("templates/about.html", 3, 7)]
+
+
+def test_devanagari_in_an_attribute_follows_its_own_element_lang(lint: Lint) -> None:
+    good = '<img lang="hi" alt="मुनीम" src="x.png">\n'
+    bad = '<img alt="मुनीम" src="x.png">\n'
+
+    assert_clean(lint("templates/good.html", good))
+    result = lint("templates/bad.html", bad)
+    assert result.findings == [("templates/bad.html", 1, 7)]
+
+
+def test_void_elements_do_not_hold_lang_open(lint: Lint) -> None:
+    template = '<div>\n  <input lang="hi" name="x">\n  <p>मुनीम</p>\n</div>\n'
+
+    result = lint("templates/about.html", template)
+
+    assert result.findings == [("templates/about.html", 3, 7)]
 
 
 # ------------------------------------------------------------------ rule 8: entrance motion

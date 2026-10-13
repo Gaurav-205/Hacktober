@@ -10,7 +10,7 @@ en.json and hi.json are flat objects mapping dotted keys to strings. Checks:
   g  every literal key used in Python as message_key=, note_key=, basis_key=, *_key params or
      t("key") exists
 
-Exit 0 when clean, 1 with findings, 2 when a file cannot be read.
+Exit 0 when clean, 1 with findings, 2 when a file cannot be read or is not UTF-8.
 """
 
 from __future__ import annotations
@@ -103,13 +103,25 @@ class Report:
         self.findings.append(f"{path}:{line}: {check}: {message}")
 
 
+class InputError(Exception):
+    """A file exists but cannot be decoded, so nothing about it can be checked."""
+
+
+def read_utf8(path: Path) -> str:
+    """Return the file's text; raise InputError (naming the file) when it is not UTF-8."""
+    try:
+        return path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        raise InputError(f"{path}: not valid UTF-8 (byte {exc.start}: {exc.reason})") from exc
+
+
 def line_of(raw: str, key: str) -> int:
     index = raw.find(json.dumps(key, ensure_ascii=False))
     return raw.count("\n", 0, index) + 1 if index >= 0 else 0
 
 
 def load(path: Path, report: Report) -> tuple[dict[str, str], str] | None:
-    raw = path.read_text(encoding="utf-8")
+    raw = read_utf8(path)
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
@@ -173,7 +185,7 @@ def check_pair(
 def used_keys(files: Iterable[Path], pattern: re.Pattern[str]) -> list[tuple[Path, int, str]]:
     found: list[tuple[Path, int, str]] = []
     for path in files:
-        for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        for number, line in enumerate(read_utf8(path).splitlines(), start=1):
             for match in pattern.finditer(line):
                 found.append((path, number, match.group(2)))
     return found
@@ -216,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
             for path, line, key in used_keys(code, CODE_KEY):
                 if key not in en:
                     report.add(path, line, "g", f"{key}: used in code but not in en.json")
-    except OSError as exc:
+    except (OSError, InputError) as exc:
         print(f"check_i18n: {exc}", file=sys.stderr)
         return 2
     for finding in report.findings:

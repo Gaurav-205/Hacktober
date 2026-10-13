@@ -13,7 +13,8 @@ A pair fails when its computed ratio is below the threshold (3.0 for
 ``hairline-strong``, a UI edge; 4.5 for text) or when a claimed ratio in the
 document differs from the computed one by more than 0.1.
 
-Exit codes: 0 all pairs pass, 1 a pair or the table failed, 2 bad input.
+Exit codes: 0 all pairs pass, 1 a pair or the table failed, 2 bad input (unreadable,
+not UTF-8 or not in the expected shape).
 """
 
 from __future__ import annotations
@@ -98,6 +99,10 @@ def read_design(design: Path) -> tuple[dict[str, Any], list[str]]:
         text = design.read_text(encoding="utf-8")
     except OSError as exc:
         raise DesignError(f"cannot read {design}: {exc.strerror or exc}") from exc
+    except UnicodeDecodeError as exc:
+        raise DesignError(
+            f"cannot read {design}: not valid UTF-8 (byte {exc.start}: {exc.reason})"
+        ) from exc
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise DesignError(f"{design}: the first line must be '---' (YAML front matter)")

@@ -234,6 +234,40 @@ def test_missing_design_file_is_an_error(tmp_path: Path) -> None:
     assert "nope.md" in result.stderr
 
 
+def assert_one_line_error(stderr: str, *fragments: str) -> None:
+    lines = stderr.splitlines()
+    assert len(lines) == 1, stderr
+    assert lines[0].startswith("build_tokens: error: cannot read")
+    for fragment in fragments:
+        assert fragment in lines[0]
+
+
+def test_design_file_that_is_not_utf8_is_an_error_and_writes_nothing(tmp_path: Path) -> None:
+    design = tmp_path / "DESIGN.md"
+    design.write_bytes(b"\xff")
+    out = tmp_path / "tokens.css"
+
+    result = run_script("build_tokens", "--design", design, "--out", out)
+
+    assert result.returncode == 2
+    assert result.stdout == ""
+    assert_one_line_error(result.stderr, "DESIGN.md", "not valid UTF-8")
+    assert not out.exists()
+
+
+def test_check_against_output_that_is_not_utf8_is_an_error(tmp_path: Path) -> None:
+    design = write_design(tmp_path)
+    out = tmp_path / "tokens.css"
+    out.write_bytes(b"\xff")
+
+    result = run_script("build_tokens", "--design", design, "--out", out, "--check")
+
+    assert result.returncode == 2
+    assert result.stdout == ""
+    assert_one_line_error(result.stderr, "tokens.css", "not valid UTF-8")
+    assert out.read_bytes() == b"\xff"
+
+
 def test_committed_tokens_css_is_up_to_date_with_design_md() -> None:
     result = run_script("build_tokens", "--check")
 

@@ -6,7 +6,8 @@ Checks, in the current environment:
 - L2 every direct dependency declared in the workspace is mentioned in THIRD_PARTY.md;
 - L3 every self-hosted font and vendored script has its licence file next to it.
 
-Exit 0 when clean, 1 with problems, 2 when a manifest cannot be read.
+Exit 0 when clean, 1 with problems, 2 when a manifest or THIRD_PARTY.md cannot be read, is
+not UTF-8 or is not valid TOML.
 """
 
 from __future__ import annotations
@@ -187,12 +188,29 @@ def requirement_name(requirement: str) -> str:
     return normalise_name(match.group(0)) if match else ""
 
 
+class InputError(Exception):
+    """A manifest or THIRD_PARTY.md cannot be read, decoded or parsed."""
+
+
+def read_utf8(path: Path) -> str:
+    """Return the file's text; raise InputError naming the file when it is unreadable."""
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise InputError(f"cannot read {path}: {exc.strerror or exc}") from exc
+    except UnicodeDecodeError as exc:
+        raise InputError(f"{path}: not valid UTF-8 (byte {exc.start}: {exc.reason})") from exc
+
+
 def declared_dependencies(root: Path) -> set[str]:
     """Return the direct dependencies declared in the workspace manifests."""
     names: set[str] = set()
     manifests = [root / "pyproject.toml", *sorted(root.glob("packages/*/pyproject.toml"))]
     for manifest in manifests:
-        data = tomllib.loads(manifest.read_text(encoding="utf-8"))
+        try:
+            data = tomllib.loads(read_utf8(manifest))
+        except tomllib.TOMLDecodeError as exc:
+            raise InputError(f"{manifest}: not valid TOML ({exc})") from exc
         project = data.get("project", {})
         requirements: list[str] = list(project.get("dependencies", []))
         for extra in project.get("optional-dependencies", {}).values():
@@ -231,7 +249,7 @@ def run(root: Path, third_party: Path, dists: Sequence[Distribution], verbose: b
         for dist in sorted(dists, key=lambda d: normalise_name(d.name)):
             ids, source = licence_ids(dist)
             print(f"{normalise_name(dist.name):32} {', '.join(sorted(ids)) or '-':28} {source}")
-    third_party_text = third_party.read_text(encoding="utf-8")
+    third_party_text = read_utf8(third_party)
     problems += [
         f"L2: {name}: declared dependency has no row in {third_party.name}"
         for name in missing_from_third_party(declared_dependencies(root), third_party_text)
@@ -250,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         dists = installed_distributions()
         problems = run(args.root, third_party, dists, args.verbose)
-    except (OSError, tomllib.TOMLDecodeError) as exc:
+    except (OSError, InputError) as exc:
         print(f"check_licences: {exc}", file=sys.stderr)
         return 2
     for problem in problems:

@@ -220,7 +220,14 @@ def test_g3_applies_after_resolving_symlinks(run_hook: RunHook, project: Path) -
 SECRETS = {
     "google-api-key": "AIza" + "x" * 35,
     "private-key": "-----BEGIN RSA PRIVATE" + " KEY-----",
+    "private-key-pkcs8": "-----BEGIN PRIVATE" + " KEY-----",
+    "private-key-openssh": "-----BEGIN OPENSSH PRIVATE" + " KEY-----",
     "github-token": "ghp_" + "x" * 36,
+    "github-oauth": "gho_" + "x" * 36,
+    "github-user-to-server": "ghu_" + "x" * 36,
+    "github-server-to-server": "ghs_" + "x" * 36,
+    "github-refresh": "ghr_" + "x" * 36,
+    "github-fine-grained": "github" + "_pat_" + "x" * 82,
     "sk-key": "sk-" + "x" * 24,
 }
 
@@ -250,6 +257,8 @@ def test_g4_blocks_secret_in_edit_and_reports_its_line(run_hook: RunHook, projec
     [
         "AIza" + "x" * 34,
         "ghp_" + "x" * 35,
+        "ghx_" + "x" * 36,
+        "github" + "_pat_" + "x" * 20,
         "sk-" + "x" * 19,
         "-----BEGIN PUBLIC KEY-----",
         "GEMINI_API_KEY=<GEMINI_API_KEY>",

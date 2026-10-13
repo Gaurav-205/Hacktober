@@ -3,7 +3,9 @@
 Blocks, for the given files (pre-commit passes staged files) or for every tracked file:
 - R1 files larger than 2 MB;
 - R2 images or PDFs outside eval/fixtures/ and docs/screens/;
-- R3 strings shaped like a GSTIN outside eval/fixtures/, tests/, docs/ and .claude/.
+- R3 strings shaped like a GSTIN, in any letter case, outside eval/fixtures/, tests/, docs/
+  and .claude/. Every file up to 2 MB is scanned whatever its suffix, except binary files
+  (a NUL byte in the first 8 KB, the test git itself uses).
 
 Exit 0 when clean, 1 with findings, 2 when git or a file cannot be read.
 """
@@ -34,25 +36,8 @@ IMAGE_SUFFIXES = {
 IMAGE_DIRS = ("eval/fixtures/", "docs/screens/")
 # .claude/ holds the pre-event reviewer briefs, which quote the published stdnum test vectors.
 GSTIN_DIRS = ("eval/fixtures/", "tests/", "docs/", ".claude/")
-GSTIN_RE = re.compile(r"\b\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b")
-TEXT_SUFFIXES = {
-    ".py",
-    ".md",
-    ".txt",
-    ".json",
-    ".yaml",
-    ".yml",
-    ".toml",
-    ".html",
-    ".j2",
-    ".css",
-    ".js",
-    ".sql",
-    ".cfg",
-    ".ini",
-    ".sh",
-    "",
-}
+GSTIN_RE = re.compile(r"\b\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b", re.IGNORECASE)
+BINARY_SNIFF_BYTES = 8 * 1024
 
 
 def tracked_files(root: Path) -> list[str]:
@@ -76,8 +61,11 @@ def check_file(rel: str, root: Path) -> list[str]:
         problems.append(
             f"{rel}:0: R2: images and PDFs belong only in eval/fixtures/ or docs/screens/"
         )
-    if suffix in TEXT_SUFFIXES and not rel.startswith(GSTIN_DIRS) and size <= MAX_BYTES:
-        text = path.read_text(encoding="utf-8", errors="replace")
+    if not rel.startswith(GSTIN_DIRS) and size <= MAX_BYTES:
+        data = path.read_bytes()
+        if b"\0" in data[:BINARY_SNIFF_BYTES]:
+            return problems  # binary: R1 and R2 cover it
+        text = data.decode("utf-8", errors="replace")
         for number, line in enumerate(text.splitlines(), start=1):
             if GSTIN_RE.search(line):
                 problems.append(

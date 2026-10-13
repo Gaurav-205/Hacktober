@@ -68,6 +68,7 @@ SECRET_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("a Google API key", re.compile(r"AIza[0-9A-Za-z_\-]{35}")),
     ("a private key block", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
     ("a GitHub token", re.compile(r"gh[pousr]_[0-9A-Za-z]{36}")),
+    ("a GitHub fine-grained token", re.compile(r"github_pat_[0-9A-Za-z_]{60,}")),
     ("an API secret key", re.compile(r"sk-[A-Za-z0-9_\-]{20,}")),
 )
 

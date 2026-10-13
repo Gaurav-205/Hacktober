@@ -190,8 +190,11 @@ details input, details textarea { margin-bottom: var(--space-2); background: var
 .clock-owed { margin-left: auto; }
 .display-amount { font-size: var(--type-display-amount-size); line-height: var(--type-display-amount-line); font-weight: var(--type-display-amount-weight); letter-spacing: var(--type-display-amount-tracking); font-variant-numeric: tabular-nums lining-nums; }
 .display { font-size: var(--type-display-size); line-height: var(--type-display-line); font-weight: var(--type-display-weight); letter-spacing: var(--type-display-tracking); }
-.verdict-hero { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
-.verdict-hero-word { font-size: var(--type-display-size); line-height: var(--type-display-line); font-weight: var(--type-display-weight); letter-spacing: var(--type-display-tracking); }
+.verdict-hero { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.verdict-hero-word { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--type-display-size); line-height: var(--type-display-line); font-weight: var(--type-display-weight); letter-spacing: var(--type-display-tracking); }
+.verdict-hero-failed .verdict-hero-word { color: var(--color-red-pen); }
+.verdict-hero-passed .verdict-hero-word { color: var(--color-tick); }
+.verdict-hero-none .verdict-hero-word { color: var(--color-muted); }
 .clock-notes { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-3) 0 0; font-size: var(--type-body-sm-size); }
 .below { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: var(--space-4); margin-top: var(--space-4); }
 

@@ -140,6 +140,16 @@ def test_demo_journey_confirms_and_shows_the_amount_owed(web: Web) -> None:
     assert "making ₹5,40,976.71 due" in notice
 
 
+def test_workbench_hero_names_the_worst_row_state(web: Web) -> None:
+    case_id, _ = demo_case(web)
+    page = web.client.get(f"/cases/{case_id}").text
+    hero = re.search(r'class="verdict-hero verdict-hero-(\w+)"', page)
+    assert hero is not None, "the workbench has no verdict hero"
+    statuses = set(re.findall(r'class="row row-(\w+)', page))
+    worst = next((s for s in ("failed", "review", "passed") if s in statuses), "none")
+    assert hero.group(1) == worst
+
+
 def test_editing_a_value_undoes_the_confirmation(web: Web) -> None:
     case_id, papers = demo_case(web)
     web.post(

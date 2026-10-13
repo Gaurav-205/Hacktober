@@ -203,3 +203,23 @@ def test_quality_flags_a_blurred_photo() -> None:
     q = imageprep.quality(imageprep.prepare(image_bytes(blurred)).jpeg)
     assert q.blurred is True
     assert q.sharpness < imageprep.BLUR_EDGE_MEAN
+
+
+def test_quality_flags_glare() -> None:
+    # A photo page (~180-190 brightness) with a blown-out flash glare hotspot
+    photo = page().point(lambda v: int(v * 0.75))
+    draw = ImageDraw.Draw(photo)
+    draw.rectangle([100, 100, 350, 350], fill="white")
+    q = imageprep.quality(imageprep.prepare(image_bytes(photo)).jpeg)
+    assert q.glare is True
+    assert "paper.err.glare" in q.guidance_keys
+
+
+def test_quality_flags_corner_fold() -> None:
+    fold_img = page()
+    draw = ImageDraw.Draw(fold_img)
+    # Darken top-left corner (folded over dark shadow)
+    draw.polygon([(0, 0), (60, 0), (0, 60)], fill="black")
+    q = imageprep.quality(imageprep.prepare(image_bytes(fold_img)).jpeg)
+    assert q.corner_fold is True
+    assert "paper.err.corner_fold" in q.guidance_keys

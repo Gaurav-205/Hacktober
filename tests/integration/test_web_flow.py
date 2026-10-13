@@ -174,6 +174,25 @@ def test_editing_a_value_undoes_the_confirmation(web: Web) -> None:
     )
 
 
+def test_samadhaan_and_discrepancy_and_43b_pages(web: Web) -> None:
+    case_id, papers = demo_case(web)
+    # Check Samadhaan page loads
+    r_samadhaan = web.client.get(f"/cases/{case_id}/samadhaan")
+    assert r_samadhaan.status_code == 200
+    assert "MSME Samadhaan" in r_samadhaan.text
+
+    # Check Samadhaan CSV download
+    r_csv = web.client.get(f"/cases/{case_id}/samadhaan/csv")
+    assert r_csv.status_code == 200
+    assert "text/csv" in r_csv.headers["content-type"]
+    assert "Portal Field" in r_csv.text
+
+    # Check Discrepancy Heatmap page loads
+    r_disc = web.client.get(f"/cases/{case_id}/discrepancies")
+    assert r_disc.status_code == 200
+    assert "Discrepancy" in r_disc.text
+
+
 def test_non_default_case_settings_flow(web: Web) -> None:
     case_id, _ = demo_case(web)
     r = web.post(
@@ -212,3 +231,4 @@ def test_non_default_case_settings_flow(web: Web) -> None:
     notice_hi = web.client.get(f"/cases/{case_id}/notice?lang=hi").text
     assert "यह मामला मध्यम उद्यम के रूप में चिह्नित है, इसलिए ब्याज की मांग नहीं की गई है।" in notice_hi
     assert "24 अप्रैल 2026" in notice_hi
+>>>>>>> origin/main

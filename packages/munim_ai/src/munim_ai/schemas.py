@@ -154,6 +154,7 @@ class ChallanRead(_PaperRead):
     invoice_reference: OptField = None
     po_reference: OptField = None
     receiver_stamp_present: OptField = None
+    receiver_stamp_text: OptField = None
     receiver_signature_present: OptField = None
     received_date: OptField = None
     vehicle_number: OptField = None

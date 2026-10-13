@@ -108,7 +108,7 @@
       </tr></thead>
       <tbody>
       {% for r in rows %}
-        <tr id="row-{{ r.id }}" class="row row-{{ r.status }}{% if r.animate %} redpen-animate{% endif %}" data-claim="{{ r.id }}" tabindex="-1">
+        <tr id="row-{{ r.id }}" class="row row-{{ r.status }}{% if r.animate %} redpen-animate{% endif %}" data-claim="{{ r.id }}" tabindex="{{ 0 if loop.first else -1 }}">
           <th scope="row">{{ r.label }}</th>
           <td class="value-cell">
             {% if r.corrected %}

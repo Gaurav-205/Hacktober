@@ -26,12 +26,8 @@ def free_port() -> int:
         return int(s.getsockname()[1])
 
 
-@pytest.fixture
-def server(tmp_path: Path) -> Iterator[str]:
-    port = free_port()
-    settings = Settings(
-        data_dir=tmp_path, port=port, provider="replay", replay_dir=ROOT / "eval/fixtures/replay"
-    )
+def serve(settings: Settings) -> Iterator[str]:
+    port = settings.port
     config = uvicorn.Config(create_app(settings), host="127.0.0.1", port=port, log_level="warning")
     srv = uvicorn.Server(config)
     thread = threading.Thread(target=srv.run, daemon=True)
@@ -46,3 +42,28 @@ def server(tmp_path: Path) -> Iterator[str]:
     yield url
     srv.should_exit = True
     thread.join(timeout=5)
+
+
+@pytest.fixture
+def server(tmp_path: Path) -> Iterator[str]:
+    yield from serve(
+        Settings(
+            data_dir=tmp_path,
+            port=free_port(),
+            provider="replay",
+            replay_dir=ROOT / "eval/fixtures/replay",
+        )
+    )
+
+
+@pytest.fixture
+def server_without_ollama(tmp_path: Path) -> Iterator[str]:
+    """The local reader pointed at a loopback port where nothing listens."""
+    yield from serve(
+        Settings(
+            data_dir=tmp_path,
+            port=free_port(),
+            provider="ollama",
+            ollama_url=f"http://127.0.0.1:{free_port()}",
+        )
+    )

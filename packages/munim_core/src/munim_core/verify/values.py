@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from munim_core.text import whole_number
 from munim_core.verify.common import (
     amount,
     finding,
@@ -40,12 +41,7 @@ FIELD_KINDS: dict[str, tuple[tuple[str, Reader, str, Severity], ...]] = {
     "po": (
         ("po_date", parsed_date, "date", Severity.WARNING),
         ("delivery_date", parsed_date, "date", Severity.WARNING),
-        (
-            "credit_days",
-            lambda t: int(t) if t and t.strip().isdigit() else None,
-            "number",
-            Severity.WARNING,
-        ),
+        ("credit_days", whole_number, "number", Severity.WARNING),
     ),
 }
 LINE_KINDS: dict[str, tuple[tuple[str, Reader, str, Severity], ...]] = {

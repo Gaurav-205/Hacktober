@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unicodedata
 
-__all__ = ["to_ascii_digits"]
+__all__ = ["to_ascii_digits", "whole_number"]
 
 
 def to_ascii_digits(text: str) -> str:
@@ -20,3 +20,17 @@ def to_ascii_digits(text: str) -> str:
         else:
             out.append(char)
     return "".join(out)
+
+
+def whole_number(text: str | None) -> int | None:
+    """Read a whole number of days or similar, in any script's decimal digits; else None.
+
+    ``str.isdigit()`` also accepts superscripts and circled numbers ("²", "①") that ``int()``
+    rejects, so only ASCII digits after ``to_ascii_digits`` count.
+    """
+    if text is None:
+        return None
+    digits = to_ascii_digits(text.strip())
+    if not digits or not (digits.isascii() and digits.isdecimal()):
+        return None
+    return int(digits)

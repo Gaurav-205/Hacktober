@@ -1,0 +1,192 @@
+{
+ "id": "case-05-challan",
+ "kind": "challan",
+ "case": "case-05",
+ "synthetic": true,
+ "image": "papers/case-05-challan.jpg",
+ "sha256": "3f5b6c2a8fd34b5b0b81380b9a07ddc14336a842307df167c8b36c521e856fda",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    104,
+    169,
+    133,
+    387
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2185Z1Z9",
+   "box": [
+    131,
+    174,
+    152,
+    358
+   ]
+  },
+  "challan_number": {
+   "value": "DC-4568",
+   "box": [
+    139,
+    729,
+    154,
+    814
+   ]
+  },
+  "challan_date": {
+   "value": "21/04/2026",
+   "box": [
+    158,
+    672,
+    179,
+    787
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    173,
+    136,
+    200,
+    324
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6205Z1ZG",
+   "box": [
+    202,
+    166,
+    223,
+    356
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0858",
+   "box": [
+    207,
+    680,
+    225,
+    822
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    232,
+    685,
+    251,
+    834
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    463,
+    617,
+    566,
+    915
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    557,
+    612,
+    605,
+    904
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     276,
+     90,
+     301,
+     275
+    ]
+   },
+   "quantity": {
+    "value": "460",
+    "box": [
+     303,
+     533,
+     314,
+     569
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     314,
+     688,
+     323,
+     720
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     301,
+     87,
+     325,
+     265
+    ]
+   },
+   "quantity": {
+    "value": "290",
+    "box": [
+     328,
+     530,
+     339,
+     565
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     339,
+     685,
+     348,
+     704
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     326,
+     84,
+     349,
+     247
+    ]
+   },
+   "quantity": {
+    "value": "477",
+    "box": [
+     353,
+     527,
+     365,
+     559
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     361,
+     682,
+     376,
+     705
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

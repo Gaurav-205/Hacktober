@@ -295,3 +295,23 @@ def test_invoice_date_between_gst_start_and_today(printed: str, status: Status) 
 def test_invoice_date_sane_reports_the_date_it_read() -> None:
     result = only(run_invoice(invoice_date="14/10/2026"), "INV-DATE-SANE")[0]
     assert result.params == {"printed": "14/10/2026", "read_date": date(2026, 10, 14).isoformat()}
+
+
+def test_runaway_value_on_any_field_needs_review() -> None:
+    from munim_core.verify.models import CaseState, ClaimValue, PaperState
+    from tests.unit.verify_helpers import paper
+
+    base = paper("challan", {"challan_number": "DC-1", "challan_date": "20/03/2026"})
+    fields = {
+        **base.fields,
+        "buyer_name": ClaimValue(raw=None, text=None, source="model", flag="runaway"),
+    }
+    state = CaseState(papers={"challan": PaperState("challan", fields, base.lines)})
+    flagged = only(run_all(state, TODAY), "VALUE-FORMAT", "buyer_name")
+    assert len(flagged) == 1
+    assert (flagged[0].status, flagged[0].severity, flagged[0].message_key) == (
+        Status.NEEDS_REVIEW,
+        Severity.WARNING,
+        "rule.VALUE-FORMAT.runaway",
+    )
+    assert flagged[0].fields == (FieldRef("challan", "buyer_name"),)

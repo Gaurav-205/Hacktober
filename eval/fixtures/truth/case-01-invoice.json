@@ -1,0 +1,325 @@
+{
+ "id": "case-01-invoice",
+ "kind": "invoice",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/case-01-invoice.jpg",
+ "sha256": "29a3cc6aa3be00788feea12b929dc65ec0f4d62b1cf511fb69030c22a8c3897e",
+ "fields": {
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    132,
+    102,
+    168,
+    376
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2037Z1ZI",
+   "box": [
+    167,
+    86,
+    190,
+    267
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/511",
+   "box": [
+    104,
+    629,
+    127,
+    763
+   ]
+  },
+  "invoice_date": {
+   "value": "23/05/2026",
+   "box": [
+    134,
+    583,
+    156,
+    698
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    210,
+    89,
+    239,
+    277
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    237,
+    96,
+    260,
+    282
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    258,
+    177,
+    279,
+    311
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0332",
+   "box": [
+    178,
+    603,
+    198,
+    743
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-8402",
+   "box": [
+    205,
+    646,
+    221,
+    732
+   ]
+  },
+  "taxable_total": {
+   "value": "19,31,280.00",
+   "box": [
+    388,
+    673,
+    410,
+    797
+   ]
+  },
+  "cgst": {
+   "value": "1,73,815.20",
+   "box": [
+    417,
+    662,
+    437,
+    769
+   ]
+  },
+  "sgst": {
+   "value": "1,73,815.20",
+   "box": [
+    443,
+    666,
+    464,
+    773
+   ]
+  },
+  "round_off": {
+   "value": "-0.40",
+   "box": [
+    475,
+    652,
+    489,
+    706
+   ]
+  },
+  "invoice_total": {
+   "value": "22,78,910.00",
+   "box": [
+    504,
+    615,
+    526,
+    739
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    895,
+    221,
+    915,
+    356
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     339,
+     43,
+     361,
+     174
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     325,
+     341,
+     337,
+     384
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     318,
+     441,
+     330,
+     474
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     311,
+     540,
+     326,
+     563
+    ]
+   },
+   "rate": {
+    "value": "2,474.00",
+    "box": [
+     302,
+     629,
+     320,
+     706
+    ]
+   },
+   "amount": {
+    "value": "10,53,924.00",
+    "box": [
+     289,
+     773,
+     310,
+     884
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     361,
+     46,
+     386,
+     224
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     350,
+     345,
+     363,
+     391
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     343,
+     445,
+     355,
+     479
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     340,
+     544,
+     348,
+     563
+    ]
+   },
+   "rate": {
+    "value": "1,010.00",
+    "box": [
+     327,
+     632,
+     345,
+     707
+    ]
+   },
+   "amount": {
+    "value": "8,57,490.00",
+    "box": [
+     315,
+     776,
+     335,
+     880
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     387,
+     50,
+     411,
+     213
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     375,
+     349,
+     388,
+     390
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     369,
+     448,
+     380,
+     467
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     361,
+     547,
+     376,
+     570
+    ]
+   },
+   "rate": {
+    "value": "946.00",
+    "box": [
+     353,
+     636,
+     367,
+     699
+    ]
+   },
+   "amount": {
+    "value": "19,866.00",
+    "box": [
+     341,
+     780,
+     360,
+     866
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "supplier_gstin",
+   "index": null,
+   "printed": "29AAAPZ2037Z1ZI",
+   "read": "29AAAPZ2037Z1Z1"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

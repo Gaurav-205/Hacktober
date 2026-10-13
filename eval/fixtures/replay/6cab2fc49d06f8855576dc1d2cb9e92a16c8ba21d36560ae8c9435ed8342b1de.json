@@ -1,0 +1,9 @@
+{
+  "key": "504c79355976cd28552c314a73e98d3ec3975d58a473e0a55b69a8ee4897e589:invoice:1:r0:a1:bank_ifsc:873,143,887,277",
+  "text": "{\"value\": \"SBIN0001234\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

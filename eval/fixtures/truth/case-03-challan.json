@@ -1,0 +1,134 @@
+{
+ "id": "case-03-challan",
+ "kind": "challan",
+ "case": "case-03",
+ "synthetic": true,
+ "image": "papers/case-03-challan.jpg",
+ "sha256": "6ec63b3ef424c5947095c15f534f7ddf678e3026b93f32027eba189d79dfc547",
+ "fields": {
+  "supplier_name": {
+   "value": "Mock Packaging Works",
+   "box": [
+    108,
+    160,
+    135,
+    394
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2111Z1ZT",
+   "box": [
+    135,
+    166,
+    154,
+    346
+   ]
+  },
+  "challan_number": {
+   "value": "DC-1414",
+   "box": [
+    136,
+    721,
+    150,
+    800
+   ]
+  },
+  "challan_date": {
+   "value": "13/03/2026",
+   "box": [
+    156,
+    665,
+    176,
+    777
+   ]
+  },
+  "buyer_name": {
+   "value": "Instance Foods Ltd",
+   "box": [
+    177,
+    130,
+    198,
+    318
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6123Z1ZJ",
+   "box": [
+    206,
+    159,
+    226,
+    337
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0344",
+   "box": [
+    205,
+    674,
+    222,
+    816
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    230,
+    679,
+    247,
+    828
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    411,
+    623,
+    511,
+    919
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    505,
+    619,
+    550,
+    910
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     280,
+     85,
+     302,
+     243
+    ]
+   },
+   "quantity": {
+    "value": "460",
+    "box": [
+     303,
+     529,
+     314,
+     564
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     312,
+     684,
+     321,
+     716
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": "runaway",
+ "injected": []
+}

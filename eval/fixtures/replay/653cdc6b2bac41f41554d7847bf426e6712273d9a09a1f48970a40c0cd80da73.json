@@ -1,0 +1,9 @@
+{
+  "key": "d9f6c378ab820ca14e897df8adbaed2dbd9b9ae5e198c18e481facf15d308e81:challan:1:r0:a2",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Specimen Polymers Pvt Ltd\", \"box_2d\": [101, 175, 136, 450]}, \"supplier_gstin\": {\"value\": \"29AAAPZ2037Z1ZI\", \"box_2d\": [129, 180, 152, 361]}, \"challan_number\": {\"value\": \"DC-8402\", \"box_2d\": [141, 735, 157, 820]}, \"challan_date\": {\"value\": \"22/05/2026\", \"box_2d\": [160, 678, 182, 794]}, \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [170, 142, 198, 330]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6041Z1ZE\", \"box_2d\": [199, 171, 222, 357]}, \"po_reference\": {\"value\": \"PO-2026-0332\", \"box_2d\": [208, 685, 228, 825]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [234, 690, 254, 838]}, \"receiver_stamp_present\": {\"value\": \"no\", \"box_2d\": null}, \"receiver_signature_present\": {\"value\": \"no\", \"box_2d\": null}, \"line_items\": [{\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [273, 94, 295, 225]}, \"quantity\": {\"value\": \"426\", \"box_2d\": [303, 536, 315, 570]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [313, 691, 328, 714]}}, {\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [298, 90, 323, 268]}, \"quantity\": {\"value\": \"849\", \"box_2d\": [328, 533, 340, 568]}, \"unit\": {\"value\": \"m\", \"box_2d\": [341, 688, 349, 707]}}, {\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [323, 87, 347, 250]}, \"quantity\": {\"value\": \"21\", \"box_2d\": [353, 530, 364, 549]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [363, 684, 378, 707]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

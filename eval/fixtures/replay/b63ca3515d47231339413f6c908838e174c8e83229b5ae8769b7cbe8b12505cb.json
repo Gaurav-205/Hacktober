@@ -1,0 +1,9 @@
+{
+  "key": "a986aedd5cb012066a887d76df7dde515178d1689f5207e78296b6e5230cf420:po:1:r0:a1:po_number:112,607,130,749",
+  "text": "{\"value\": \"PO-2026-0858\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

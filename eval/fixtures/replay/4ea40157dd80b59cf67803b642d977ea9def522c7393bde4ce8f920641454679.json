@@ -1,0 +1,9 @@
+{
+  "key": "964ff49fd4e11a4f250a854b902ceb22d07f7d47ff6eab8af4317cc70c77fe0d:invoice:1:r0:a1:challan_reference:224,691,236,774",
+  "text": "{\"value\": \"DC-6073\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

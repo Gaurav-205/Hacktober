@@ -1,0 +1,192 @@
+{
+ "id": "case-02-challan",
+ "kind": "challan",
+ "case": "case-02",
+ "synthetic": true,
+ "image": "papers/case-02-challan.jpg",
+ "sha256": "42cff8353d66e1c9a6be14a9c442e730b6d9bf15148c9991defbdcc9c7e21f81",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    132,
+    96,
+    152,
+    307
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2074Z1ZH",
+   "box": [
+    159,
+    106,
+    178,
+    297
+   ]
+  },
+  "challan_number": {
+   "value": "DC-1169",
+   "box": [
+    117,
+    657,
+    130,
+    735
+   ]
+  },
+  "challan_date": {
+   "value": "22/05/2026",
+   "box": [
+    140,
+    605,
+    159,
+    721
+   ]
+  },
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    204,
+    78,
+    224,
+    277
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6082Z1Z9",
+   "box": [
+    230,
+    112,
+    248,
+    299
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0949",
+   "box": [
+    186,
+    622,
+    202,
+    765
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    211,
+    632,
+    227,
+    781
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    439,
+    619,
+    537,
+    914
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    534,
+    626,
+    576,
+    917
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     311,
+     51,
+     332,
+     209
+    ]
+   },
+   "quantity": {
+    "value": "429",
+    "box": [
+     300,
+     495,
+     311,
+     528
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     296,
+     651,
+     305,
+     682
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     338,
+     54,
+     357,
+     184
+    ]
+   },
+   "quantity": {
+    "value": "822",
+    "box": [
+     325,
+     497,
+     336,
+     529
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     319,
+     653,
+     333,
+     675
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     362,
+     56,
+     382,
+     233
+    ]
+   },
+   "quantity": {
+    "value": "488",
+    "box": [
+     350,
+     499,
+     361,
+     532
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     347,
+     655,
+     355,
+     673
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": "malformed_twice",
+ "injected": []
+}

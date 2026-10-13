@@ -1,0 +1,208 @@
+{
+ "id": "case-05-po",
+ "kind": "po",
+ "case": "case-05",
+ "synthetic": true,
+ "image": "papers/case-05-po.jpg",
+ "sha256": "a986aedd5cb012066a887d76df7dde515178d1689f5207e78296b6e5230cf420",
+ "fields": {
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    136,
+    92,
+    161,
+    280
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6205Z1ZG",
+   "box": [
+    162,
+    97,
+    182,
+    288
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0858",
+   "box": [
+    112,
+    607,
+    130,
+    749
+   ]
+  },
+  "po_date": {
+   "value": "05 Apr 2026",
+   "box": [
+    139,
+    596,
+    160,
+    718
+   ]
+  },
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    203,
+    122,
+    230,
+    340
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2185Z1Z9",
+   "box": [
+    233,
+    105,
+    253,
+    289
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 45 days of delivery",
+   "box": [
+    409,
+    126,
+    444,
+    481
+   ]
+  },
+  "credit_days": {
+   "value": "45",
+   "box": [
+    453,
+    173,
+    465,
+    200
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     315,
+     47,
+     338,
+     232
+    ]
+   },
+   "quantity": {
+    "value": "460",
+    "box": [
+     302,
+     446,
+     313,
+     481
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     298,
+     579,
+     306,
+     611
+    ]
+   },
+   "rate": {
+    "value": "2,444.50",
+    "box": [
+     286,
+     712,
+     302,
+     789
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     340,
+     49,
+     363,
+     227
+    ]
+   },
+   "quantity": {
+    "value": "290",
+    "box": [
+     327,
+     448,
+     338,
+     483
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     323,
+     582,
+     331,
+     600
+    ]
+   },
+   "rate": {
+    "value": "2,104.50",
+    "box": [
+     311,
+     714,
+     327,
+     788
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     366,
+     52,
+     388,
+     215
+    ]
+   },
+   "quantity": {
+    "value": "477",
+    "box": [
+     352,
+     451,
+     364,
+     483
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     345,
+     584,
+     360,
+     606
+    ]
+   },
+   "rate": {
+    "value": "2,021.50",
+    "box": [
+     336,
+     717,
+     353,
+     790
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "po_number",
+   "index": null,
+   "printed": "PO-2026-0858",
+   "read": "PO-2026-O858"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

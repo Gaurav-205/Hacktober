@@ -1,0 +1,201 @@
+{
+ "id": "case-04-po",
+ "kind": "po",
+ "case": "case-04",
+ "synthetic": true,
+ "image": "papers/case-04-po.jpg",
+ "sha256": "903b34c8b9c3bd8b154a33fac8c4a1bb26d2359f30cfbd27c01371848dc476e2",
+ "fields": {
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    106,
+    172,
+    129,
+    371
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6164Z1ZA",
+   "box": [
+    133,
+    171,
+    154,
+    358
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0859",
+   "box": [
+    136,
+    686,
+    153,
+    828
+   ]
+  },
+  "po_date": {
+   "value": "02 May 2026",
+   "box": [
+    160,
+    669,
+    182,
+    797
+   ]
+  },
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    178,
+    186,
+    201,
+    397
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2148Z1ZI",
+   "box": [
+    203,
+    163,
+    224,
+    341
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 60 days of delivery",
+   "box": [
+    388,
+    144,
+    424,
+    500
+   ]
+  },
+  "credit_days": {
+   "value": "60",
+   "box": [
+    420,
+    186,
+    432,
+    213
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     278,
+     88,
+     301,
+     266
+    ]
+   },
+   "quantity": {
+    "value": "743",
+    "box": [
+     300,
+     487,
+     312,
+     519
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     310,
+     620,
+     318,
+     639
+    ]
+   },
+   "rate": {
+    "value": "200.00",
+    "box": [
+     315,
+     753,
+     328,
+     817
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     303,
+     85,
+     325,
+     249
+    ]
+   },
+   "quantity": {
+    "value": "303",
+    "box": [
+     325,
+     485,
+     337,
+     519
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     332,
+     617,
+     346,
+     640
+    ]
+   },
+   "rate": {
+    "value": "675.50",
+    "box": [
+     340,
+     750,
+     353,
+     811
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     328,
+     83,
+     348,
+     214
+    ]
+   },
+   "quantity": {
+    "value": "749",
+    "box": [
+     351,
+     482,
+     362,
+     515
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     357,
+     614,
+     371,
+     637
+    ]
+   },
+   "rate": {
+    "value": "636.50",
+    "box": [
+     365,
+     748,
+     378,
+     809
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

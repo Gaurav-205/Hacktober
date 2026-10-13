@@ -1,0 +1,9 @@
+{
+  "key": "ed4b72bffdaa750ad5e078d5d1d92623f060a282903719cf06a8e92d7161c1a1:challan:1:r0:a1:vehicle_number:204,619,224,768",
+  "text": "{\"value\": \"MH12 AB 0000\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

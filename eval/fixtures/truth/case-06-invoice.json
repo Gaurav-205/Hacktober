@@ -1,0 +1,322 @@
+{
+ "id": "case-06-invoice",
+ "kind": "invoice",
+ "case": "case-06",
+ "synthetic": true,
+ "image": "papers/case-06-invoice.jpg",
+ "sha256": "504c79355976cd28552c314a73e98d3ec3975d58a473e0a55b69a8ee4897e589",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    115,
+    175,
+    137,
+    392
+   ]
+  },
+  "supplier_gstin": {
+   "value": "24AAAPZ2222Z1ZX",
+   "box": [
+    141,
+    153,
+    157,
+    339
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/910",
+   "box": [
+    130,
+    704,
+    148,
+    843
+   ]
+  },
+  "invoice_date": {
+   "value": "25/09/2026",
+   "box": [
+    153,
+    653,
+    171,
+    768
+   ]
+  },
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    185,
+    147,
+    203,
+    347
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6246Z1Z7",
+   "box": [
+    212,
+    149,
+    228,
+    335
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    238,
+    226,
+    253,
+    359
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0535",
+   "box": [
+    202,
+    664,
+    216,
+    804
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-2347",
+   "box": [
+    228,
+    702,
+    241,
+    784
+   ]
+  },
+  "taxable_total": {
+   "value": "12,55,599.50",
+   "box": [
+    415,
+    691,
+    432,
+    816
+   ]
+  },
+  "igst": {
+   "value": "2,26,007.91",
+   "box": [
+    441,
+    676,
+    458,
+    787
+   ]
+  },
+  "round_off": {
+   "value": "-0.41",
+   "box": [
+    467,
+    656,
+    479,
+    704
+   ]
+  },
+  "invoice_total": {
+   "value": "14,81,607.00",
+   "box": [
+    497,
+    612,
+    514,
+    736
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    873,
+    143,
+    887,
+    277
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     304,
+     77,
+     321,
+     208
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     314,
+     377,
+     324,
+     419
+    ]
+   },
+   "quantity": {
+    "value": "581",
+    "box": [
+     317,
+     477,
+     327,
+     506
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     319,
+     577,
+     333,
+     598
+    ]
+   },
+   "rate": {
+    "value": "1,507.50",
+    "box": [
+     322,
+     665,
+     337,
+     737
+    ]
+   },
+   "amount": {
+    "value": "8,75,857.50",
+    "box": [
+     326,
+     810,
+     342,
+     909
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     328,
+     76,
+     347,
+     233
+    ]
+   },
+   "hsn_sac": {
+    "value": "7412",
+    "box": [
+     339,
+     375,
+     350,
+     416
+    ]
+   },
+   "quantity": {
+    "value": "202",
+    "box": [
+     342,
+     475,
+     352,
+     508
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     347,
+     575,
+     355,
+     607
+    ]
+   },
+   "rate": {
+    "value": "984.50",
+    "box": [
+     347,
+     664,
+     358,
+     725
+    ]
+   },
+   "amount": {
+    "value": "1,98,869.00",
+    "box": [
+     351,
+     808,
+     367,
+     909
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     354,
+     74,
+     368,
+     185
+    ]
+   },
+   "hsn_sac": {
+    "value": "7211",
+    "box": [
+     364,
+     374,
+     375,
+     410
+    ]
+   },
+   "quantity": {
+    "value": "203",
+    "box": [
+     367,
+     474,
+     377,
+     507
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     369,
+     574,
+     380,
+     599
+    ]
+   },
+   "rate": {
+    "value": "891.00",
+    "box": [
+     372,
+     663,
+     383,
+     721
+    ]
+   },
+   "amount": {
+    "value": "1,80,873.00",
+    "box": [
+     377,
+     807,
+     392,
+     906
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "bank_ifsc",
+   "index": null,
+   "printed": "SBIN0001234",
+   "read": "SB1N0001234"
+  },
+  {
+   "field": "amount",
+   "index": 1,
+   "printed": "1,98,869.00",
+   "read": "1,98,869.0"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

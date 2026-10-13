@@ -1,0 +1,182 @@
+{
+ "id": "case-01-challan",
+ "kind": "challan",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/case-01-challan.jpg",
+ "sha256": "d9f6c378ab820ca14e897df8adbaed2dbd9b9ae5e198c18e481facf15d308e81",
+ "fields": {
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    101,
+    175,
+    136,
+    450
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2037Z1ZI",
+   "box": [
+    129,
+    180,
+    152,
+    361
+   ]
+  },
+  "challan_number": {
+   "value": "DC-8402",
+   "box": [
+    141,
+    735,
+    157,
+    820
+   ]
+  },
+  "challan_date": {
+   "value": "22/05/2026",
+   "box": [
+    160,
+    678,
+    182,
+    794
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    170,
+    142,
+    198,
+    330
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    199,
+    171,
+    222,
+    357
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0332",
+   "box": [
+    208,
+    685,
+    228,
+    825
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    234,
+    690,
+    254,
+    838
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "no",
+   "box": null
+  },
+  "receiver_signature_present": {
+   "value": "no",
+   "box": null
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     273,
+     94,
+     295,
+     225
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     303,
+     536,
+     315,
+     570
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     313,
+     691,
+     328,
+     714
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     298,
+     90,
+     323,
+     268
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     328,
+     533,
+     340,
+     568
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     341,
+     688,
+     349,
+     707
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     323,
+     87,
+     347,
+     250
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     353,
+     530,
+     364,
+     549
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     363,
+     684,
+     378,
+     707
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": "malformed_then_valid",
+ "injected": []
+}

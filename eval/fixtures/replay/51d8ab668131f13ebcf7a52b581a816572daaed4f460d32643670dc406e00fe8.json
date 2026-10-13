@@ -1,0 +1,9 @@
+{
+  "key": "23875132bd0666c7a226fc6f6bd88ac2b9f5a7e79c4cc8fdd9d7b4ac0be1012e:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Sample Fabricators Pvt Ltd\", \"box_2d\": [122, 131, 140, 401]}, \"supplier_gstin\": {\"value\": \"09AAAPZ1234Z1ZN\", \"box_2d\": [149, 138, 161, 327]}, \"challan_number\": {\"value\": \"CH-0412\", \"box_2d\": [128, 692, 139, 774]}, \"challan_date\": {\"value\": \"20/03/2026\", \"box_2d\": [150, 638, 165, 754]}, \"buyer_name\": {\"value\": \"Demo Textiles Ltd\", \"box_2d\": [193, 105, 206, 285]}, \"buyer_gstin\": {\"value\": \"27AAAPZ5678Z1Z1\", \"box_2d\": [220, 137, 232, 319]}, \"po_reference\": {\"value\": \"PO-2026-0117\", \"box_2d\": [198, 651, 210, 786]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [223, 658, 235, 806]}, \"receiver_stamp_present\": {\"value\": \"yes\", \"box_2d\": [431, 622, 520, 912]}, \"receiver_signature_present\": {\"value\": \"yes\", \"box_2d\": [526, 621, 559, 911]}, \"line_items\": [{\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [298, 69, 312, 232]}, \"quantity\": {\"value\": \"1,200\", \"box_2d\": [302, 514, 315, 561]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [302, 669, 316, 691]}}, {\"description\": {\"value\": \"MS flat 50x6\", \"box_2d\": [323, 69, 334, 179]}, \"quantity\": {\"value\": \"1\", \"box_2d\": [327, 514, 336, 521]}, \"unit\": {\"value\": \"lot\", \"box_2d\": [327, 669, 338, 694]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

@@ -1,0 +1,9 @@
+{
+  "key": "77302ac45e79fe4240195ac7c371656971039ed628d8ee969c23104204aaceb5:invoice:1:r0:a1:place_of_supply:251,192,270,350",
+  "text": "{\"value\": \"27-Maharashtra\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

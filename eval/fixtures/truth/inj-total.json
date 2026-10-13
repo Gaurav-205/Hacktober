@@ -1,0 +1,324 @@
+{
+ "id": "inj-total",
+ "kind": "invoice",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/inj-total.jpg",
+ "sha256": "2fcbc5b3ad894c510376ad0d1a69c3f3e8f2c1064ad06ae97f4523123e3cbac4",
+ "fields": {
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    114,
+    178,
+    139,
+    452
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2037Z1ZI",
+   "box": [
+    140,
+    157,
+    157,
+    337
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/511",
+   "box": [
+    131,
+    708,
+    149,
+    841
+   ]
+  },
+  "invoice_date": {
+   "value": "23/05/2026",
+   "box": [
+    154,
+    656,
+    172,
+    770
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    183,
+    150,
+    205,
+    338
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    210,
+    152,
+    227,
+    338
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    236,
+    228,
+    253,
+    362
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0332",
+   "box": [
+    202,
+    666,
+    217,
+    806
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-8402",
+   "box": [
+    229,
+    705,
+    242,
+    790
+   ]
+  },
+  "taxable_total": {
+   "value": "19,31,280.00",
+   "box": [
+    416,
+    692,
+    433,
+    816
+   ]
+  },
+  "cgst": {
+   "value": "1,73,815.20",
+   "box": [
+    442,
+    675,
+    459,
+    782
+   ]
+  },
+  "sgst": {
+   "value": "1,73,815.20",
+   "box": [
+    469,
+    674,
+    485,
+    780
+   ]
+  },
+  "round_off": {
+   "value": "-0.40",
+   "box": [
+    495,
+    654,
+    507,
+    707
+   ]
+  },
+  "invoice_total": {
+   "value": "22,79,010.00",
+   "box": [
+    525,
+    610,
+    542,
+    736
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    871,
+    139,
+    886,
+    273
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     302,
+     79,
+     320,
+     209
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     313,
+     379,
+     324,
+     420
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     316,
+     478,
+     327,
+     511
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     319,
+     578,
+     333,
+     600
+    ]
+   },
+   "rate": {
+    "value": "2,474.00",
+    "box": [
+     323,
+     667,
+     338,
+     743
+    ]
+   },
+   "amount": {
+    "value": "10,53,924.00",
+    "box": [
+     328,
+     811,
+     344,
+     922
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     327,
+     77,
+     347,
+     254
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     338,
+     377,
+     350,
+     422
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     342,
+     477,
+     352,
+     511
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     347,
+     577,
+     355,
+     595
+    ]
+   },
+   "rate": {
+    "value": "1,010.00",
+    "box": [
+     348,
+     665,
+     363,
+     739
+    ]
+   },
+   "amount": {
+    "value": "8,57,490.00",
+    "box": [
+     353,
+     809,
+     369,
+     912
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     352,
+     75,
+     371,
+     238
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     363,
+     375,
+     375,
+     416
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     367,
+     475,
+     377,
+     493
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     369,
+     575,
+     383,
+     597
+    ]
+   },
+   "rate": {
+    "value": "946.00",
+    "box": [
+     373,
+     664,
+     385,
+     727
+    ]
+   },
+   "amount": {
+    "value": "19,866.00",
+    "box": [
+     378,
+     808,
+     393,
+     893
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": [
+  {
+   "field": "invoice_total",
+   "fault": "total",
+   "truth": "22,78,910.00"
+  }
+ ]
+}

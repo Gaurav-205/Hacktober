@@ -1,0 +1,163 @@
+{
+ "id": "demo-po",
+ "kind": "po",
+ "case": "demo",
+ "synthetic": true,
+ "image": "demo/po.jpg",
+ "sha256": "d8fcd8fc6a4ebf30482f2ea44568da7ab49fab538da86d4d13eef65fe0790ccf",
+ "fields": {
+  "buyer_name": {
+   "value": "Demo Textiles Ltd",
+   "box": [
+    124,
+    132,
+    136,
+    311
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ5678Z1Z1",
+   "box": [
+    151,
+    134,
+    162,
+    315
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0117",
+   "box": [
+    127,
+    648,
+    138,
+    782
+   ]
+  },
+  "po_date": {
+   "value": "02 Mar 2026",
+   "box": [
+    152,
+    634,
+    162,
+    759
+   ]
+  },
+  "supplier_name": {
+   "value": "Sample Fabricators Pvt Ltd",
+   "box": [
+    195,
+    154,
+    211,
+    424
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ1234Z1ZN",
+   "box": [
+    222,
+    134,
+    232,
+    323
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 30 days of delivery",
+   "box": [
+    382,
+    135,
+    399,
+    489
+   ]
+  },
+  "credit_days": {
+   "value": "30",
+   "box": [
+    412,
+    179,
+    422,
+    205
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     300,
+     67,
+     314,
+     229
+    ]
+   },
+   "quantity": {
+    "value": "1,200",
+    "box": [
+     302,
+     467,
+     314,
+     514
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     301,
+     601,
+     314,
+     622
+    ]
+   },
+   "rate": {
+    "value": "250.00",
+    "box": [
+     302,
+     734,
+     311,
+     795
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     325,
+     67,
+     336,
+     177
+    ]
+   },
+   "quantity": {
+    "value": "1",
+    "box": [
+     327,
+     467,
+     336,
+     475
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     326,
+     600,
+     336,
+     625
+    ]
+   },
+   "rate": {
+    "value": "1,23,729.00",
+    "box": [
+     327,
+     734,
+     340,
+     830
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

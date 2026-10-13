@@ -1,0 +1,9 @@
+{
+  "key": "a5c23b8f9c4f3d5d33eddea9d11a098c5cbee7d5ec417037aeeecee099793935:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Model Wire Products\", \"box_2d\": [131, 98, 151, 309]}, \"supplier_gstin\": {\"value\": \"09AAAPZ2333Z1ZL\", \"box_2d\": [159, 108, 176, 293]}, \"challan_number\": {\"value\": \"DC-6073\", \"box_2d\": [117, 659, 131, 743]}, \"challan_date\": {\"value\": \"22/04/2026\", \"box_2d\": [141, 607, 159, 724]}, \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [204, 79, 226, 267]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6369Z1Z3\", \"box_2d\": [229, 113, 247, 300]}, \"po_reference\": {\"value\": \"PO-2026-0477\", \"box_2d\": [187, 624, 203, 764]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [212, 634, 227, 782]}, \"receiver_stamp_present\": {\"value\": \"no\", \"box_2d\": null}, \"receiver_signature_present\": {\"value\": \"no\", \"box_2d\": null}, \"line_items\": [{\"description\": {\"value\": \"Steel bolt M12\", \"box_2d\": [312, 53, 327, 178]}, \"quantity\": {\"value\": \"341\", \"box_2d\": [300, 497, 311, 526]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [297, 652, 305, 684]}}, {\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [336, 54, 356, 232]}, \"quantity\": {\"value\": \"376\", \"box_2d\": [325, 498, 337, 530]}, \"unit\": {\"value\": \"m\", \"box_2d\": [323, 654, 330, 672]}}, {\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [361, 56, 381, 214]}, \"quantity\": {\"value\": \"717\", \"box_2d\": [351, 500, 362, 530]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [347, 656, 355, 687]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

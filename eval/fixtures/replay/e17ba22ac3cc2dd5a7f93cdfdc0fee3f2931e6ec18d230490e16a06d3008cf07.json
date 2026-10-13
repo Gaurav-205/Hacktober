@@ -1,0 +1,9 @@
+{
+  "key": "54424971b12ddb220cbf68406fac47627361af26cd08903406424941774b367a:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Example Castings LLP\", \"box_2d\": [136, 81, 165, 298]}, \"supplier_gstin\": {\"value\": \"24AAAPZ2222Z1ZX\", \"box_2d\": [164, 92, 186, 278]}, \"challan_number\": {\"value\": \"DC-2347\", \"box_2d\": [111, 640, 127, 722]}, \"challan_date\": {\"value\": \"23/09/2026\", \"box_2d\": [135, 590, 156, 704]}, \"buyer_name\": {\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": [209, 65, 233, 265]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6246Z1Z7\", \"box_2d\": [235, 100, 257, 287]}, \"po_reference\": {\"value\": \"PO-2026-0535\", \"box_2d\": [181, 609, 199, 749]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [205, 620, 224, 768]}, \"receiver_stamp_present\": {\"value\": \"yes\", \"box_2d\": [430, 616, 534, 915]}, \"receiver_signature_present\": {\"value\": \"yes\", \"box_2d\": [524, 628, 573, 920]}, \"line_items\": [{\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [320, 44, 342, 175]}, \"quantity\": {\"value\": \"581\", \"box_2d\": [300, 487, 311, 517]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [290, 641, 305, 664]}}, {\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [343, 47, 367, 205]}, \"quantity\": {\"value\": \"2O2\", \"box_2d\": [325, 490, 336, 523]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [318, 645, 327, 677]}}, {\"description\": {\"value\": \"MS flat 50x6\", \"box_2d\": [372, 50, 389, 161]}, \"quantity\": {\"value\": \"203\", \"box_2d\": [350, 493, 361, 526]}, \"unit\": {\"value\": \"lot\", \"box_2d\": [340, 648, 352, 673]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

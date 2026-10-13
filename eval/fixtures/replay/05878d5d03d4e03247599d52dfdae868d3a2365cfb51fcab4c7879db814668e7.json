@@ -1,0 +1,9 @@
+{
+  "key": "a49dbfce43460d8963da753cacbfbeaf134d4fb27f845b5533d8681b22ab5526:invoice:1:r0:a1:buyer_name:205,102,226,301",
+  "text": "{\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

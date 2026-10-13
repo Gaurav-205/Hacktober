@@ -1,0 +1,9 @@
+{
+  "key": "0ba122c30b116d4bab67e99ca96886cc3c10687b27e3c5587f9cff7cedd8cf73:invoice:1:r0:a1:igst:416,663,437,780",
+  "text": "{\"value\": \"3,50,830.44\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

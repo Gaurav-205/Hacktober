@@ -1,0 +1,9 @@
+{
+  "key": "fed4b06eeb631fffd202f759c05a916628e358e7e093840bdc93d0bcb83c516c:challan:1:r0:a1:supplier_name:109,158,134,376",
+  "text": "{\"value\": \"Example Castings LLP\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

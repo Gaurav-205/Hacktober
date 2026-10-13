@@ -1,0 +1,9 @@
+{
+  "key": "77302ac45e79fe4240195ac7c371656971039ed628d8ee969c23104204aaceb5:invoice:1:r0:a1:invoice_total:460,610,478,736",
+  "text": "{\"value\": \"12,24,896.00\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

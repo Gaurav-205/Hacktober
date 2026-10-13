@@ -1,0 +1,163 @@
+{
+ "id": "demo-challan",
+ "kind": "challan",
+ "case": "demo",
+ "synthetic": true,
+ "image": "demo/challan.jpg",
+ "sha256": "23875132bd0666c7a226fc6f6bd88ac2b9f5a7e79c4cc8fdd9d7b4ac0be1012e",
+ "fields": {
+  "supplier_name": {
+   "value": "Sample Fabricators Pvt Ltd",
+   "box": [
+    122,
+    131,
+    140,
+    401
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ1234Z1ZN",
+   "box": [
+    149,
+    138,
+    161,
+    327
+   ]
+  },
+  "challan_number": {
+   "value": "CH-0412",
+   "box": [
+    128,
+    692,
+    139,
+    774
+   ]
+  },
+  "challan_date": {
+   "value": "20/03/2026",
+   "box": [
+    150,
+    638,
+    165,
+    754
+   ]
+  },
+  "buyer_name": {
+   "value": "Demo Textiles Ltd",
+   "box": [
+    193,
+    105,
+    206,
+    285
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ5678Z1Z1",
+   "box": [
+    220,
+    137,
+    232,
+    319
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0117",
+   "box": [
+    198,
+    651,
+    210,
+    786
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    223,
+    658,
+    235,
+    806
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    431,
+    622,
+    520,
+    912
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    526,
+    621,
+    559,
+    911
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     298,
+     69,
+     312,
+     232
+    ]
+   },
+   "quantity": {
+    "value": "1,200",
+    "box": [
+     302,
+     514,
+     315,
+     561
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     302,
+     669,
+     316,
+     691
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     323,
+     69,
+     334,
+     179
+    ]
+   },
+   "quantity": {
+    "value": "1",
+    "box": [
+     327,
+     514,
+     336,
+     521
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     327,
+     669,
+     338,
+     694
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

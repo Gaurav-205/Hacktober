@@ -1,0 +1,9 @@
+{
+  "key": "fed4b06eeb631fffd202f759c05a916628e358e7e093840bdc93d0bcb83c516c:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Example Casting LLP\", \"box_2d\": [109, 158, 134, 376]}, \"supplier_gstin\": {\"value\": \"09AAAPZ2296Z1Z7\", \"box_2d\": [136, 164, 155, 352]}, \"challan_number\": {\"value\": \"DC-9766\", \"box_2d\": [136, 719, 150, 803]}, \"challan_date\": {\"value\": \"13/03/2026\", \"box_2d\": [156, 663, 175, 775]}, \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [178, 128, 202, 315]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6328Z1ZC\", \"box_2d\": [207, 158, 226, 344]}, \"po_reference\": {\"value\": \"PO-2O26-0668\", \"box_2d\": [204, 672, 221, 814]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [230, 678, 246, 826]}, \"receiver_stamp_present\": {\"value\": \"no\", \"box_2d\": null}, \"receiver_signature_present\": {\"value\": \"no\", \"box_2d\": null}, \"line_items\": [{\"description\": {\"value\": \"Steel bolt M12\", \"box_2d\": [282, 84, 298, 209]}, \"quantity\": {\"value\": \"212\", \"box_2d\": [303, 528, 313, 558]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [312, 683, 320, 715]}}, {\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [306, 82, 327, 239]}, \"quantity\": {\"value\": \"657\", \"box_2d\": [328, 526, 339, 559]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [337, 681, 345, 713]}}, {\"description\": {\"value\": \"Corrugated box 5 ply\", \"box_2d\": [332, 80, 354, 265]}, \"quantity\": {\"value\": \"390\", \"box_2d\": [353, 523, 364, 558]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [362, 679, 370, 710]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

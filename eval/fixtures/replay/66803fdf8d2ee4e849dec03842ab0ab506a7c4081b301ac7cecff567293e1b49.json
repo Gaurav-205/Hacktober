@@ -1,0 +1,9 @@
+{
+  "key": "cf0483d60f8a31f149ab2a8981c2c4beb85253ea979c78fae08e93775700ec03:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Instance Foods Ltd\", \"box_2d\": [139, 82, 163, 270]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6123Z1ZJ\", \"box_2d\": [166, 88, 191, 265]}, \"po_number\": {\"value\": \"PO-2026-0344\", \"box_2d\": [109, 595, 128, 737]}, \"po_date\": {\"value\": \"02 Mar 2026\", \"box_2d\": [136, 585, 154, 711]}, \"supplier_name\": {\"value\": \"Mock Packaging Works\", \"box_2d\": [205, 114, 236, 347]}, \"supplier_gstin\": {\"value\": \"09AAAPZ2111Z1ZT\", \"box_2d\": [236, 97, 259, 277]}, \"payment_terms_text\": {\"value\": \"Payment within 6O days of delivery\", \"box_2d\": [359, 117, 399, 473]}, \"credit_days\": {\"value\": \"60\", \"box_2d\": [408, 165, 420, 193]}, \"line_items\": [{\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [320, 42, 344, 199]}, \"quantity\": {\"value\": \"46O\", \"box_2d\": [302, 440, 314, 475]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [296, 573, 305, 605]}, \"rate\": {\"value\": \"327.50\", \"box_2d\": [283, 705, 297, 763]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

@@ -1,0 +1,257 @@
+{
+ "id": "case-10-invoice",
+ "kind": "invoice",
+ "case": "case-10",
+ "synthetic": true,
+ "image": "papers/case-10-invoice.jpg",
+ "sha256": "77302ac45e79fe4240195ac7c371656971039ed628d8ee969c23104204aaceb5",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    130,
+    125,
+    154,
+    343
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2370Z1ZG",
+   "box": [
+    159,
+    107,
+    177,
+    298
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/966",
+   "box": [
+    112,
+    655,
+    132,
+    795
+   ]
+  },
+  "invoice_date": {
+   "value": "20/09/2026",
+   "box": [
+    140,
+    607,
+    159,
+    724
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    203,
+    107,
+    226,
+    295
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6410Z1ZL",
+   "box": [
+    230,
+    113,
+    248,
+    298
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    251,
+    192,
+    270,
+    350
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0918",
+   "box": [
+    187,
+    623,
+    202,
+    762
+   ]
+  },
+  "taxable_total": {
+   "value": "10,38,047.50",
+   "box": [
+    372,
+    678,
+    391,
+    803
+   ]
+  },
+  "igst": {
+   "value": "1,86,848.55",
+   "box": [
+    400,
+    666,
+    418,
+    778
+   ]
+  },
+  "round_off": {
+   "value": "-0.05",
+   "box": [
+    430,
+    649,
+    442,
+    701
+   ]
+  },
+  "invoice_total": {
+   "value": "12,24,896.00",
+   "box": [
+    460,
+    610,
+    478,
+    736
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    890,
+    195,
+    905,
+    329
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     329,
+     53,
+     343,
+     164
+    ]
+   },
+   "hsn_sac": {
+    "value": "7211",
+    "box": [
+     321,
+     353,
+     333,
+     389
+    ]
+   },
+   "quantity": {
+    "value": "493",
+    "box": [
+     318,
+     453,
+     328,
+     486
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     313,
+     553,
+     325,
+     578
+    ]
+   },
+   "rate": {
+    "value": "2,057.50",
+    "box": [
+     309,
+     641,
+     324,
+     717
+    ]
+   },
+   "amount": {
+    "value": "10,14,347.50",
+    "box": [
+     302,
+     786,
+     319,
+     891
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     351,
+     55,
+     373,
+     241
+    ]
+   },
+   "hsn_sac": {
+    "value": "4819",
+    "box": [
+     346,
+     355,
+     357,
+     397
+    ]
+   },
+   "quantity": {
+    "value": "79",
+    "box": [
+     343,
+     455,
+     354,
+     477
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     341,
+     555,
+     350,
+     586
+    ]
+   },
+   "rate": {
+    "value": "300.00",
+    "box": [
+     334,
+     643,
+     346,
+     707
+    ]
+   },
+   "amount": {
+    "value": "23,700.00",
+    "box": [
+     328,
+     788,
+     344,
+     875
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "place_of_supply",
+   "index": null,
+   "printed": "27-Maharashtra",
+   "read": "2-Maharashtra"
+  },
+  {
+   "field": "invoice_total",
+   "index": null,
+   "printed": "12,24,896.00",
+   "read": "12,24,89.00"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

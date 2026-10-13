@@ -24,7 +24,7 @@ repos:
         name: detect-secrets
         entry: uv run --no-sync detect-secrets-hook --baseline .secrets.baseline
         language: system
-        exclude: ^(uv\.lock|\.secrets\.baseline)$
+        exclude: ^(uv\.lock|\.secrets\.baseline|eval/fixtures/.*|eval/reports/.*)$
       - id: repo-files
         name: large files, image locations, GSTIN-shaped strings
         entry: uv run --no-sync python scripts/check_repo_files.py

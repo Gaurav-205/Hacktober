@@ -1,0 +1,208 @@
+{
+ "id": "case-02-po",
+ "kind": "po",
+ "case": "case-02",
+ "synthetic": true,
+ "image": "papers/case-02-po.jpg",
+ "sha256": "256c3f98b082e1a7dd738d32466f856a7cca0c12fee2b5353a1f2f138da35807",
+ "fields": {
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    130,
+    111,
+    147,
+    310
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6082Z1Z9",
+   "box": [
+    157,
+    114,
+    173,
+    302
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0949",
+   "box": [
+    119,
+    626,
+    133,
+    769
+   ]
+  },
+  "po_date": {
+   "value": "05 May 2026",
+   "box": [
+    145,
+    614,
+    163,
+    743
+   ]
+  },
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    200,
+    137,
+    217,
+    347
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2074Z1ZH",
+   "box": [
+    227,
+    118,
+    244,
+    309
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 60 days of delivery",
+   "box": [
+    408,
+    130,
+    434,
+    486
+   ]
+  },
+  "credit_days": {
+   "value": "60",
+   "box": [
+    446,
+    176,
+    457,
+    203
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     308,
+     56,
+     326,
+     213
+    ]
+   },
+   "quantity": {
+    "value": "429",
+    "box": [
+     302,
+     456,
+     312,
+     489
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     301,
+     589,
+     308,
+     621
+    ]
+   },
+   "rate": {
+    "value": "1,430.50",
+    "box": [
+     293,
+     722,
+     308,
+     795
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     334,
+     57,
+     351,
+     188
+    ]
+   },
+   "quantity": {
+    "value": "822",
+    "box": [
+     327,
+     457,
+     337,
+     489
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     323,
+     590,
+     337,
+     612
+    ]
+   },
+   "rate": {
+    "value": "2,461.50",
+    "box": [
+     319,
+     724,
+     333,
+     797
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     358,
+     59,
+     376,
+     236
+    ]
+   },
+   "quantity": {
+    "value": "488",
+    "box": [
+     352,
+     459,
+     362,
+     491
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     351,
+     592,
+     359,
+     610
+    ]
+   },
+   "rate": {
+    "value": "1,806.50",
+    "box": [
+     344,
+     725,
+     358,
+     800
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "buyer_gstin",
+   "index": null,
+   "printed": "27AAAPZ6082Z1Z9",
+   "read": "27AAAPZ6082ZIZ9"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

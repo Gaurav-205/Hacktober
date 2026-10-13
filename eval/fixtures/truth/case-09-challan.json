@@ -1,0 +1,182 @@
+{
+ "id": "case-09-challan",
+ "kind": "challan",
+ "case": "case-09",
+ "synthetic": true,
+ "image": "papers/case-09-challan.jpg",
+ "sha256": "a5c23b8f9c4f3d5d33eddea9d11a098c5cbee7d5ec417037aeeecee099793935",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    131,
+    98,
+    151,
+    309
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2333Z1ZL",
+   "box": [
+    159,
+    108,
+    176,
+    293
+   ]
+  },
+  "challan_number": {
+   "value": "DC-6073",
+   "box": [
+    117,
+    659,
+    131,
+    743
+   ]
+  },
+  "challan_date": {
+   "value": "22/04/2026",
+   "box": [
+    141,
+    607,
+    159,
+    724
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    204,
+    79,
+    226,
+    267
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6369Z1Z3",
+   "box": [
+    229,
+    113,
+    247,
+    300
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0477",
+   "box": [
+    187,
+    624,
+    203,
+    764
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    212,
+    634,
+    227,
+    782
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "no",
+   "box": null
+  },
+  "receiver_signature_present": {
+   "value": "no",
+   "box": null
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Steel bolt M12",
+    "box": [
+     312,
+     53,
+     327,
+     178
+    ]
+   },
+   "quantity": {
+    "value": "341",
+    "box": [
+     300,
+     497,
+     311,
+     526
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     297,
+     652,
+     305,
+     684
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     336,
+     54,
+     356,
+     232
+    ]
+   },
+   "quantity": {
+    "value": "376",
+    "box": [
+     325,
+     498,
+     337,
+     530
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     323,
+     654,
+     330,
+     672
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     361,
+     56,
+     381,
+     214
+    ]
+   },
+   "quantity": {
+    "value": "717",
+    "box": [
+     351,
+     500,
+     362,
+     530
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     347,
+     656,
+     355,
+     687
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

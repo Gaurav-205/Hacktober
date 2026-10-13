@@ -1,0 +1,9 @@
+{
+  "key": "aabc1f92076fc09a192fb8f3a8f09ace4279186801690bfed0019ffcdacd9ec4:invoice:1:r0:a1:buyer_gstin:226,122,243,299",
+  "text": "{\"value\": \"27AAAPZ6123Z1ZJ\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

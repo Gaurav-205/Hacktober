@@ -1,0 +1,9 @@
+{
+  "key": "aabc1f92076fc09a192fb8f3a8f09ace4279186801690bfed0019ffcdacd9ec4:invoice:1:r0:a1",
+  "text": "{\"kind\": \"invoice\", \"supplier_name\": {\"value\": \"Mock Packaging Works\", \"box_2d\": [127, 138, 148, 371]}, \"supplier_gstin\": {\"value\": \"09AAAPZ2111Z1ZT\", \"box_2d\": [156, 119, 170, 298]}, \"invoice_number\": {\"value\": \"INV/26-27/446\", \"box_2d\": [118, 668, 135, 808]}, \"invoice_date\": {\"value\": \"04/03/2026\", \"box_2d\": [144, 619, 161, 737]}, \"buyer_name\": {\"value\": \"Instance Foods Ltd\", \"box_2d\": [200, 117, 215, 306]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6123ZIZJ\", \"box_2d\": [226, 122, 243, 299]}, \"place_of_supply\": {\"value\": \"27-Maharashtra\", \"box_2d\": [249, 201, 265, 358]}, \"po_reference\": {\"value\": \"PO-2026-0344\", \"box_2d\": [191, 634, 204, 775]}, \"challan_reference\": {\"value\": \"DC-1414\", \"box_2d\": [217, 675, 229, 754]}, \"taxable_total\": {\"value\": \"1,50,650.00\", \"box_2d\": [353, 681, 369, 798]}, \"igst\": {\"value\": \"27,117.00\", \"box_2d\": [380, 668, 395, 756]}, \"round_off\": {\"value\": \"0.00\", \"box_2d\": [408, 651, 419, 698]}, \"invoice_total\": {\"value\": \"1,77,767.00\", \"box_2d\": [439, 610, 455, 717]}, \"bank_ifsc\": {\"value\": \"SBIN0001234\", \"box_2d\": [887, 182, 900, 315]}, \"line_items\": [{\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [322, 59, 339, 216]}, \"hsn_sac\": {\"value\": \"7412\", \"box_2d\": [319, 359, 330, 400]}, \"quantity\": {\"value\": \"460\", \"box_2d\": [317, 459, 328, 494]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [318, 559, 325, 591]}, \"rate\": {\"value\": \"327.50\", \"box_2d\": [313, 648, 324, 705]}, \"amount\": {\"value\": \"1,50,650.00\", \"box_2d\": [309, 792, 324, 895]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

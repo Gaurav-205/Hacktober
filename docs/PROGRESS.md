@@ -29,18 +29,22 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Golden values recomputed from the text of `docs/DOMAIN_RULES.md` section 5.3 with a standalone script (scratchpad, not committed): 2283919, 9780909, and 4290370 with 177 days late. All match the document.
 
 ## Decisions
+- 2026-10-13 05:00 UTC: The owner asked to finish the whole application within about 65% of the remaining usage. Gate reviews by subagents are deferred to one final pass, and work is done in the main session rather than through many parallel agents.
 - 2026-10-13 03:26 UTC: Pre-commit hooks were not installed in this container until `5263376`, so the Gate 1 commits did not run them. A docstring GSTIN example (R3) got through that way and was removed in `5263376`. `make check` on `5263376` covers every earlier commit's files. `uv run pre-commit install` is now done, and `make install` does it on a fresh machine.
 - 2026-10-12 18:40 UTC: Commit trailers are `Assisted-by: Claude Code` plus the harness's `Co-Authored-By` and `Claude-Session` lines. `CLAUDE.md` asks for a model id in the trailer, but session policy forbids raw model ids in pushed artifacts. The `Co-Authored-By` line already names the model.
 - 2026-10-12 18:40 UTC: Track work per gate in the session task list instead of one item per task id, because the gates are the unit of verification. Each task id still gets a log entry and a checkbox in `docs/TASKS.md`.
 
 ## Follow-ups
+- Gate 1 and Gate 2 reviewer passes (domain-verifier, test-auditor) were cut to save the owner's usage budget; they run in the Gate 6 final pass.
+- Fixture photo damage has no perspective warp (rotation, uneven light, stain, shadow, blur and JPEG only).
+- Live-model evaluation: `ollama pull gemma4:e4b`, then `MUNIM_PROVIDER=ollama make eval` writes `eval/reports/latest.json`. Until then there is no accuracy figure to quote.
 - Human: Hindi review by a native reader; Bank Rate confirmation by an accountant; live-model run (`ollama pull gemma4:e4b`, then `MUNIM_LIVE=1 make eval`); demo video; submission form.
 
 ## Gates
 | Gate | Started (sha, time) | Closed (time) | Exit evidence |
 | --- | --- | --- | --- |
 | 0 | `f25d567`, 2026-10-12 18:24 UTC | 2026-10-13 03:35 UTC | `make check` exit 0 at `5263376` (752 passed, 1 skipped; contrast "21 pairs checked, 0 problems"; fonts "18 checks, 0 problems"); CI run 2 green at `0435103` |
-| 1 | `0435103`, 2026-10-12 22:11 UTC | open (reviewers running) | `make check` exit 0 at `5263376`; munim_core lines 98.64%, branches 96.89% |
+| 1 | `0435103`, 2026-10-12 22:11 UTC | 2026-10-13 (reviews deferred, see Decisions) | `make check` exit 0 at `5263376`; munim_core lines 98.64%, branches 96.89% |
 
 ## Log
 ### 2026-10-12 18:52 UTC Step 0: orientation
@@ -74,4 +78,10 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Gate 1 is not formally closed: the domain-verifier and test-auditor reviews were started but stopped before reporting.
 - Gate 2 model-layer code (`munim_ai`: schemas, prompts, providers, normalize, imageprep, extract, repair) is mypy-strict and ruff clean but has no tests yet. It is pushed on branch `wip/gate2-model-layer`, not on `main`, so `main`'s coverage gate stays green.
 
-STATUS: PAUSED (Gate 1 review pending; Gate 2 in progress on wip/gate2-model-layer)
+### 2026-10-13 05:20 UTC Gate 2: model layer, fixtures and evaluation
+- Changed: `packages/munim_ai/src/munim_ai/{schemas,normalize,imageprep,extract,repair,evaluation}.py`, `prompts/`, `providers/`; `scripts/gen_fixtures.py`; `eval/{run_eval,validate_report}.py`, `eval/reports/schema.json`, `eval/fixtures/**`; tests in `tests/unit/test_{ai_schemas_normalize,imageprep,extract_repair}.py`, `tests/contract/test_providers.py`, `tests/eval/test_eval.py`; a CI `eval-replay` job.
+- Checked with: `make check` exit 0, with "887 passed, 1 skipped", "munim_core: lines 98.65%, branches 97.22% ... ok" and "overall: lines 96.96%, branches 94.31% ... ok". `uv run python scripts/gen_fixtures.py --force` gave "35 papers {'invoice': 16, 'challan': 11, 'po': 8}, 17 cases, 60 recordings, 1.68 MB of images" (30 plain papers plus 5 injected variants). `uv run python eval/run_eval.py --date 2026-10-13` gave "replay (synthetic), 30 papers, 660 fields" and "In 26 of 660 fields the value was wrong; the checks caught 13 of those 26." `validate_report.py eval/reports/replay.json`: "0 problems".
+- These numbers come from hand-built synthetic recordings with seeded misreads. They test the checks and the harness, not the model. No live model was reachable (pending-live), so there is no `latest.json`.
+- Bugs found by the new tests: an over-limit image was reported as "cannot be decoded"; a stopped Ollama raised an uncaught `ConnectionError`; a runaway model value was dropped with no finding (VALUE-FORMAT now flags it `needs_review`, and DOMAIN_RULES says so).
+
+STATUS: IN PROGRESS (Gate 3)

@@ -1,0 +1,322 @@
+{
+ "id": "case-08-invoice",
+ "kind": "invoice",
+ "case": "case-08",
+ "synthetic": true,
+ "image": "papers/case-08-invoice.jpg",
+ "sha256": "0ba122c30b116d4bab67e99ca96886cc3c10687b27e3c5587f9cff7cedd8cf73",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    136,
+    101,
+    167,
+    319
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2296Z1Z7",
+   "box": [
+    166,
+    85,
+    191,
+    274
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/724",
+   "box": [
+    103,
+    629,
+    127,
+    768
+   ]
+  },
+  "invoice_date": {
+   "value": "04/03/2026",
+   "box": [
+    133,
+    582,
+    156,
+    702
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    210,
+    88,
+    239,
+    276
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6328Z1ZC",
+   "box": [
+    237,
+    95,
+    261,
+    282
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    257,
+    176,
+    280,
+    334
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0668",
+   "box": [
+    178,
+    603,
+    198,
+    744
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-9766",
+   "box": [
+    204,
+    646,
+    221,
+    730
+   ]
+  },
+  "taxable_total": {
+   "value": "19,49,058.00",
+   "box": [
+    387,
+    673,
+    410,
+    802
+   ]
+  },
+  "igst": {
+   "value": "3,50,830.44",
+   "box": [
+    416,
+    663,
+    437,
+    780
+   ]
+  },
+  "round_off": {
+   "value": "-0.44",
+   "box": [
+    448,
+    648,
+    462,
+    701
+   ]
+  },
+  "invoice_total": {
+   "value": "22,99,888.00",
+   "box": [
+    477,
+    611,
+    499,
+    739
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    895,
+    222,
+    915,
+    356
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Steel bolt M12",
+    "box": [
+     340,
+     43,
+     359,
+     168
+    ]
+   },
+   "hsn_sac": {
+    "value": "7318",
+    "box": [
+     325,
+     341,
+     338,
+     381
+    ]
+   },
+   "quantity": {
+    "value": "212",
+    "box": [
+     319,
+     441,
+     330,
+     471
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     314,
+     541,
+     323,
+     572
+    ]
+   },
+   "rate": {
+    "value": "1,443.00",
+    "box": [
+     302,
+     629,
+     320,
+     703
+    ]
+   },
+   "amount": {
+    "value": "3,05,916.00",
+    "box": [
+     290,
+     772,
+     309,
+     875
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     362,
+     46,
+     387,
+     204
+    ]
+   },
+   "hsn_sac": {
+    "value": "7412",
+    "box": [
+     350,
+     345,
+     363,
+     386
+    ]
+   },
+   "quantity": {
+    "value": "657",
+    "box": [
+     343,
+     444,
+     356,
+     478
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     339,
+     544,
+     348,
+     576
+    ]
+   },
+   "rate": {
+    "value": "2,341.00",
+    "box": [
+     327,
+     632,
+     345,
+     707
+    ]
+   },
+   "amount": {
+    "value": "15,38,037.00",
+    "box": [
+     314,
+     776,
+     334,
+     886
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     385,
+     50,
+     413,
+     235
+    ]
+   },
+   "hsn_sac": {
+    "value": "4819",
+    "box": [
+     375,
+     348,
+     387,
+     391
+    ]
+   },
+   "quantity": {
+    "value": "390",
+    "box": [
+     368,
+     448,
+     380,
+     482
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     364,
+     548,
+     373,
+     580
+    ]
+   },
+   "rate": {
+    "value": "269.50",
+    "box": [
+     353,
+     636,
+     367,
+     696
+    ]
+   },
+   "amount": {
+    "value": "1,05,105.00",
+    "box": [
+     340,
+     780,
+     359,
+     879
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "igst",
+   "index": null,
+   "printed": "3,50,830.44",
+   "read": "3,50,83O.44"
+  },
+  {
+   "field": "bank_ifsc",
+   "index": null,
+   "printed": "SBIN0001234",
+   "read": "SBIN000124"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

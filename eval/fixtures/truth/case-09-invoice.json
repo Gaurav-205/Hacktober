@@ -1,0 +1,328 @@
+{
+ "id": "case-09-invoice",
+ "kind": "invoice",
+ "case": "case-09",
+ "synthetic": true,
+ "image": "papers/case-09-invoice.jpg",
+ "sha256": "964ff49fd4e11a4f250a854b902ceb22d07f7d47ff6eab8af4317cc70c77fe0d",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    122,
+    159,
+    136,
+    369
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2333Z1ZL",
+   "box": [
+    149,
+    139,
+    160,
+    323
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/024",
+   "box": [
+    126,
+    689,
+    141,
+    829
+   ]
+  },
+  "invoice_date": {
+   "value": "25/04/2026",
+   "box": [
+    150,
+    639,
+    165,
+    755
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    193,
+    135,
+    210,
+    322
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6369Z1Z3",
+   "box": [
+    219,
+    138,
+    232,
+    323
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    244,
+    215,
+    257,
+    372
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0477",
+   "box": [
+    198,
+    651,
+    211,
+    790
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-6073",
+   "box": [
+    224,
+    691,
+    236,
+    774
+   ]
+  },
+  "taxable_total": {
+   "value": "22,89,861.00",
+   "box": [
+    411,
+    688,
+    425,
+    813
+   ]
+  },
+  "igst": {
+   "value": "4,12,174.98",
+   "box": [
+    437,
+    674,
+    452,
+    780
+   ]
+  },
+  "round_off": {
+   "value": "0.02",
+   "box": [
+    464,
+    655,
+    475,
+    699
+   ]
+  },
+  "invoice_total": {
+   "value": "27,02,036.00",
+   "box": [
+    495,
+    612,
+    509,
+    740
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    880,
+    159,
+    892,
+    293
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Steel bolt M12",
+    "box": [
+     313,
+     70,
+     324,
+     194
+    ]
+   },
+   "hsn_sac": {
+    "value": "7318",
+    "box": [
+     316,
+     369,
+     327,
+     409
+    ]
+   },
+   "quantity": {
+    "value": "341",
+    "box": [
+     317,
+     469,
+     327,
+     499
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     320,
+     569,
+     328,
+     601
+    ]
+   },
+   "rate": {
+    "value": "1,099.00",
+    "box": [
+     319,
+     658,
+     332,
+     733
+    ]
+   },
+   "amount": {
+    "value": "3,74,759.00",
+    "box": [
+     320,
+     803,
+     333,
+     904
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     338,
+     69,
+     353,
+     246
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     341,
+     369,
+     352,
+     414
+    ]
+   },
+   "quantity": {
+    "value": "376",
+    "box": [
+     342,
+     469,
+     353,
+     500
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     345,
+     569,
+     353,
+     587
+    ]
+   },
+   "rate": {
+    "value": "1,024.00",
+    "box": [
+     344,
+     658,
+     357,
+     733
+    ]
+   },
+   "amount": {
+    "value": "3,85,024.00",
+    "box": [
+     345,
+     802,
+     358,
+     906
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     363,
+     69,
+     378,
+     226
+    ]
+   },
+   "hsn_sac": {
+    "value": "7412",
+    "box": [
+     367,
+     369,
+     377,
+     409
+    ]
+   },
+   "quantity": {
+    "value": "717",
+    "box": [
+     367,
+     469,
+     378,
+     498
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     371,
+     569,
+     378,
+     600
+    ]
+   },
+   "rate": {
+    "value": "2,134.00",
+    "box": [
+     369,
+     657,
+     382,
+     730
+    ]
+   },
+   "amount": {
+    "value": "15,30,078.00",
+    "box": [
+     370,
+     802,
+     384,
+     913
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "invoice_number",
+   "index": null,
+   "printed": "INV/26-27/024",
+   "read": "INV/26-27/O24"
+  },
+  {
+   "field": "challan_reference",
+   "index": null,
+   "printed": "DC-6073",
+   "read": "DC-673"
+  },
+  {
+   "field": "taxable_total",
+   "index": null,
+   "printed": "22,89,861.00",
+   "read": "22,89,86.00"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

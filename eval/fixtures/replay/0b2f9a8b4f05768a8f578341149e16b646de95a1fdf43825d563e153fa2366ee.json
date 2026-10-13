@@ -1,0 +1,9 @@
+{
+  "key": "1c91164a998a8d218f20b396f0ab3093c581a347b06c026bdbf4de353a5bacd4:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": [135, 92, 157, 292]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6246Z1Z7\", \"box_2d\": [162, 98, 183, 284]}, \"po_number\": {\"value\": \"PO-2026-0535\", \"box_2d\": [112, 607, 130, 747]}, \"po_date\": {\"value\": \"09 Sep 2026\", \"box_2d\": [139, 596, 160, 720]}, \"supplier_name\": {\"value\": \"Example Catings LLP\", \"box_2d\": [203, 122, 230, 340]}, \"supplier_gstin\": {\"value\": \"24AAAPZ2222Z1ZX\", \"box_2d\": [233, 105, 253, 291]}, \"payment_terms_text\": {\"value\": \"Payment within 60 days of delivery\", \"box_2d\": [408, 126, 444, 482]}, \"credit_days\": {\"value\": \"60\", \"box_2d\": [453, 173, 465, 201]}, \"line_items\": [{\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [317, 47, 338, 178]}, \"quantity\": {\"value\": \"581\", \"box_2d\": [302, 446, 313, 476]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [295, 579, 309, 601]}, \"rate\": {\"value\": \"1,507.50\", \"box_2d\": [286, 712, 302, 784]}}, {\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [340, 49, 363, 207]}, \"quantity\": {\"value\": \"202\", \"box_2d\": [327, 448, 338, 482]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [323, 582, 331, 613]}, \"rate\": {\"value\": \"984.50\", \"box_2d\": [312, 714, 324, 775]}}, {\"description\": {\"value\": \"MS flat 50x6\", \"box_2d\": [369, 52, 385, 163]}, \"quantity\": {\"value\": \"203\", \"box_2d\": [352, 451, 363, 484]}, \"unit\": {\"value\": \"lot\", \"box_2d\": [345, 584, 356, 609]}, \"rate\": {\"value\": \"891.00\", \"box_2d\": [337, 717, 349, 776]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

@@ -1,0 +1,208 @@
+{
+ "id": "case-06-po",
+ "kind": "po",
+ "case": "case-06",
+ "synthetic": true,
+ "image": "papers/case-06-po.jpg",
+ "sha256": "1c91164a998a8d218f20b396f0ab3093c581a347b06c026bdbf4de353a5bacd4",
+ "fields": {
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    135,
+    92,
+    157,
+    292
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6246Z1Z7",
+   "box": [
+    162,
+    98,
+    183,
+    284
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0535",
+   "box": [
+    112,
+    607,
+    130,
+    747
+   ]
+  },
+  "po_date": {
+   "value": "09 Sep 2026",
+   "box": [
+    139,
+    596,
+    160,
+    720
+   ]
+  },
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    203,
+    122,
+    230,
+    340
+   ]
+  },
+  "supplier_gstin": {
+   "value": "24AAAPZ2222Z1ZX",
+   "box": [
+    233,
+    105,
+    253,
+    291
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 60 days of delivery",
+   "box": [
+    408,
+    126,
+    444,
+    482
+   ]
+  },
+  "credit_days": {
+   "value": "60",
+   "box": [
+    453,
+    173,
+    465,
+    201
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     317,
+     47,
+     338,
+     178
+    ]
+   },
+   "quantity": {
+    "value": "581",
+    "box": [
+     302,
+     446,
+     313,
+     476
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     295,
+     579,
+     309,
+     601
+    ]
+   },
+   "rate": {
+    "value": "1,507.50",
+    "box": [
+     286,
+     712,
+     302,
+     784
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     340,
+     49,
+     363,
+     207
+    ]
+   },
+   "quantity": {
+    "value": "202",
+    "box": [
+     327,
+     448,
+     338,
+     482
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     323,
+     582,
+     331,
+     613
+    ]
+   },
+   "rate": {
+    "value": "984.50",
+    "box": [
+     312,
+     714,
+     324,
+     775
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     369,
+     52,
+     385,
+     163
+    ]
+   },
+   "quantity": {
+    "value": "203",
+    "box": [
+     352,
+     451,
+     363,
+     484
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     345,
+     584,
+     356,
+     609
+    ]
+   },
+   "rate": {
+    "value": "891.00",
+    "box": [
+     337,
+     717,
+     349,
+     776
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "supplier_name",
+   "index": null,
+   "printed": "Example Castings LLP",
+   "read": "Example Catings LLP"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

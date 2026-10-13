@@ -1,0 +1,9 @@
+{
+  "key": "374ddac56e76e95a2fa11c3251d72511fb56bcdb4481690149a1159d9f3ea82d:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [112, 159, 134, 346]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6041ZIZE\", \"box_2d\": [138, 159, 156, 345]}, \"po_number\": {\"value\": \"PO-2026-0332\", \"box_2d\": [133, 674, 148, 813]}, \"po_date\": {\"value\": \"04 May 2026\", \"box_2d\": [157, 658, 177, 787]}, \"supplier_name\": {\"value\": \"Specimen Polymers Pvt Ltd\", \"box_2d\": [183, 175, 210, 450]}, \"supplier_gstin\": {\"value\": \"29AAAPZ2037Z1ZI\", \"box_2d\": [209, 154, 227, 334]}, \"payment_terms_text\": {\"value\": \"Payment within 15 days of delivery\", \"box_2d\": [394, 141, 424, 493]}, \"credit_days\": {\"value\": \"15\", \"box_2d\": [426, 183, 437, 205]}, \"line_items\": [{\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [285, 81, 303, 212]}, \"quantity\": {\"value\": \"426\", \"box_2d\": [301, 481, 311, 514]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [305, 614, 319, 636]}, \"rate\": {\"value\": \"2,474.00\", \"box_2d\": [311, 747, 326, 823]}}, {\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [310, 79, 330, 257]}, \"quantity\": {\"value\": \"849\", \"box_2d\": [326, 479, 336, 513]}, \"unit\": {\"value\": \"m\", \"box_2d\": [333, 612, 341, 630]}, \"rate\": {\"value\": \"1,010.00\", \"box_2d\": [336, 745, 351, 819]}}, {\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [335, 77, 355, 240]}, \"quantity\": {\"value\": \"21\", \"box_2d\": [351, 477, 361, 496]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [355, 610, 369, 632]}, \"rate\": {\"value\": \"946.00\", \"box_2d\": [361, 743, 373, 806]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

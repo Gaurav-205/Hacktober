@@ -1,0 +1,262 @@
+{
+ "id": "case-07-invoice",
+ "kind": "invoice",
+ "case": "case-07",
+ "synthetic": true,
+ "image": "papers/case-07-invoice.jpg",
+ "sha256": "e2142432019adb6e0b734dfae40b379ac78d074b81601e8cc383630280e82d59",
+ "fields": {
+  "supplier_name": {
+   "value": "Mock Packaging Works",
+   "box": [
+    117,
+    170,
+    138,
+    402
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2259Z1ZA",
+   "box": [
+    144,
+    149,
+    158,
+    337
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/093",
+   "box": [
+    128,
+    699,
+    146,
+    840
+   ]
+  },
+  "invoice_date": {
+   "value": "19/05/2026",
+   "box": [
+    152,
+    648,
+    169,
+    761
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    187,
+    143,
+    207,
+    330
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6287Z1ZY",
+   "box": [
+    214,
+    145,
+    229,
+    333
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    240,
+    222,
+    254,
+    356
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0540",
+   "box": [
+    201,
+    660,
+    214,
+    802
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-4263",
+   "box": [
+    227,
+    699,
+    239,
+    782
+   ]
+  },
+  "taxable_total": {
+   "value": "10,98,333.00",
+   "box": [
+    388,
+    691,
+    405,
+    817
+   ]
+  },
+  "cgst": {
+   "value": "98,849.97",
+   "box": [
+    415,
+    676,
+    430,
+    772
+   ]
+  },
+  "sgst": {
+   "value": "98,849.97",
+   "box": [
+    441,
+    674,
+    457,
+    770
+   ]
+  },
+  "round_off": {
+   "value": "0.06",
+   "box": [
+    468,
+    656,
+    479,
+    702
+   ]
+  },
+  "invoice_total": {
+   "value": "12,96,033.00",
+   "box": [
+    498,
+    612,
+    514,
+    739
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    875,
+    148,
+    888,
+    282
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     307,
+     75,
+     323,
+     205
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     314,
+     375,
+     325,
+     416
+    ]
+   },
+   "quantity": {
+    "value": "838",
+    "box": [
+     317,
+     474,
+     327,
+     506
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     318,
+     574,
+     332,
+     596
+    ]
+   },
+   "rate": {
+    "value": "607.50",
+    "box": [
+     321,
+     663,
+     332,
+     724
+    ]
+   },
+   "amount": {
+    "value": "5,09,085.00",
+    "box": [
+     324,
+     807,
+     339,
+     914
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     332,
+     73,
+     350,
+     258
+    ]
+   },
+   "hsn_sac": {
+    "value": "4819",
+    "box": [
+     340,
+     373,
+     350,
+     415
+    ]
+   },
+   "quantity": {
+    "value": "341",
+    "box": [
+     342,
+     473,
+     352,
+     503
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     346,
+     573,
+     354,
+     605
+    ]
+   },
+   "rate": {
+    "value": "1,728.00",
+    "box": [
+     346,
+     662,
+     360,
+     735
+    ]
+   },
+   "amount": {
+    "value": "5,89,248.00",
+    "box": [
+     349,
+     806,
+     364,
+     909
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

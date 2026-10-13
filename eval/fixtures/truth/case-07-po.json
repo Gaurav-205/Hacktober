@@ -1,0 +1,170 @@
+{
+ "id": "case-07-po",
+ "kind": "po",
+ "case": "case-07",
+ "synthetic": true,
+ "image": "papers/case-07-po.jpg",
+ "sha256": "04efea6b21d0d148623764acb227ceb21ee13f4a9e842e2eb2e82f0a19c8a60d",
+ "fields": {
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    131,
+    109,
+    152,
+    296
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6287Z1ZY",
+   "box": [
+    157,
+    113,
+    174,
+    300
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0540",
+   "box": [
+    118,
+    624,
+    133,
+    767
+   ]
+  },
+  "po_date": {
+   "value": "10 May 2026",
+   "box": [
+    144,
+    612,
+    163,
+    737
+   ]
+  },
+  "supplier_name": {
+   "value": "Mock Packaging Works",
+   "box": [
+    199,
+    135,
+    222,
+    368
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2259Z1ZA",
+   "box": [
+    228,
+    117,
+    244,
+    305
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 45 days of delivery",
+   "box": [
+    383,
+    128,
+    410,
+    483
+   ]
+  },
+  "credit_days": {
+   "value": "45",
+   "box": [
+    421,
+    174,
+    432,
+    200
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     310,
+     55,
+     327,
+     186
+    ]
+   },
+   "quantity": {
+    "value": "838",
+    "box": [
+     302,
+     455,
+     312,
+     486
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     297,
+     588,
+     311,
+     610
+    ]
+   },
+   "rate": {
+    "value": "607.50",
+    "box": [
+     293,
+     721,
+     305,
+     782
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     334,
+     57,
+     353,
+     242
+    ]
+   },
+   "quantity": {
+    "value": "341",
+    "box": [
+     327,
+     456,
+     337,
+     486
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     325,
+     590,
+     333,
+     621
+    ]
+   },
+   "rate": {
+    "value": "1,728.00",
+    "box": [
+     318,
+     723,
+     332,
+     796
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "quantity",
+   "index": 1,
+   "printed": "341",
+   "read": "31"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

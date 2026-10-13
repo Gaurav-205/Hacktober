@@ -1,0 +1,9 @@
+{
+  "key": "cf0483d60f8a31f149ab2a8981c2c4beb85253ea979c78fae08e93775700ec03:po:1:r0:a1:payment_terms_text:359,117,399,473",
+  "text": "{\"value\": \"Payment within 60 days of delivery\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

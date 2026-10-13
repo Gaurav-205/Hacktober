@@ -1,0 +1,9 @@
+{
+  "key": "9af2f9a5b1a883a4621faf97a0270ee46901d15f4156494239f1bf1097250c49:invoice:1:r0:a1:po_reference:185,620,202,761",
+  "text": "{\"value\": \"PO-2026-0795\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

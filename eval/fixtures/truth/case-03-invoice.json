@@ -1,0 +1,204 @@
+{
+ "id": "case-03-invoice",
+ "kind": "invoice",
+ "case": "case-03",
+ "synthetic": true,
+ "image": "papers/case-03-invoice.jpg",
+ "sha256": "aabc1f92076fc09a192fb8f3a8f09ace4279186801690bfed0019ffcdacd9ec4",
+ "fields": {
+  "supplier_name": {
+   "value": "Mock Packaging Works",
+   "box": [
+    127,
+    138,
+    148,
+    371
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2111Z1ZT",
+   "box": [
+    156,
+    119,
+    170,
+    298
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/446",
+   "box": [
+    118,
+    668,
+    135,
+    808
+   ]
+  },
+  "invoice_date": {
+   "value": "04/03/2026",
+   "box": [
+    144,
+    619,
+    161,
+    737
+   ]
+  },
+  "buyer_name": {
+   "value": "Instance Foods Ltd",
+   "box": [
+    200,
+    117,
+    215,
+    306
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6123Z1ZJ",
+   "box": [
+    226,
+    122,
+    243,
+    299
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    249,
+    201,
+    265,
+    358
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0344",
+   "box": [
+    191,
+    634,
+    204,
+    775
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-1414",
+   "box": [
+    217,
+    675,
+    229,
+    754
+   ]
+  },
+  "taxable_total": {
+   "value": "1,50,650.00",
+   "box": [
+    353,
+    681,
+    369,
+    798
+   ]
+  },
+  "igst": {
+   "value": "27,117.00",
+   "box": [
+    380,
+    668,
+    395,
+    756
+   ]
+  },
+  "round_off": {
+   "value": "0.00",
+   "box": [
+    408,
+    651,
+    419,
+    698
+   ]
+  },
+  "invoice_total": {
+   "value": "1,77,767.00",
+   "box": [
+    439,
+    610,
+    455,
+    717
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    887,
+    182,
+    900,
+    315
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     322,
+     59,
+     339,
+     216
+    ]
+   },
+   "hsn_sac": {
+    "value": "7412",
+    "box": [
+     319,
+     359,
+     330,
+     400
+    ]
+   },
+   "quantity": {
+    "value": "460",
+    "box": [
+     317,
+     459,
+     328,
+     494
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     318,
+     559,
+     325,
+     591
+    ]
+   },
+   "rate": {
+    "value": "327.50",
+    "box": [
+     313,
+     648,
+     324,
+     705
+    ]
+   },
+   "amount": {
+    "value": "1,50,650.00",
+    "box": [
+     309,
+     792,
+     324,
+     895
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "buyer_gstin",
+   "index": null,
+   "printed": "27AAAPZ6123Z1ZJ",
+   "read": "27AAAPZ6123ZIZJ"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

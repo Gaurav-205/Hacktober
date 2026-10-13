@@ -1,0 +1,9 @@
+{
+  "key": "ed4b72bffdaa750ad5e078d5d1d92623f060a282903719cf06a8e92d7161c1a1:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Mock Packaging Works\", \"box_2d\": [135, 80, 165, 313]}, \"supplier_gstin\": {\"value\": \"29AAAPZ2259Z1ZA\", \"box_2d\": [164, 91, 186, 279]}, \"challan_number\": {\"value\": \"DC-4263\", \"box_2d\": [111, 639, 126, 723]}, \"challan_date\": {\"value\": \"16/05/2026\", \"box_2d\": [135, 589, 156, 704]}, \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [210, 65, 237, 252]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6287Z1ZY\", \"box_2d\": [235, 100, 257, 287]}, \"po_reference\": {\"value\": \"PO-2026-0540\", \"box_2d\": [180, 608, 199, 751]}, \"vehicle_number\": {\"value\": \"MH12 AB O000\", \"box_2d\": [204, 619, 224, 768]}, \"receiver_stamp_present\": {\"value\": \"yes\", \"box_2d\": [405, 613, 509, 912]}, \"receiver_signature_present\": {\"value\": \"yes\", \"box_2d\": [499, 625, 548, 917]}, \"line_items\": [{\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [321, 43, 342, 175]}, \"quantity\": {\"value\": \"838\", \"box_2d\": [300, 486, 311, 518]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [290, 641, 305, 664]}}, {\"description\": {\"value\": \"Corrugated box 5 ply\", \"box_2d\": [342, 47, 368, 232]}, \"quantity\": {\"value\": \"341\", \"box_2d\": [325, 489, 336, 519]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [317, 645, 326, 677]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

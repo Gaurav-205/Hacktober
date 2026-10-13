@@ -1,0 +1,195 @@
+{
+ "id": "case-08-challan",
+ "kind": "challan",
+ "case": "case-08",
+ "synthetic": true,
+ "image": "papers/case-08-challan.jpg",
+ "sha256": "fed4b06eeb631fffd202f759c05a916628e358e7e093840bdc93d0bcb83c516c",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    109,
+    158,
+    134,
+    376
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ2296Z1Z7",
+   "box": [
+    136,
+    164,
+    155,
+    352
+   ]
+  },
+  "challan_number": {
+   "value": "DC-9766",
+   "box": [
+    136,
+    719,
+    150,
+    803
+   ]
+  },
+  "challan_date": {
+   "value": "13/03/2026",
+   "box": [
+    156,
+    663,
+    175,
+    775
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    178,
+    128,
+    202,
+    315
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6328Z1ZC",
+   "box": [
+    207,
+    158,
+    226,
+    344
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0668",
+   "box": [
+    204,
+    672,
+    221,
+    814
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    230,
+    678,
+    246,
+    826
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "no",
+   "box": null
+  },
+  "receiver_signature_present": {
+   "value": "no",
+   "box": null
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Steel bolt M12",
+    "box": [
+     282,
+     84,
+     298,
+     209
+    ]
+   },
+   "quantity": {
+    "value": "212",
+    "box": [
+     303,
+     528,
+     313,
+     558
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     312,
+     683,
+     320,
+     715
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     306,
+     82,
+     327,
+     239
+    ]
+   },
+   "quantity": {
+    "value": "657",
+    "box": [
+     328,
+     526,
+     339,
+     559
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     337,
+     681,
+     345,
+     713
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     332,
+     80,
+     354,
+     265
+    ]
+   },
+   "quantity": {
+    "value": "390",
+    "box": [
+     353,
+     523,
+     364,
+     558
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     362,
+     679,
+     370,
+     710
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "supplier_name",
+   "index": null,
+   "printed": "Example Castings LLP",
+   "read": "Example Casting LLP"
+  },
+  {
+   "field": "po_reference",
+   "index": null,
+   "printed": "PO-2026-0668",
+   "read": "PO-2O26-0668"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

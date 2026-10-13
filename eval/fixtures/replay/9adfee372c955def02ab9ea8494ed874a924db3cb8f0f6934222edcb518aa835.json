@@ -1,0 +1,9 @@
+{
+  "key": "a986aedd5cb012066a887d76df7dde515178d1689f5207e78296b6e5230cf420:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Pattern Pumps Ltd\", \"box_2d\": [136, 92, 161, 280]}, \"buyer_gstin\": {\"value\": \"29AAAPZ6205Z1ZG\", \"box_2d\": [162, 97, 182, 288]}, \"po_number\": {\"value\": \"PO-2026-O858\", \"box_2d\": [112, 607, 130, 749]}, \"po_date\": {\"value\": \"05 Apr 2026\", \"box_2d\": [139, 596, 160, 718]}, \"supplier_name\": {\"value\": \"Example Castings LLP\", \"box_2d\": [203, 122, 230, 340]}, \"supplier_gstin\": {\"value\": \"29AAAPZ2185Z1Z9\", \"box_2d\": [233, 105, 253, 289]}, \"payment_terms_text\": {\"value\": \"Payment within 45 days of delivery\", \"box_2d\": [409, 126, 444, 481]}, \"credit_days\": {\"value\": \"45\", \"box_2d\": [453, 173, 465, 200]}, \"line_items\": [{\"description\": {\"value\": \"Corrugated box 5 ply\", \"box_2d\": [315, 47, 338, 232]}, \"quantity\": {\"value\": \"460\", \"box_2d\": [302, 446, 313, 481]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [298, 579, 306, 611]}, \"rate\": {\"value\": \"2,444.50\", \"box_2d\": [286, 712, 302, 789]}}, {\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [340, 49, 363, 227]}, \"quantity\": {\"value\": \"290\", \"box_2d\": [327, 448, 338, 483]}, \"unit\": {\"value\": \"m\", \"box_2d\": [323, 582, 331, 600]}, \"rate\": {\"value\": \"2,104.50\", \"box_2d\": [311, 714, 327, 788]}}, {\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [366, 52, 388, 215]}, \"quantity\": {\"value\": \"477\", \"box_2d\": [352, 451, 364, 483]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [345, 584, 360, 606]}, \"rate\": {\"value\": \"2,021.50\", \"box_2d\": [336, 717, 353, 790]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

@@ -1,0 +1,9 @@
+{
+  "key": "42cff8353d66e1c9a6be14a9c442e730b6d9bf15148c9991defbdcc9c7e21f81:challan:1:r0:a2",
+  "text": "{\"broken\": ",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

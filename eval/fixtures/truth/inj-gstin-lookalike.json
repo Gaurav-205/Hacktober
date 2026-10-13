@@ -1,0 +1,324 @@
+{
+ "id": "inj-gstin-lookalike",
+ "kind": "invoice",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/inj-gstin-lookalike.jpg",
+ "sha256": "37be50ecda0c679bd3a7443155bde4830ffb76511aeccdd2a3fe96b903bd344f",
+ "fields": {
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    108,
+    191,
+    139,
+    465
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2O37Z1ZI",
+   "box": [
+    134,
+    169,
+    154,
+    353
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/511",
+   "box": [
+    135,
+    720,
+    155,
+    853
+   ]
+  },
+  "invoice_date": {
+   "value": "23/05/2026",
+   "box": [
+    157,
+    668,
+    177,
+    782
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    177,
+    161,
+    203,
+    348
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    204,
+    162,
+    224,
+    348
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    232,
+    237,
+    250,
+    371
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0332",
+   "box": [
+    205,
+    676,
+    223,
+    816
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-8402",
+   "box": [
+    233,
+    714,
+    247,
+    799
+   ]
+  },
+  "taxable_total": {
+   "value": "19,31,280.00",
+   "box": [
+    419,
+    694,
+    439,
+    818
+   ]
+  },
+  "cgst": {
+   "value": "1,73,815.20",
+   "box": [
+    445,
+    677,
+    464,
+    784
+   ]
+  },
+  "sgst": {
+   "value": "1,73,815.20",
+   "box": [
+    472,
+    674,
+    490,
+    781
+   ]
+  },
+  "round_off": {
+   "value": "-0.40",
+   "box": [
+    497,
+    654,
+    510,
+    707
+   ]
+  },
+  "invoice_total": {
+   "value": "22,78,910.00",
+   "box": [
+    527,
+    608,
+    546,
+    733
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    865,
+    126,
+    882,
+    260
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     295,
+     85,
+     315,
+     216
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     311,
+     385,
+     323,
+     427
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     316,
+     485,
+     327,
+     518
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     320,
+     584,
+     335,
+     606
+    ]
+   },
+   "rate": {
+    "value": "2,474.00",
+    "box": [
+     326,
+     673,
+     342,
+     749
+    ]
+   },
+   "amount": {
+    "value": "10,53,924.00",
+    "box": [
+     333,
+     817,
+     351,
+     928
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     320,
+     83,
+     342,
+     260
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     336,
+     382,
+     349,
+     428
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     341,
+     482,
+     352,
+     516
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     349,
+     582,
+     357,
+     600
+    ]
+   },
+   "rate": {
+    "value": "1,010.00",
+    "box": [
+     351,
+     670,
+     367,
+     744
+    ]
+   },
+   "amount": {
+    "value": "8,57,490.00",
+    "box": [
+     358,
+     814,
+     376,
+     917
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     345,
+     80,
+     367,
+     243
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     361,
+     380,
+     373,
+     420
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     366,
+     479,
+     377,
+     498
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     371,
+     579,
+     385,
+     601
+    ]
+   },
+   "rate": {
+    "value": "946.00",
+    "box": [
+     376,
+     668,
+     389,
+     731
+    ]
+   },
+   "amount": {
+    "value": "19,866.00",
+    "box": [
+     383,
+     812,
+     400,
+     897
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": [
+  {
+   "field": "supplier_gstin",
+   "fault": "lookalike",
+   "truth": "29AAAPZ2037Z1ZI"
+  }
+ ]
+}

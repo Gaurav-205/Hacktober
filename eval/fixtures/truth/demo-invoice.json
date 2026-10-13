@@ -1,0 +1,260 @@
+{
+ "id": "demo-invoice",
+ "kind": "invoice",
+ "case": "demo",
+ "synthetic": true,
+ "image": "demo/invoice.jpg",
+ "sha256": "0ac1e68cc257e45429e00c15280ed436e9eafdd8183d6af09527730c9a9504a9",
+ "fields": {
+  "supplier_name": {
+   "value": "Sample Fabricators Pvt Ltd",
+   "box": [
+    126,
+    147,
+    144,
+    417
+   ]
+  },
+  "supplier_gstin": {
+   "value": "09AAAPZ1234Z1ZN",
+   "box": [
+    153,
+    128,
+    165,
+    317
+   ]
+  },
+  "invoice_number": {
+   "value": "SF/2025-26/0412",
+   "box": [
+    121,
+    677,
+    137,
+    843
+   ]
+  },
+  "invoice_date": {
+   "value": "21/03/2026",
+   "box": [
+    147,
+    627,
+    162,
+    739
+   ]
+  },
+  "buyer_name": {
+   "value": "Demo Textiles Ltd",
+   "box": [
+    197,
+    125,
+    210,
+    304
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ5678Z1Z1",
+   "box": [
+    224,
+    129,
+    236,
+    310
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    247,
+    207,
+    261,
+    364
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0117",
+   "box": [
+    195,
+    642,
+    207,
+    776
+   ]
+  },
+  "challan_reference": {
+   "value": "CH-0412",
+   "box": [
+    220,
+    682,
+    231,
+    764
+   ]
+  },
+  "taxable_total": {
+   "value": "4,23,729.00",
+   "box": [
+    382,
+    685,
+    396,
+    798
+   ]
+  },
+  "igst": {
+   "value": "76,271.22",
+   "box": [
+    409,
+    672,
+    423,
+    761
+   ]
+  },
+  "round_off": {
+   "value": "-0.22",
+   "box": [
+    436,
+    653,
+    446,
+    702
+   ]
+  },
+  "invoice_total": {
+   "value": "5,00,000.00",
+   "box": [
+    467,
+    612,
+    481,
+    736
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    885,
+    172,
+    896,
+    305
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     319,
+     64,
+     334,
+     226
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     318,
+     364,
+     329,
+     404
+    ]
+   },
+   "quantity": {
+    "value": "1,200",
+    "box": [
+     317,
+     464,
+     330,
+     511
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     316,
+     564,
+     329,
+     585
+    ]
+   },
+   "rate": {
+    "value": "250.00",
+    "box": [
+     316,
+     653,
+     326,
+     714
+    ]
+   },
+   "amount": {
+    "value": "3,00,000.00",
+    "box": [
+     314,
+     797,
+     327,
+     905
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS flat 50x6",
+    "box": [
+     344,
+     64,
+     356,
+     174
+    ]
+   },
+   "hsn_sac": {
+    "value": "7211",
+    "box": [
+     343,
+     364,
+     354,
+     400
+    ]
+   },
+   "quantity": {
+    "value": "1",
+    "box": [
+     343,
+     464,
+     352,
+     472
+    ]
+   },
+   "unit": {
+    "value": "lot",
+    "box": [
+     341,
+     564,
+     351,
+     589
+    ]
+   },
+   "rate": {
+    "value": "1,23,729.00",
+    "box": [
+     340,
+     653,
+     354,
+     750
+    ]
+   },
+   "amount": {
+    "value": "1,23,729.00",
+    "box": [
+     339,
+     797,
+     353,
+     894
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "buyer_gstin",
+   "index": null,
+   "printed": "27AAAPZ5678Z1Z1",
+   "read": "27AAAPZ5678Z1ZM"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

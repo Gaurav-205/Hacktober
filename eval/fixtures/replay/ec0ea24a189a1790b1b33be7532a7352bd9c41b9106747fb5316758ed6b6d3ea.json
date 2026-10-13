@@ -1,0 +1,9 @@
+{
+  "key": "256c3f98b082e1a7dd738d32466f856a7cca0c12fee2b5353a1f2f138da35807:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": [130, 111, 147, 310]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6082ZIZ9\", \"box_2d\": [157, 114, 173, 302]}, \"po_number\": {\"value\": \"PO-2026-0949\", \"box_2d\": [119, 626, 133, 769]}, \"po_date\": {\"value\": \"05 May 2026\", \"box_2d\": [145, 614, 163, 743]}, \"supplier_name\": {\"value\": \"Model Wire Products\", \"box_2d\": [200, 137, 217, 347]}, \"supplier_gstin\": {\"value\": \"27AAAPZ2074Z1ZH\", \"box_2d\": [227, 118, 244, 309]}, \"payment_terms_text\": {\"value\": \"Payment within 60 days of delivery\", \"box_2d\": [408, 130, 434, 486]}, \"credit_days\": {\"value\": \"60\", \"box_2d\": [446, 176, 457, 203]}, \"line_items\": [{\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [308, 56, 326, 213]}, \"quantity\": {\"value\": \"429\", \"box_2d\": [302, 456, 312, 489]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [301, 589, 308, 621]}, \"rate\": {\"value\": \"1,430.50\", \"box_2d\": [293, 722, 308, 795]}}, {\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [334, 57, 351, 188]}, \"quantity\": {\"value\": \"822\", \"box_2d\": [327, 457, 337, 489]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [323, 590, 337, 612]}, \"rate\": {\"value\": \"2,461.50\", \"box_2d\": [319, 724, 333, 797]}}, {\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [358, 59, 376, 236]}, \"quantity\": {\"value\": \"488\", \"box_2d\": [352, 459, 362, 491]}, \"unit\": {\"value\": \"m\", \"box_2d\": [351, 592, 359, 610]}, \"rate\": {\"value\": \"1,806.50\", \"box_2d\": [344, 725, 358, 800]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

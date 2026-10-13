@@ -80,9 +80,25 @@ def _one(
     return finding("VALUE-FORMAT", Status.PASSED, (ref,), severity=severity)
 
 
+def _runaway(ref: FieldRef) -> Finding:
+    """The model wrote an over-long value that was dropped (AI_SPEC 6): someone must look."""
+    return finding(
+        "VALUE-FORMAT",
+        Status.NEEDS_REVIEW,
+        (ref,),
+        message_key="rule.VALUE-FORMAT.runaway",
+        severity=Severity.WARNING,
+    )
+
+
 def check(state: CaseState) -> list[Finding]:
     out: list[Finding] = []
     for kind, paper in present_papers(state):
+        out += [_runaway(FieldRef(kind, n)) for n, c in paper.fields.items() if c.flag == "runaway"]
+        for index, line in enumerate(paper.lines):
+            out += [
+                _runaway(FieldRef(kind, n, index)) for n, c in line.items() if c.flag == "runaway"
+            ]
         for name, read, suffix, severity in FIELD_KINDS[kind]:
             if name in paper.fields:
                 result = _one(FieldRef(kind, name), paper.fields[name], read, suffix, severity)

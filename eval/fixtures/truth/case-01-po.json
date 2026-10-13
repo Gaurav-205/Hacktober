@@ -1,0 +1,208 @@
+{
+ "id": "case-01-po",
+ "kind": "po",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/case-01-po.jpg",
+ "sha256": "374ddac56e76e95a2fa11c3251d72511fb56bcdb4481690149a1159d9f3ea82d",
+ "fields": {
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    112,
+    159,
+    134,
+    346
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    138,
+    159,
+    156,
+    345
+   ]
+  },
+  "po_number": {
+   "value": "PO-2026-0332",
+   "box": [
+    133,
+    674,
+    148,
+    813
+   ]
+  },
+  "po_date": {
+   "value": "04 May 2026",
+   "box": [
+    157,
+    658,
+    177,
+    787
+   ]
+  },
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    183,
+    175,
+    210,
+    450
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2037Z1ZI",
+   "box": [
+    209,
+    154,
+    227,
+    334
+   ]
+  },
+  "payment_terms_text": {
+   "value": "Payment within 15 days of delivery",
+   "box": [
+    394,
+    141,
+    424,
+    493
+   ]
+  },
+  "credit_days": {
+   "value": "15",
+   "box": [
+    426,
+    183,
+    437,
+    205
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     285,
+     81,
+     303,
+     212
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     301,
+     481,
+     311,
+     514
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     305,
+     614,
+     319,
+     636
+    ]
+   },
+   "rate": {
+    "value": "2,474.00",
+    "box": [
+     311,
+     747,
+     326,
+     823
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     310,
+     79,
+     330,
+     257
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     326,
+     479,
+     336,
+     513
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     333,
+     612,
+     341,
+     630
+    ]
+   },
+   "rate": {
+    "value": "1,010.00",
+    "box": [
+     336,
+     745,
+     351,
+     819
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     335,
+     77,
+     355,
+     240
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     351,
+     477,
+     361,
+     496
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     355,
+     610,
+     369,
+     632
+    ]
+   },
+   "rate": {
+    "value": "946.00",
+    "box": [
+     361,
+     743,
+     373,
+     806
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "buyer_gstin",
+   "index": null,
+   "printed": "29AAAPZ6041Z1ZE",
+   "read": "29AAAPZ6041ZIZE"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

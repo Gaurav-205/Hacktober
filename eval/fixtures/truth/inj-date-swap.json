@@ -1,0 +1,324 @@
+{
+ "id": "inj-date-swap",
+ "kind": "invoice",
+ "case": "case-01",
+ "synthetic": true,
+ "image": "papers/inj-date-swap.jpg",
+ "sha256": "455506c58be21dc7a82079a6c67465c2db98a651894c998d45120c58adb7a4b5",
+ "fields": {
+  "supplier_name": {
+   "value": "Specimen Polymers Pvt Ltd",
+   "box": [
+    131,
+    106,
+    165,
+    381
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2037Z1ZI",
+   "box": [
+    165,
+    90,
+    188,
+    271
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/511",
+   "box": [
+    105,
+    634,
+    128,
+    768
+   ]
+  },
+  "invoice_date": {
+   "value": "05/23/2026",
+   "box": [
+    135,
+    587,
+    156,
+    702
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    209,
+    92,
+    236,
+    280
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6041Z1ZE",
+   "box": [
+    235,
+    99,
+    257,
+    285
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    257,
+    179,
+    277,
+    314
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0332",
+   "box": [
+    180,
+    607,
+    199,
+    747
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-8402",
+   "box": [
+    206,
+    650,
+    222,
+    735
+   ]
+  },
+  "taxable_total": {
+   "value": "19,31,280.00",
+   "box": [
+    390,
+    674,
+    411,
+    799
+   ]
+  },
+  "cgst": {
+   "value": "1,73,815.20",
+   "box": [
+    418,
+    663,
+    438,
+    770
+   ]
+  },
+  "sgst": {
+   "value": "1,73,815.20",
+   "box": [
+    445,
+    667,
+    465,
+    774
+   ]
+  },
+  "round_off": {
+   "value": "-0.40",
+   "box": [
+    476,
+    652,
+    490,
+    706
+   ]
+  },
+  "invoice_total": {
+   "value": "22,78,910.00",
+   "box": [
+    506,
+    614,
+    527,
+    739
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    894,
+    216,
+    913,
+    351
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     337,
+     45,
+     359,
+     176
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     324,
+     344,
+     336,
+     386
+    ]
+   },
+   "quantity": {
+    "value": "426",
+    "box": [
+     318,
+     443,
+     330,
+     477
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     312,
+     543,
+     326,
+     565
+    ]
+   },
+   "rate": {
+    "value": "2,474.00",
+    "box": [
+     303,
+     631,
+     321,
+     708
+    ]
+   },
+   "amount": {
+    "value": "10,53,924.00",
+    "box": [
+     292,
+     775,
+     311,
+     886
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     359,
+     48,
+     384,
+     226
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     349,
+     347,
+     362,
+     392
+    ]
+   },
+   "quantity": {
+    "value": "849",
+    "box": [
+     343,
+     446,
+     355,
+     481
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     340,
+     546,
+     348,
+     565
+    ]
+   },
+   "rate": {
+    "value": "1,010.00",
+    "box": [
+     328,
+     635,
+     346,
+     709
+    ]
+   },
+   "amount": {
+    "value": "8,57,490.00",
+    "box": [
+     317,
+     778,
+     336,
+     882
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     385,
+     51,
+     409,
+     215
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     374,
+     350,
+     387,
+     391
+    ]
+   },
+   "quantity": {
+    "value": "21",
+    "box": [
+     369,
+     450,
+     380,
+     469
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     362,
+     549,
+     376,
+     572
+    ]
+   },
+   "rate": {
+    "value": "946.00",
+    "box": [
+     354,
+     638,
+     368,
+     701
+    ]
+   },
+   "amount": {
+    "value": "19,866.00",
+    "box": [
+     343,
+     782,
+     361,
+     867
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": [
+  {
+   "field": "invoice_date",
+   "fault": "day_month_swapped",
+   "truth": "23/05/2026"
+  }
+ ]
+}

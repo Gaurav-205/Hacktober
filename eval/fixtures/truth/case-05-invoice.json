@@ -1,0 +1,318 @@
+{
+ "id": "case-05-invoice",
+ "kind": "invoice",
+ "case": "case-05",
+ "synthetic": true,
+ "image": "papers/case-05-invoice.jpg",
+ "sha256": "7a71c044f1fc6897d8d338e4b03a974e9e49db4b0156cee477900ecb292694da",
+ "fields": {
+  "supplier_name": {
+   "value": "Example Castings LLP",
+   "box": [
+    115,
+    175,
+    137,
+    392
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2185Z1Z9",
+   "box": [
+    141,
+    153,
+    157,
+    337
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/940",
+   "box": [
+    130,
+    704,
+    148,
+    846
+   ]
+  },
+  "invoice_date": {
+   "value": "22/04/2026",
+   "box": [
+    153,
+    653,
+    171,
+    769
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    185,
+    147,
+    206,
+    335
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6205Z1ZG",
+   "box": [
+    212,
+    149,
+    228,
+    340
+   ]
+  },
+  "place_of_supply": {
+   "value": "29-Karnataka",
+   "box": [
+    238,
+    226,
+    253,
+    359
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0858",
+   "box": [
+    202,
+    664,
+    216,
+    805
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-4568",
+   "box": [
+    228,
+    702,
+    241,
+    787
+   ]
+  },
+  "taxable_total": {
+   "value": "26,99,030.50",
+   "box": [
+    415,
+    691,
+    432,
+    821
+   ]
+  },
+  "cgst": {
+   "value": "2,42,912.75",
+   "box": [
+    441,
+    675,
+    458,
+    785
+   ]
+  },
+  "sgst": {
+   "value": "2,42,912.75",
+   "box": [
+    468,
+    673,
+    484,
+    783
+   ]
+  },
+  "round_off": {
+   "value": "0.00",
+   "box": [
+    494,
+    654,
+    505,
+    702
+   ]
+  },
+  "invoice_total": {
+   "value": "31,84,856.00",
+   "box": [
+    524,
+    610,
+    541,
+    737
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    873,
+    143,
+    887,
+    277
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     304,
+     77,
+     324,
+     262
+    ]
+   },
+   "hsn_sac": {
+    "value": "4819",
+    "box": [
+     314,
+     377,
+     324,
+     419
+    ]
+   },
+   "quantity": {
+    "value": "460",
+    "box": [
+     317,
+     477,
+     327,
+     512
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     322,
+     577,
+     330,
+     608
+    ]
+   },
+   "rate": {
+    "value": "2,444.50",
+    "box": [
+     322,
+     665,
+     337,
+     743
+    ]
+   },
+   "amount": {
+    "value": "11,24,470.00",
+    "box": [
+     326,
+     810,
+     342,
+     917
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     329,
+     76,
+     348,
+     253
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     339,
+     375,
+     350,
+     420
+    ]
+   },
+   "quantity": {
+    "value": "290",
+    "box": [
+     342,
+     475,
+     352,
+     509
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     347,
+     575,
+     355,
+     593
+    ]
+   },
+   "rate": {
+    "value": "2,104.50",
+    "box": [
+     347,
+     664,
+     362,
+     737
+    ]
+   },
+   "amount": {
+    "value": "6,10,305.00",
+    "box": [
+     351,
+     808,
+     367,
+     910
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     354,
+     74,
+     372,
+     237
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     364,
+     374,
+     375,
+     414
+    ]
+   },
+   "quantity": {
+    "value": "477",
+    "box": [
+     367,
+     474,
+     378,
+     506
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     369,
+     574,
+     383,
+     595
+    ]
+   },
+   "rate": {
+    "value": "2,021.50",
+    "box": [
+     372,
+     662,
+     387,
+     735
+    ]
+   },
+   "amount": {
+    "value": "9,64,255.50",
+    "box": [
+     377,
+     807,
+     392,
+     909
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

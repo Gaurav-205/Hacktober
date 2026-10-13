@@ -1,0 +1,1092 @@
+{
+ "synthetic": true,
+ "note": "Synthetic papers and recordings made by scripts/gen_fixtures.py. Injected variants print a fault on the paper, so a faithful re-read returns the faulty value.",
+ "seed": 20261013,
+ "papers": [
+  {
+   "id": "demo-invoice",
+   "kind": "invoice",
+   "case": "demo",
+   "image": "demo/invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "demo-challan",
+   "kind": "challan",
+   "case": "demo",
+   "image": "demo/challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "demo-po",
+   "kind": "po",
+   "case": "demo",
+   "image": "demo/po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-01-invoice",
+   "kind": "invoice",
+   "case": "case-01",
+   "image": "papers/case-01-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-01-challan",
+   "kind": "challan",
+   "case": "case-01",
+   "image": "papers/case-01-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-01-po",
+   "kind": "po",
+   "case": "case-01",
+   "image": "papers/case-01-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-02-invoice",
+   "kind": "invoice",
+   "case": "case-02",
+   "image": "papers/case-02-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-02-challan",
+   "kind": "challan",
+   "case": "case-02",
+   "image": "papers/case-02-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-02-po",
+   "kind": "po",
+   "case": "case-02",
+   "image": "papers/case-02-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-03-invoice",
+   "kind": "invoice",
+   "case": "case-03",
+   "image": "papers/case-03-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-03-challan",
+   "kind": "challan",
+   "case": "case-03",
+   "image": "papers/case-03-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-03-po",
+   "kind": "po",
+   "case": "case-03",
+   "image": "papers/case-03-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-04-invoice",
+   "kind": "invoice",
+   "case": "case-04",
+   "image": "papers/case-04-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-04-challan",
+   "kind": "challan",
+   "case": "case-04",
+   "image": "papers/case-04-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-04-po",
+   "kind": "po",
+   "case": "case-04",
+   "image": "papers/case-04-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-05-invoice",
+   "kind": "invoice",
+   "case": "case-05",
+   "image": "papers/case-05-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-05-challan",
+   "kind": "challan",
+   "case": "case-05",
+   "image": "papers/case-05-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-05-po",
+   "kind": "po",
+   "case": "case-05",
+   "image": "papers/case-05-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-06-invoice",
+   "kind": "invoice",
+   "case": "case-06",
+   "image": "papers/case-06-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-06-challan",
+   "kind": "challan",
+   "case": "case-06",
+   "image": "papers/case-06-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-06-po",
+   "kind": "po",
+   "case": "case-06",
+   "image": "papers/case-06-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-07-invoice",
+   "kind": "invoice",
+   "case": "case-07",
+   "image": "papers/case-07-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-07-challan",
+   "kind": "challan",
+   "case": "case-07",
+   "image": "papers/case-07-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-07-po",
+   "kind": "po",
+   "case": "case-07",
+   "image": "papers/case-07-po.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-08-invoice",
+   "kind": "invoice",
+   "case": "case-08",
+   "image": "papers/case-08-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-08-challan",
+   "kind": "challan",
+   "case": "case-08",
+   "image": "papers/case-08-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-09-invoice",
+   "kind": "invoice",
+   "case": "case-09",
+   "image": "papers/case-09-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-09-challan",
+   "kind": "challan",
+   "case": "case-09",
+   "image": "papers/case-09-challan.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-10-invoice",
+   "kind": "invoice",
+   "case": "case-10",
+   "image": "papers/case-10-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "case-11-invoice",
+   "kind": "invoice",
+   "case": "case-11",
+   "image": "papers/case-11-invoice.jpg",
+   "injected": false
+  },
+  {
+   "id": "inj-gstin-lookalike",
+   "kind": "invoice",
+   "case": "case-01",
+   "image": "papers/inj-gstin-lookalike.jpg",
+   "injected": true
+  },
+  {
+   "id": "inj-gstin-other",
+   "kind": "invoice",
+   "case": "case-01",
+   "image": "papers/inj-gstin-other.jpg",
+   "injected": true
+  },
+  {
+   "id": "inj-total",
+   "kind": "invoice",
+   "case": "case-01",
+   "image": "papers/inj-total.jpg",
+   "injected": true
+  },
+  {
+   "id": "inj-date-swap",
+   "kind": "invoice",
+   "case": "case-01",
+   "image": "papers/inj-date-swap.jpg",
+   "injected": true
+  },
+  {
+   "id": "inj-qty",
+   "kind": "challan",
+   "case": "case-01",
+   "image": "papers/inj-qty.jpg",
+   "injected": true
+  }
+ ],
+ "cases": [
+  {
+   "id": "demo",
+   "demo": true,
+   "papers": {
+    "invoice": "demo-invoice",
+    "challan": "demo-challan",
+    "po": "demo-po"
+   },
+   "injected": false,
+   "credit_days": 30
+  },
+  {
+   "id": "case-01",
+   "demo": false,
+   "papers": {
+    "invoice": "case-01-invoice",
+    "challan": "case-01-challan",
+    "po": "case-01-po"
+   },
+   "injected": false,
+   "credit_days": 15
+  },
+  {
+   "id": "case-02",
+   "demo": false,
+   "papers": {
+    "invoice": "case-02-invoice",
+    "challan": "case-02-challan",
+    "po": "case-02-po"
+   },
+   "injected": false,
+   "credit_days": 60
+  },
+  {
+   "id": "case-03",
+   "demo": false,
+   "papers": {
+    "invoice": "case-03-invoice",
+    "challan": "case-03-challan",
+    "po": "case-03-po"
+   },
+   "injected": false,
+   "credit_days": 60
+  },
+  {
+   "id": "case-04",
+   "demo": false,
+   "papers": {
+    "invoice": "case-04-invoice",
+    "challan": "case-04-challan",
+    "po": "case-04-po"
+   },
+   "injected": false,
+   "credit_days": 60
+  },
+  {
+   "id": "case-05",
+   "demo": false,
+   "papers": {
+    "invoice": "case-05-invoice",
+    "challan": "case-05-challan",
+    "po": "case-05-po"
+   },
+   "injected": false,
+   "credit_days": 45
+  },
+  {
+   "id": "case-06",
+   "demo": false,
+   "papers": {
+    "invoice": "case-06-invoice",
+    "challan": "case-06-challan",
+    "po": "case-06-po"
+   },
+   "injected": false,
+   "credit_days": 60
+  },
+  {
+   "id": "case-07",
+   "demo": false,
+   "papers": {
+    "invoice": "case-07-invoice",
+    "challan": "case-07-challan",
+    "po": "case-07-po"
+   },
+   "injected": false,
+   "credit_days": 45
+  },
+  {
+   "id": "case-08",
+   "demo": false,
+   "papers": {
+    "invoice": "case-08-invoice",
+    "challan": "case-08-challan"
+   },
+   "injected": false,
+   "credit_days": 30
+  },
+  {
+   "id": "case-09",
+   "demo": false,
+   "papers": {
+    "invoice": "case-09-invoice",
+    "challan": "case-09-challan"
+   },
+   "injected": false,
+   "credit_days": 45
+  },
+  {
+   "id": "case-10",
+   "demo": false,
+   "papers": {
+    "invoice": "case-10-invoice"
+   },
+   "injected": false,
+   "credit_days": 15
+  },
+  {
+   "id": "case-11",
+   "demo": false,
+   "papers": {
+    "invoice": "case-11-invoice"
+   },
+   "injected": false,
+   "credit_days": 30
+  },
+  {
+   "id": "case-inj-gstin-lookalike",
+   "demo": false,
+   "papers": {
+    "invoice": "inj-gstin-lookalike",
+    "challan": "case-01-challan",
+    "po": "case-01-po"
+   },
+   "injected": true,
+   "credit_days": 15
+  },
+  {
+   "id": "case-inj-gstin-other",
+   "demo": false,
+   "papers": {
+    "invoice": "inj-gstin-other",
+    "challan": "case-01-challan",
+    "po": "case-01-po"
+   },
+   "injected": true,
+   "credit_days": 15
+  },
+  {
+   "id": "case-inj-total",
+   "demo": false,
+   "papers": {
+    "invoice": "inj-total",
+    "challan": "case-01-challan",
+    "po": "case-01-po"
+   },
+   "injected": true,
+   "credit_days": 15
+  },
+  {
+   "id": "case-inj-date-swap",
+   "demo": false,
+   "papers": {
+    "invoice": "inj-date-swap",
+    "challan": "case-01-challan",
+    "po": "case-01-po"
+   },
+   "injected": true,
+   "credit_days": 15
+  },
+  {
+   "id": "case-inj-qty",
+   "demo": false,
+   "papers": {
+    "invoice": "case-01-invoice",
+    "challan": "inj-qty",
+    "po": "case-01-po"
+   },
+   "injected": true,
+   "credit_days": 15
+  }
+ ],
+ "files": [
+  {
+   "path": "demo/challan.jpg",
+   "sha256": "23875132bd0666c7a226fc6f6bd88ac2b9f5a7e79c4cc8fdd9d7b4ac0be1012e",
+   "size": 58304
+  },
+  {
+   "path": "demo/invoice.jpg",
+   "sha256": "0ac1e68cc257e45429e00c15280ed436e9eafdd8183d6af09527730c9a9504a9",
+   "size": 67034
+  },
+  {
+   "path": "demo/po.jpg",
+   "sha256": "d8fcd8fc6a4ebf30482f2ea44568da7ab49fab538da86d4d13eef65fe0790ccf",
+   "size": 50363
+  },
+  {
+   "path": "papers/case-01-challan.jpg",
+   "sha256": "d9f6c378ab820ca14e897df8adbaed2dbd9b9ae5e198c18e481facf15d308e81",
+   "size": 39293
+  },
+  {
+   "path": "papers/case-01-invoice.jpg",
+   "sha256": "29a3cc6aa3be00788feea12b929dc65ec0f4d62b1cf511fb69030c22a8c3897e",
+   "size": 50683
+  },
+  {
+   "path": "papers/case-01-po.jpg",
+   "sha256": "374ddac56e76e95a2fa11c3251d72511fb56bcdb4481690149a1159d9f3ea82d",
+   "size": 39701
+  },
+  {
+   "path": "papers/case-02-challan.jpg",
+   "sha256": "42cff8353d66e1c9a6be14a9c442e730b6d9bf15148c9991defbdcc9c7e21f81",
+   "size": 35303
+  },
+  {
+   "path": "papers/case-02-invoice.jpg",
+   "sha256": "a49dbfce43460d8963da753cacbfbeaf134d4fb27f845b5533d8681b22ab5526",
+   "size": 45762
+  },
+  {
+   "path": "papers/case-02-po.jpg",
+   "sha256": "256c3f98b082e1a7dd738d32466f856a7cca0c12fee2b5353a1f2f138da35807",
+   "size": 44878
+  },
+  {
+   "path": "papers/case-03-challan.jpg",
+   "sha256": "6ec63b3ef424c5947095c15f534f7ddf678e3026b93f32027eba189d79dfc547",
+   "size": 46021
+  },
+  {
+   "path": "papers/case-03-invoice.jpg",
+   "sha256": "aabc1f92076fc09a192fb8f3a8f09ace4279186801690bfed0019ffcdacd9ec4",
+   "size": 41404
+  },
+  {
+   "path": "papers/case-03-po.jpg",
+   "sha256": "cf0483d60f8a31f149ab2a8981c2c4beb85253ea979c78fae08e93775700ec03",
+   "size": 40693
+  },
+  {
+   "path": "papers/case-04-challan.jpg",
+   "sha256": "a8979d5c08d6b2a88509f15bbf0c3a265907dacffd498a57b859f6815bd914f1",
+   "size": 55218
+  },
+  {
+   "path": "papers/case-04-invoice.jpg",
+   "sha256": "7cb956c2dbfa9ee32c6c0b017deb8fcbc7d64311b904dd92c6920a4b17cbebfc",
+   "size": 47185
+  },
+  {
+   "path": "papers/case-04-po.jpg",
+   "sha256": "903b34c8b9c3bd8b154a33fac8c4a1bb26d2359f30cfbd27c01371848dc476e2",
+   "size": 43641
+  },
+  {
+   "path": "papers/case-05-challan.jpg",
+   "sha256": "3f5b6c2a8fd34b5b0b81380b9a07ddc14336a842307df167c8b36c521e856fda",
+   "size": 43687
+  },
+  {
+   "path": "papers/case-05-invoice.jpg",
+   "sha256": "7a71c044f1fc6897d8d338e4b03a974e9e49db4b0156cee477900ecb292694da",
+   "size": 47720
+  },
+  {
+   "path": "papers/case-05-po.jpg",
+   "sha256": "a986aedd5cb012066a887d76df7dde515178d1689f5207e78296b6e5230cf420",
+   "size": 43809
+  },
+  {
+   "path": "papers/case-06-challan.jpg",
+   "sha256": "54424971b12ddb220cbf68406fac47627361af26cd08903406424941774b367a",
+   "size": 48626
+  },
+  {
+   "path": "papers/case-06-invoice.jpg",
+   "sha256": "504c79355976cd28552c314a73e98d3ec3975d58a473e0a55b69a8ee4897e589",
+   "size": 55201
+  },
+  {
+   "path": "papers/case-06-po.jpg",
+   "sha256": "1c91164a998a8d218f20b396f0ab3093c581a347b06c026bdbf4de353a5bacd4",
+   "size": 40367
+  },
+  {
+   "path": "papers/case-07-challan.jpg",
+   "sha256": "ed4b72bffdaa750ad5e078d5d1d92623f060a282903719cf06a8e92d7161c1a1",
+   "size": 49040
+  },
+  {
+   "path": "papers/case-07-invoice.jpg",
+   "sha256": "e2142432019adb6e0b734dfae40b379ac78d074b81601e8cc383630280e82d59",
+   "size": 58925
+  },
+  {
+   "path": "papers/case-07-po.jpg",
+   "sha256": "04efea6b21d0d148623764acb227ceb21ee13f4a9e842e2eb2e82f0a19c8a60d",
+   "size": 39136
+  },
+  {
+   "path": "papers/case-08-challan.jpg",
+   "sha256": "fed4b06eeb631fffd202f759c05a916628e358e7e093840bdc93d0bcb83c516c",
+   "size": 44880
+  },
+  {
+   "path": "papers/case-08-invoice.jpg",
+   "sha256": "0ba122c30b116d4bab67e99ca96886cc3c10687b27e3c5587f9cff7cedd8cf73",
+   "size": 48478
+  },
+  {
+   "path": "papers/case-09-challan.jpg",
+   "sha256": "a5c23b8f9c4f3d5d33eddea9d11a098c5cbee7d5ec417037aeeecee099793935",
+   "size": 42392
+  },
+  {
+   "path": "papers/case-09-invoice.jpg",
+   "sha256": "964ff49fd4e11a4f250a854b902ceb22d07f7d47ff6eab8af4317cc70c77fe0d",
+   "size": 52973
+  },
+  {
+   "path": "papers/case-10-invoice.jpg",
+   "sha256": "77302ac45e79fe4240195ac7c371656971039ed628d8ee969c23104204aaceb5",
+   "size": 53487
+  },
+  {
+   "path": "papers/case-11-invoice.jpg",
+   "sha256": "9af2f9a5b1a883a4621faf97a0270ee46901d15f4156494239f1bf1097250c49",
+   "size": 51896
+  },
+  {
+   "path": "papers/inj-date-swap.jpg",
+   "sha256": "455506c58be21dc7a82079a6c67465c2db98a651894c998d45120c58adb7a4b5",
+   "size": 51394
+  },
+  {
+   "path": "papers/inj-gstin-lookalike.jpg",
+   "sha256": "37be50ecda0c679bd3a7443155bde4830ffb76511aeccdd2a3fe96b903bd344f",
+   "size": 59088
+  },
+  {
+   "path": "papers/inj-gstin-other.jpg",
+   "sha256": "3f97554ba451668328f3ddfe9193b077ade10b30cc0be3c5175a73edb450a435",
+   "size": 43621
+  },
+  {
+   "path": "papers/inj-qty.jpg",
+   "sha256": "e016565d06b73d9a62d39fcae78a7cacf493fbc1b97236ce032e3a750b597761",
+   "size": 48603
+  },
+  {
+   "path": "papers/inj-total.jpg",
+   "sha256": "2fcbc5b3ad894c510376ad0d1a69c3f3e8f2c1064ad06ae97f4523123e3cbac4",
+   "size": 54273
+  },
+  {
+   "path": "replay/015d448d5f79b9d535a0cb98cac8065a3bd8694727fd023007f851998287a66e.json",
+   "sha256": "247a3fc0a84d0cab88a90c99774f2f95dbf8537474b530fed5ca71cabdb41d7f",
+   "size": 336
+  },
+  {
+   "path": "replay/05878d5d03d4e03247599d52dfdae868d3a2365cfb51fcab4c7879db814668e7.json",
+   "sha256": "dc9c1bbc66a2bc6b8cff3ae86808f87154b69853b91cced75950657ea6d92536",
+   "size": 338
+  },
+  {
+   "path": "replay/098a3fa4768670616d0dca4d5dae8445ddb0fe2c68ff080056fe54a1b05bc41c.json",
+   "sha256": "5c872491f8f9877334676c42906561906bea7f7d7e81af93e72fb45d4a416115",
+   "size": 337
+  },
+  {
+   "path": "replay/0b2f9a8b4f05768a8f578341149e16b646de95a1fdf43825d563e153fa2366ee.json",
+   "sha256": "098d946848add083dcbcc9b02ac650e1aab5c3eb21d9d84883cb4efc3b4e6c8a",
+   "size": 1852
+  },
+  {
+   "path": "replay/143777b5f10daa6275ef2dfaadc39f0d69ffd16b0bec9e31ef92cc6eeefabaf0.json",
+   "sha256": "b91a8a721f4cf0b431bdcd8caad7cd836422fe73705853e1ef586ce11c4e1288",
+   "size": 1783
+  },
+  {
+   "path": "replay/15a347ef7353c899e6ac9a4bc1a0d9804f490338385b278010ebd3ddf4a187d5.json",
+   "sha256": "a57ef3001580198a2ab00f3393e14f94e7407fff229bab9debf89fc043dae789",
+   "size": 2848
+  },
+  {
+   "path": "replay/2f257a3e98a75cd6c3cad3966ebf2f8c3059a7c17bc81648698e6c8fc9fe949f.json",
+   "sha256": "8fa4a5781a663845e25c325f3972fe9725e28940a9b76f664e7fbfba6d2c078a",
+   "size": 336
+  },
+  {
+   "path": "replay/3037f36d20c2a1bfaf75b1bba97cc8f1e5570caf9fbb82e9ea35c7d00b2006b3.json",
+   "sha256": "fc253c1573d8e5b15e644928d185ad5a89df1e3dda9b153c2bc1152645a7af4b",
+   "size": 1592
+  },
+  {
+   "path": "replay/3757b37ab7f6296ba6bc8ce96d472b065fb5b6e5ecfe02e0dcb41d7b29e1e0d6.json",
+   "sha256": "62d04fca2afb14f985c97319dc9493a9979747d0ecd6202427b06679e42d75b4",
+   "size": 2775
+  },
+  {
+   "path": "replay/425c580bf584a5d7538c626d398c7403cdb953e3917455fa7d6cec34191392e7.json",
+   "sha256": "abfcd071e24a783d2d9655dbc95349e8026c45062fafbb19b50e69e883228f47",
+   "size": 1568
+  },
+  {
+   "path": "replay/47d98727f6c8e2e3ea451f42dc083571c4562f7c03f011718deced331552d895.json",
+   "sha256": "8aa91a629aa55ecf3ea507ba56973463a218110390ebdea9dca8576d064d1f55",
+   "size": 335
+  },
+  {
+   "path": "replay/4b98a68e94fe9b1e085d1a1420473d784252bb93d0dc7ca43004d49ac4fc8e17.json",
+   "sha256": "805acbaa22cc2cf826e1f72e02e98e3215a9f3af47a288e166fe44d7ad79fb10",
+   "size": 1783
+  },
+  {
+   "path": "replay/4d12943376f43320b4aeb0b25e6b05878984babe4b3b85cef8b700c9da04571d.json",
+   "sha256": "e3331bded2b73c08697dbd990d3567eb3fcf5691ec18d9df5e1d4086fd58f92f",
+   "size": 341
+  },
+  {
+   "path": "replay/4e1ede437c8f234f068ba5ec4af3a9bbed4f1b472d387fb7bc325d0b0aef2d98.json",
+   "sha256": "599952677394238554d2c67e934fcf88c09d61d789a9e4c59dbd6177e963cbf4",
+   "size": 323
+  },
+  {
+   "path": "replay/4ea40157dd80b59cf67803b642d977ea9def522c7393bde4ce8f920641454679.json",
+   "sha256": "56c390748b799aad2f8b00d4268fd08107212471e63b1b83cdbf9bd0d1d3d7fe",
+   "size": 332
+  },
+  {
+   "path": "replay/51d8ab668131f13ebcf7a52b581a816572daaed4f460d32643670dc406e00fe8.json",
+   "sha256": "282f91e4378e05f79a4839bf2d8218a86213b516d896f6fa2f457063934a8cf6",
+   "size": 1596
+  },
+  {
+   "path": "replay/55bdc8840a70212078892c400e5fd6df751ed75b8436ce79d6f50352622fc29f.json",
+   "sha256": "1f4d825f62249a8f1c1755cf97860bd5266d4feb2abf9a8a44eb346ea308dd62",
+   "size": 2851
+  },
+  {
+   "path": "replay/58d94c0ec95b5e03604619bb61533de89860ae054788a03551d0d7ca432f8187.json",
+   "sha256": "15baeb66fcee1f1676da5891af4f2bb7a967fcfcb1c16ade79847730271db7e9",
+   "size": 2343
+  },
+  {
+   "path": "replay/592ab750446e02126845132c7500d3d741e215ea19318936c0ad36300846c9aa.json",
+   "sha256": "a09f44a11f689ba3947ee519f07182918d2e18130395faca93a7167ed1dde0b4",
+   "size": 1821
+  },
+  {
+   "path": "replay/598f1bdad987dff805d5692b5e0bf4d1eac78663e2daeed344bb9a00f8c29a2e.json",
+   "sha256": "b01526d05548d7ff0195c0428b2fc14f423bfb72bd13996142182bf3944de5cf",
+   "size": 2848
+  },
+  {
+   "path": "replay/5adf73467202e29f13d167463d5da63f40dfe1ac0eae84832fc86f1c3f5efbc9.json",
+   "sha256": "93a38ef2c691e7c27d24c1ef9ed03fb1049eade61fe484f1ac0e84b3ed1dfbea",
+   "size": 355
+  },
+  {
+   "path": "replay/60696b930419337f42c34086a0e04f49efd5174c969e0bd37df376166459e2f4.json",
+   "sha256": "4ded50358a07ee13f46627a83a186e936a78a41f17665e1467cee0fde9ee9397",
+   "size": 333
+  },
+  {
+   "path": "replay/653cdc6b2bac41f41554d7847bf426e6712273d9a09a1f48970a40c0cd80da73.json",
+   "sha256": "ee084102fdc6fc1d4d8f2e3e635889cb63595935f277c7f84355cacfe82750a2",
+   "size": 1783
+  },
+  {
+   "path": "replay/66803fdf8d2ee4e849dec03842ab0ab506a7c4081b301ac7cecff567293e1b49.json",
+   "sha256": "989fc5a043d508d0c63d68046dbfea5d7fc04c922b7c34750603a739eff788a7",
+   "size": 1272
+  },
+  {
+   "path": "replay/6cab2fc49d06f8855576dc1d2cb9e92a16c8ba21d36560ae8c9435ed8342b1de.json",
+   "sha256": "9003265505290b6963c88ef792be1730520c49752c1f1e49e7b76274fc623431",
+   "size": 328
+  },
+  {
+   "path": "replay/6f71d1dd723c23e62fa490fcd2715865f38b464bdec941b827df9d9cd52ee573.json",
+   "sha256": "629341617909c1efdacc4c0f45368fb8fc19009977443ecbd3d2be3e33c6fc5e",
+   "size": 334
+  },
+  {
+   "path": "replay/6f8f67067cde5ae24a914f6bbc11d697dbfc3b3c452692c08ae5753da5f1c4a3.json",
+   "sha256": "2dbf80c87db6607f56c3ac8cae9c86c17c1729701dd4b5adbdbb1dcff8154781",
+   "size": 292
+  },
+  {
+   "path": "replay/73843fc8f55d959d4bb5f0bf3133e88d7d20ddb0ed16da6e454fd2f12d2a39f9.json",
+   "sha256": "5b71034e398cca8d1939edaeec8638ec001d4e94008d12603a4031f93a44784a",
+   "size": 329
+  },
+  {
+   "path": "replay/75bc891e9471cfa9c41246006c38746f91b409ef4af07b5f3fb474f9ed162eaa.json",
+   "sha256": "bc8b3e8130e5e4c8f5b35343acefd2e45e9e0c37e1396373efa2c77d84435961",
+   "size": 337
+  },
+  {
+   "path": "replay/778a2c1b745d1d85e23f3bd907a317de2e5c0e21dacb88bd07427aaa952d9b07.json",
+   "sha256": "44d8e022d5280ee4af9b4c590c62654d10cd69e88d3575a7798d4354afe71e8d",
+   "size": 2254
+  },
+  {
+   "path": "replay/77e4a7a9deefd181bdf1df46809d3533c8644f98ca7ef0797ab7eeefd32de4cf.json",
+   "sha256": "ca9ae29e5f38b835402d32591f37d8ce4eb93156b1033280a7240663d18f0dff",
+   "size": 1719
+  },
+  {
+   "path": "replay/805e001c16b7e81cea20af7b7c655a84d616c5b55d04e91fa79b6a3d219ab9c0.json",
+   "sha256": "9db4f09dde242e0cc63b6094f491ea9c5b0583a5c9167e046ec7f3ddf986c247",
+   "size": 1789
+  },
+  {
+   "path": "replay/82abebe79f4662375cdc63ce195bc24aeb133d8a99a1f34eef4dd48a111a74d8.json",
+   "sha256": "c9bf0e8d619be5d02dc8e2de833bcc4041867c910353a6a6d9bc2082fad2ab14",
+   "size": 328
+  },
+  {
+   "path": "replay/8412c90500f7d7ca8610780aec58c3a9dde3c9d5df843de4362fbb607a70f638.json",
+   "sha256": "1bec32636eff9ac663d3ddea82ad18bd2172272207369a64913b194f51575cab",
+   "size": 302
+  },
+  {
+   "path": "replay/877025ee78284f7cbf248a435653bb6b929d8820d0588fc1cb7c80e868ea1c86.json",
+   "sha256": "70a0ad75a269f93a0a9be96e5ca3eb7631dd84b61982e7dd53d334b6b308d612",
+   "size": 334
+  },
+  {
+   "path": "replay/91effb20d3e463e46b81ec974bfc7d0e8282f37199cca29adc4fd36ac433fb20.json",
+   "sha256": "057729d47e372d8085311e4d374d02df97ca754117a39ee820122bd818424770",
+   "size": 329
+  },
+  {
+   "path": "replay/95b29cfb3a38e168e494f49e28dd69dbeea290f666c83c61fbf2d33f97a4c100.json",
+   "sha256": "27b95a0fc7d9a7e0fd300261f23796bbd49ad4192c60d2c847a5eda2be9d92d0",
+   "size": 2408
+  },
+  {
+   "path": "replay/994700ddb95375c089b9c2c1b5c9537f6f77d24c2b12e304da3d4beba5e99b46.json",
+   "sha256": "690d016d73b66c61c68eec143950c18246cde7ce613312207bf8cf9234cab316",
+   "size": 336
+  },
+  {
+   "path": "replay/9adfee372c955def02ab9ea8494ed874a924db3cb8f0f6934222edcb518aa835.json",
+   "sha256": "e7fdcbe607b42a4eb3789b2b8da6776c500680151ac2638fdf043c3dd304e184",
+   "size": 1861
+  },
+  {
+   "path": "replay/9aea52faec749f2df6af17a99c2809f08925d9a5fb4697e7212b734f6de9df76.json",
+   "sha256": "60a3ff0ddca8d8ea6f5124a6fdbde69f43df675e486d3589de9c57a47e622b12",
+   "size": 1563
+  },
+  {
+   "path": "replay/a376a95360cfb661d94f994ca402edd56195b3fc659758cd9eeda1332973ceee.json",
+   "sha256": "1cb3ea10deea636f23ee080908b50064b4a1aa0bca77b1e2b79e014974ded87a",
+   "size": 1815
+  },
+  {
+   "path": "replay/a4cbc35006662870841fb49ff1279d97f8e34fca2fc95c8efea8efa6204a8eb5.json",
+   "sha256": "5b5b19c2c8c3a3b2b0284be4c11c911ea2f2fd8cd0c274b6bf1a88130338685c",
+   "size": 2841
+  },
+  {
+   "path": "replay/abc6e6776a5e19c1f29b046f1404c7695a8a70696c9ce61c60fcaec006952cbd.json",
+   "sha256": "595fcba454fc527b9f034f05b904d81b1366b1bac5bd9a6c9cbb0568cd53ee0a",
+   "size": 334
+  },
+  {
+   "path": "replay/b21913a4da7f3c50a403fdbfaf40db9a22e2b7215552c7f3e545441ac639206a.json",
+   "sha256": "446197ef25e87bf940e389cf809fc48a31abf4515921b3d622a1ed1dec08604f",
+   "size": 332
+  },
+  {
+   "path": "replay/b63ca3515d47231339413f6c908838e174c8e83229b5ae8769b7cbe8b12505cb.json",
+   "sha256": "403a492db0fcb491546a9d29579b72fcd4ddd34768addb215e619e1fab4cad31",
+   "size": 324
+  },
+  {
+   "path": "replay/b8c31ffbe9d7bb6649c49e9346454963eba1957e03866230fcdd397f071b391f.json",
+   "sha256": "659ae6c3c32e17b199b9ccb3aed5c30d1b15b7017f20c093bfe28d15d6ac658b",
+   "size": 333
+  },
+  {
+   "path": "replay/b8dc9f1f40d84ee558dfcbec4ecf045f2c18d965943da436485f53cba99f188f.json",
+   "sha256": "18fb7ced51a29403967819860a30f183feababf378f4485f0e55a95b8cc17ea2",
+   "size": 269
+  },
+  {
+   "path": "replay/bb9e0ddd159ee352feef5d9b18fbfe2b4ffe8e893a62cbc67a4d802478fd33c6.json",
+   "sha256": "986f698662112746f0896549ba676f46a005b54ec398ebe24d2536b1370fe13b",
+   "size": 2859
+  },
+  {
+   "path": "replay/ca1a508f69365b7b5dd22c5a4e6b0db9887c6e2741be45f193ab350153ed6a98.json",
+   "sha256": "e976d2bd188426e4277996067ecfe9827c970334fa4defe207cc9680f8abd54b",
+   "size": 2858
+  },
+  {
+   "path": "replay/d242edddcd7620ba386d68e68e05b94f41d4f456a471bb845fdac2a4102d683a.json",
+   "sha256": "ae6ed38ca4ba32b254ec9206dd6a1154bc5fafd9649c49e13a84714ded9fcc26",
+   "size": 2782
+  },
+  {
+   "path": "replay/d8287de12d326e6d6c3c063105409958bf3afaef7aac42c9b8666b3b15b2f841.json",
+   "sha256": "37a72703aa7eb2add797410569d3cdabc7184c605bc612f4421599396d47ec01",
+   "size": 2849
+  },
+  {
+   "path": "replay/df787db9fbf8403eced8d77af72262fbb63bb1e452e7a25510f0373b2a05ae61.json",
+   "sha256": "46ed3490125828434f1f228d85b95b6e9a245a31bc7db734c5dcfcfcbb421696",
+   "size": 332
+  },
+  {
+   "path": "replay/e141bbbc05d6d1f6ca1b2b92273197c00534ca7a019ab3a18cf0c4d1b0e330ce.json",
+   "sha256": "447b9ca19c5717a7cf83901a3e0412297e70cae3e3dfaafd0ec6550460636f90",
+   "size": 1851
+  },
+  {
+   "path": "replay/e17ba22ac3cc2dd5a7f93cdfdc0fee3f2931e6ec18d230490e16a06d3008cf07.json",
+   "sha256": "00d5eba24f97e9d5f6bda8c16b0cd4e309a4e8d32965abf29403664bbdf9ee6e",
+   "size": 1814
+  },
+  {
+   "path": "replay/ec0ea24a189a1790b1b33be7532a7352bd9c41b9106747fb5316758ed6b6d3ea.json",
+   "sha256": "4db384929cf221b786465743783ac05fa0db5e856a951117a577687d426819f1",
+   "size": 1862
+  },
+  {
+   "path": "replay/ec4c91ff1b73a38f527483117a5c5eaf205c1138e22366887753177ebc19d9a0.json",
+   "sha256": "ad7ccc24aa3b336be15e0225d0cc63429c537dcb8ee383f2b792dc2b71d59826",
+   "size": 1857
+  },
+  {
+   "path": "replay/ed9ce8af0aa4c73f29b8871ebec4d5dab13e80d9b0ecca6df2034773f9a64960.json",
+   "sha256": "c154e1ee6a11882cbc23b05c20c6fcb0ccad4b64b0db51d1aa490edcd170151b",
+   "size": 2851
+  },
+  {
+   "path": "replay/ef176ff3a7b4d89ba50ebbaa60a7f9ef1e50fbc4f4a709040f193494faccc4c3.json",
+   "sha256": "62c62552eb06d06da27a02801d4570041de1fff4b1d2b3f96c1a35926c116c6a",
+   "size": 2784
+  },
+  {
+   "path": "replay/f0cc9f862e72cea620043f65bdfc9a3003fec3747bfc8227d1d81b11f85b4ff3.json",
+   "sha256": "a5236e024d20c33156febc632261aeba103edfc896df57f5bb4ba31c1f4d7937",
+   "size": 2694
+  },
+  {
+   "path": "replay/f3756850b4cfed724f7760d604322ff40369d0a8927b72d14f714258b37c128c.json",
+   "sha256": "18fd0342c5e57e1ce47ff24e79ffd847029bf7e9f9aad7683b311a9cf6239160",
+   "size": 1901
+  },
+  {
+   "path": "samples/invoice_sample.pdf",
+   "sha256": "7c60514479fbce28114cef5ad9dea470bc85e4c9fde7b2b639f3d783cac1b9f4",
+   "size": 1753
+  },
+  {
+   "path": "truth/case-01-challan.json",
+   "sha256": "62ffcc00ac5b3f93824bddb445535eb4ea4a544a9000ff580f1020aae49a3682",
+   "size": 2295
+  },
+  {
+   "path": "truth/case-01-invoice.json",
+   "sha256": "da220bafd28a69c85a595c6bf1b7f90a8b1991c32713f2771ec01bdd691f5d0b",
+   "size": 3893
+  },
+  {
+   "path": "truth/case-01-po.json",
+   "sha256": "ba9225e6d2005132b0c451de253682061be8e8aa8263b2377c5b74d4547800f1",
+   "size": 2554
+  },
+  {
+   "path": "truth/case-02-challan.json",
+   "sha256": "d2e22640277b4ecbad833740bd3d3c68d64292f88b21aa5037cadb675263b5bc",
+   "size": 2367
+  },
+  {
+   "path": "truth/case-02-invoice.json",
+   "sha256": "c9e1f768de060f9573bb7b2c9a140a33ed1314e2249ff26e552ecd54a4f161fc",
+   "size": 3910
+  },
+  {
+   "path": "truth/case-02-po.json",
+   "sha256": "48cd9d2576a8ba6fa369f87dcd6853f678892c3c920dad28ecac6cdb16d3ca03",
+   "size": 2559
+  },
+  {
+   "path": "truth/case-03-challan.json",
+   "sha256": "aea0908d312daa32a61fcfa94a012b04047fc4de98f3196e879f30464dd8d05d",
+   "size": 1720
+  },
+  {
+   "path": "truth/case-03-invoice.json",
+   "sha256": "5dc24e0dd7d2526ae6390edb1d8d65223979e400db0dfd502de85985002285e2",
+   "size": 2537
+  },
+  {
+   "path": "truth/case-03-po.json",
+   "sha256": "72dd323d6e09badb41ec77008ff4b36bdabbfb6810c37aecd0848d2e98e8c328",
+   "size": 1840
+  },
+  {
+   "path": "truth/case-04-challan.json",
+   "sha256": "6b88498a661c79491d81fd6c0b6ea4d67fb3b2e845891c8e0226b6b75a84f732",
+   "size": 2351
+  },
+  {
+   "path": "truth/case-04-invoice.json",
+   "sha256": "ac88ebcb6d4957bcad53a77df30189c5f3015a4172c86dfe5f144b5a4660ad0b",
+   "size": 3853
+  },
+  {
+   "path": "truth/case-04-po.json",
+   "sha256": "cfaa2340aafdc9213c24b2a8842ff97cd8d1faf0cb9b7e3b5b2f6afd597fe52b",
+   "size": 2431
+  },
+  {
+   "path": "truth/case-05-challan.json",
+   "sha256": "6b6d7ac2ce5e1d202f88222e53840dc96227504ae0839969d89939269be296a1",
+   "size": 2357
+  },
+  {
+   "path": "truth/case-05-invoice.json",
+   "sha256": "ca6bfd7aaa9312844667564619f29d10246e979c2d59337d7f52de1dc8e79518",
+   "size": 3783
+  },
+  {
+   "path": "truth/case-05-po.json",
+   "sha256": "cc4530c3242ff9bcfc2613528b667b805dde2fe91837bff03e168509b367910a",
+   "size": 2550
+  },
+  {
+   "path": "truth/case-06-challan.json",
+   "sha256": "427259460c03d4c8917255b6945a7ef60579997d74bb8b120c2822ae0bbdc82e",
+   "size": 2437
+  },
+  {
+   "path": "truth/case-06-invoice.json",
+   "sha256": "da91d527e0d104ebc8ec6b51f0dd93a78e001595a35a20128c616eabd98e8b07",
+   "size": 3885
+  },
+  {
+   "path": "truth/case-06-po.json",
+   "sha256": "b8e99bfd82e5aa070763d5030a842f347e42f376d7e764c3d9aa3f8c35621d29",
+   "size": 2561
+  },
+  {
+   "path": "truth/case-07-challan.json",
+   "sha256": "3d3131006ea0caa32055c6413da142accc490ffc3d083c840c638f0c67499418",
+   "size": 2143
+  },
+  {
+   "path": "truth/case-07-invoice.json",
+   "sha256": "2a0ae68801a13c2427f6ceed17495479b918b0173c31619f82da981a9a59de57",
+   "size": 3141
+  },
+  {
+   "path": "truth/case-07-po.json",
+   "sha256": "018b04a13160df39f43cc3e4c90a6e0513e7145718598f518e2dfa38a887e379",
+   "size": 2100
+  },
+  {
+   "path": "truth/case-08-challan.json",
+   "sha256": "d813f9920db16f97d34c05577b5fda0d5f88bb1acab37e85b7ee96e5087e0c1b",
+   "size": 2523
+  },
+  {
+   "path": "truth/case-08-invoice.json",
+   "sha256": "02ac77c3a86b4bd06dace17166835b7eaf619d69c664b876eee3037207d41e8a",
+   "size": 3895
+  },
+  {
+   "path": "truth/case-09-challan.json",
+   "sha256": "c971f23df933dd73850678a8cc81df3e59ab322e368a16097568dd39dea59f72",
+   "size": 2277
+  },
+  {
+   "path": "truth/case-09-invoice.json",
+   "sha256": "7cfcb4e1592527585e1313d9c0da47716f70c7ef25e4330bee2f1a8770ec25ea",
+   "size": 4019
+  },
+  {
+   "path": "truth/case-10-invoice.json",
+   "sha256": "b9be87f95c77c25a6e4a749502fc815270416bb8dc816c330e27c3f14583dc83",
+   "size": 3174
+  },
+  {
+   "path": "truth/case-11-invoice.json",
+   "sha256": "86adc67b7ec8ac33aadc9126498e1e2f151e5562d78cdb0cb322bc141a290337",
+   "size": 3687
+  },
+  {
+   "path": "truth/demo-challan.json",
+   "sha256": "554cc15c3638c8f2bfd91d56fef185ddff1d35856bb33a32d1b100c7137090cf",
+   "size": 2017
+  },
+  {
+   "path": "truth/demo-invoice.json",
+   "sha256": "d4f7983a0e33e77845676d596f4834b4e9b76d4000d1f1a4ce258ef7d11a83cf",
+   "size": 3155
+  },
+  {
+   "path": "truth/demo-po.json",
+   "sha256": "e68bbd0247cba61ae3d7f0bbf4aaefc7f4f0ef876b12351163ce090a1d5d0165",
+   "size": 2002
+  },
+  {
+   "path": "truth/inj-date-swap.json",
+   "sha256": "3e01e929857c8abdeeac0c39c59ea8136d2499421fc038874dc153382ba22e02",
+   "size": 3865
+  },
+  {
+   "path": "truth/inj-gstin-lookalike.json",
+   "sha256": "a915c59865acfc5aa9bff35e3841c59c07fa49845756cc8b2673b0357a69d582",
+   "size": 3879
+  },
+  {
+   "path": "truth/inj-gstin-other.json",
+   "sha256": "beb52d897dd06166c42b04b7e64f9ca25e2a2bdc6dea30906ecaccb9a860de07",
+   "size": 3868
+  },
+  {
+   "path": "truth/inj-qty.json",
+   "sha256": "26500e5bc7c7ba638bed4126665db57e72cfac4317136133d1dccb732d922dac",
+   "size": 2363
+  },
+  {
+   "path": "truth/inj-total.json",
+   "sha256": "51ff4f62f6058f899580f75005cdf2e5544f73d8b511171857f198cb6a78946d",
+   "size": 3851
+  }
+ ]
+}

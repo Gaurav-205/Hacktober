@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Munim evaluation report",
+  "type": "object",
+  "required": ["schema_version", "provider", "model", "recorded_from", "prompt_versions", "date",
+               "n_papers", "n_fields", "metrics", "missing_recordings", "summary", "caveat",
+               "failure_examples"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "provider": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "recorded_from": {"enum": ["synthetic", "live", "mixed"]},
+    "prompt_versions": {"type": "object", "additionalProperties": {"type": "string"}},
+    "date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "n_papers": {"type": "integer", "minimum": 0},
+    "n_fields": {"type": "integer", "minimum": 0},
+    "metrics": {
+      "type": "object",
+      "required": ["field_exact_match_required", "amount_exact_match", "identifier_exact_match",
+                   "box_iou_at_least_0_5", "invalid_json", "wrong_and_passed",
+                   "detected_and_flagged", "wrong_fields", "repair", "latency_ms"],
+      "properties": {
+        "field_exact_match_required": {"$ref": "#/$defs/tally"},
+        "amount_exact_match": {"$ref": "#/$defs/tally"},
+        "identifier_exact_match": {"$ref": "#/$defs/tally"},
+        "box_iou_at_least_0_5": {"$ref": "#/$defs/tally"},
+        "invalid_json": {
+          "type": "object",
+          "required": ["papers", "needed_retry", "failed_after_retry"],
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "wrong_and_passed": {
+          "type": "object",
+          "required": ["count", "over_scored_fields", "over_wrong_fields"],
+          "properties": {
+            "count": {"type": "integer", "minimum": 0},
+            "over_scored_fields": {"$ref": "#/$defs/ratio"},
+            "over_wrong_fields": {"$ref": "#/$defs/ratio"}
+          }
+        },
+        "detected_and_flagged": {
+          "type": "object",
+          "required": ["count", "over_wrong_fields"],
+          "properties": {"count": {"type": "integer", "minimum": 0}, "over_wrong_fields": {"$ref": "#/$defs/ratio"}}
+        },
+        "wrong_fields": {"type": "integer", "minimum": 0},
+        "repair": {
+          "type": "object",
+          "required": ["model_misreads", "injected_gstin"],
+          "additionalProperties": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}}
+        },
+        "latency_ms": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "required": ["median", "p95", "n"],
+             "properties": {"median": {"type": "number"}, "p95": {"type": "number"}, "n": {"type": "integer"}}}
+          ]
+        }
+      }
+    },
+    "missing_recordings": {"type": "array", "items": {"type": "string"}},
+    "provider_errors": {"type": "array", "items": {"type": "string"}},
+    "summary": {"type": "string", "pattern": "^In \\d+ of \\d+ fields"},
+    "caveat": {"type": "string", "minLength": 20},
+    "failure_examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["paper", "field", "truth", "read", "rules", "caught", "crop"],
+        "properties": {
+          "paper": {"type": "string"}, "field": {"type": "string"},
+          "truth": {"type": "string"}, "read": {"type": ["string", "null"]},
+          "rules": {"type": "array", "items": {"type": "string"}},
+          "caught": {"type": "boolean"},
+          "crop": {"type": ["string", "null"], "pattern": "^data:image/jpeg;base64,"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "tally": {
+      "type": "object", "required": ["n", "matched", "rate"],
+      "properties": {"n": {"type": "integer", "minimum": 0}, "matched": {"type": "integer", "minimum": 0},
+                     "rate": {"type": ["number", "null"], "minimum": 0, "maximum": 1}}
+    },
+    "ratio": {
+      "type": "object", "required": ["n", "count", "rate"],
+      "properties": {"n": {"type": "integer", "minimum": 0}, "count": {"type": "integer", "minimum": 0},
+                     "rate": {"type": ["number", "null"], "minimum": 0, "maximum": 1}}
+    }
+  }
+}

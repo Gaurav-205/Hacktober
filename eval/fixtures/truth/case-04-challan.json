@@ -1,0 +1,192 @@
+{
+ "id": "case-04-challan",
+ "kind": "challan",
+ "case": "case-04",
+ "synthetic": true,
+ "image": "papers/case-04-challan.jpg",
+ "sha256": "a8979d5c08d6b2a88509f15bbf0c3a265907dacffd498a57b859f6815bd914f1",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    105,
+    169,
+    128,
+    379
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2148Z1ZI",
+   "box": [
+    132,
+    173,
+    153,
+    351
+   ]
+  },
+  "challan_number": {
+   "value": "DC-9835",
+   "box": [
+    138,
+    728,
+    153,
+    811
+   ]
+  },
+  "challan_date": {
+   "value": "13/05/2026",
+   "box": [
+    158,
+    672,
+    179,
+    784
+   ]
+  },
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    174,
+    136,
+    197,
+    336
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6164Z1ZA",
+   "box": [
+    202,
+    165,
+    224,
+    353
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0859",
+   "box": [
+    207,
+    680,
+    225,
+    822
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    232,
+    685,
+    251,
+    833
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    463,
+    617,
+    566,
+    915
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    557,
+    612,
+    605,
+    904
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     277,
+     89,
+     300,
+     267
+    ]
+   },
+   "quantity": {
+    "value": "743",
+    "box": [
+     303,
+     533,
+     315,
+     565
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     314,
+     688,
+     322,
+     706
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     302,
+     87,
+     324,
+     250
+    ]
+   },
+   "quantity": {
+    "value": "303",
+    "box": [
+     328,
+     530,
+     339,
+     564
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     336,
+     685,
+     351,
+     707
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     327,
+     84,
+     348,
+     215
+    ]
+   },
+   "quantity": {
+    "value": "749",
+    "box": [
+     353,
+     527,
+     365,
+     560
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     361,
+     682,
+     376,
+     704
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [],
+ "special_recording": null,
+ "injected": []
+}

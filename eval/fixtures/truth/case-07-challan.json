@@ -1,0 +1,170 @@
+{
+ "id": "case-07-challan",
+ "kind": "challan",
+ "case": "case-07",
+ "synthetic": true,
+ "image": "papers/case-07-challan.jpg",
+ "sha256": "ed4b72bffdaa750ad5e078d5d1d92623f060a282903719cf06a8e92d7161c1a1",
+ "fields": {
+  "supplier_name": {
+   "value": "Mock Packaging Works",
+   "box": [
+    135,
+    80,
+    165,
+    313
+   ]
+  },
+  "supplier_gstin": {
+   "value": "29AAAPZ2259Z1ZA",
+   "box": [
+    164,
+    91,
+    186,
+    279
+   ]
+  },
+  "challan_number": {
+   "value": "DC-4263",
+   "box": [
+    111,
+    639,
+    126,
+    723
+   ]
+  },
+  "challan_date": {
+   "value": "16/05/2026",
+   "box": [
+    135,
+    589,
+    156,
+    704
+   ]
+  },
+  "buyer_name": {
+   "value": "Pattern Pumps Ltd",
+   "box": [
+    210,
+    65,
+    237,
+    252
+   ]
+  },
+  "buyer_gstin": {
+   "value": "29AAAPZ6287Z1ZY",
+   "box": [
+    235,
+    100,
+    257,
+    287
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0540",
+   "box": [
+    180,
+    608,
+    199,
+    751
+   ]
+  },
+  "vehicle_number": {
+   "value": "MH12 AB 0000",
+   "box": [
+    204,
+    619,
+    224,
+    768
+   ]
+  },
+  "receiver_stamp_present": {
+   "value": "yes",
+   "box": [
+    405,
+    613,
+    509,
+    912
+   ]
+  },
+  "receiver_signature_present": {
+   "value": "yes",
+   "box": [
+    499,
+    625,
+    548,
+    917
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     321,
+     43,
+     342,
+     175
+    ]
+   },
+   "quantity": {
+    "value": "838",
+    "box": [
+     300,
+     486,
+     311,
+     518
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     290,
+     641,
+     305,
+     664
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Corrugated box 5 ply",
+    "box": [
+     342,
+     47,
+     368,
+     232
+    ]
+   },
+   "quantity": {
+    "value": "341",
+    "box": [
+     325,
+     489,
+     336,
+     519
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     317,
+     645,
+     326,
+     677
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "vehicle_number",
+   "index": null,
+   "printed": "MH12 AB 0000",
+   "read": "MH12 AB O000"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

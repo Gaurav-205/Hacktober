@@ -1,0 +1,9 @@
+{
+  "key": "a8979d5c08d6b2a88509f15bbf0c3a265907dacffd498a57b859f6815bd914f1:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Model Wire Products\", \"box_2d\": [105, 169, 128, 379]}, \"supplier_gstin\": {\"value\": \"27AAAPZ2148Z1ZI\", \"box_2d\": [132, 173, 153, 351]}, \"challan_number\": {\"value\": \"DC-9835\", \"box_2d\": [138, 728, 153, 811]}, \"challan_date\": {\"value\": \"13/05/2026\", \"box_2d\": [158, 672, 179, 784]}, \"buyer_name\": {\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": [174, 136, 197, 336]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6164Z1ZA\", \"box_2d\": [202, 165, 224, 353]}, \"po_reference\": {\"value\": \"PO-2026-0859\", \"box_2d\": [207, 680, 225, 822]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [232, 685, 251, 833]}, \"receiver_stamp_present\": {\"value\": \"yes\", \"box_2d\": [463, 617, 566, 915]}, \"receiver_signature_present\": {\"value\": \"yes\", \"box_2d\": [557, 612, 605, 904]}, \"line_items\": [{\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [277, 89, 300, 267]}, \"quantity\": {\"value\": \"743\", \"box_2d\": [303, 533, 315, 565]}, \"unit\": {\"value\": \"m\", \"box_2d\": [314, 688, 322, 706]}}, {\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [302, 87, 324, 250]}, \"quantity\": {\"value\": \"303\", \"box_2d\": [328, 530, 339, 564]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [336, 685, 351, 707]}}, {\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [327, 84, 348, 215]}, \"quantity\": {\"value\": \"749\", \"box_2d\": [353, 527, 365, 560]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [361, 682, 376, 704]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

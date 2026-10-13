@@ -1,0 +1,325 @@
+{
+ "id": "case-02-invoice",
+ "kind": "invoice",
+ "case": "case-02",
+ "synthetic": true,
+ "image": "papers/case-02-invoice.jpg",
+ "sha256": "a49dbfce43460d8963da753cacbfbeaf134d4fb27f845b5533d8681b22ab5526",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    132,
+    118,
+    154,
+    329
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2074Z1ZH",
+   "box": [
+    161,
+    101,
+    181,
+    291
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/869",
+   "box": [
+    109,
+    647,
+    130,
+    787
+   ]
+  },
+  "invoice_date": {
+   "value": "23/05/2026",
+   "box": [
+    138,
+    599,
+    158,
+    714
+   ]
+  },
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    205,
+    102,
+    226,
+    301
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6082Z1Z9",
+   "box": [
+    232,
+    107,
+    252,
+    295
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    253,
+    187,
+    273,
+    345
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0949",
+   "box": [
+    184,
+    617,
+    201,
+    760
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-1169",
+   "box": [
+    210,
+    660,
+    224,
+    738
+   ]
+  },
+  "taxable_total": {
+   "value": "35,18,609.50",
+   "box": [
+    395,
+    678,
+    414,
+    802
+   ]
+  },
+  "cgst": {
+   "value": "3,16,674.86",
+   "box": [
+    423,
+    666,
+    441,
+    776
+   ]
+  },
+  "sgst": {
+   "value": "3,16,674.86",
+   "box": [
+    449,
+    668,
+    468,
+    778
+   ]
+  },
+  "round_off": {
+   "value": "-0.22",
+   "box": [
+    480,
+    653,
+    492,
+    703
+   ]
+  },
+  "invoice_total": {
+   "value": "41,51,959.00",
+   "box": [
+    509,
+    614,
+    529,
+    738
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    892,
+    203,
+    908,
+    337
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Brass fitting 1/2 in",
+    "box": [
+     330,
+     50,
+     351,
+     208
+    ]
+   },
+   "hsn_sac": {
+    "value": "7412",
+    "box": [
+     322,
+     349,
+     334,
+     390
+    ]
+   },
+   "quantity": {
+    "value": "429",
+    "box": [
+     318,
+     449,
+     329,
+     482
+    ]
+   },
+   "unit": {
+    "value": "nos",
+    "box": [
+     315,
+     549,
+     324,
+     581
+    ]
+   },
+   "rate": {
+    "value": "1,430.50",
+    "box": [
+     307,
+     638,
+     323,
+     711
+    ]
+   },
+   "amount": {
+    "value": "6,13,684.50",
+    "box": [
+     299,
+     782,
+     316,
+     880
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     357,
+     52,
+     376,
+     183
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     347,
+     352,
+     359,
+     394
+    ]
+   },
+   "quantity": {
+    "value": "822",
+    "box": [
+     343,
+     452,
+     354,
+     484
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     338,
+     551,
+     352,
+     574
+    ]
+   },
+   "rate": {
+    "value": "2,461.50",
+    "box": [
+     332,
+     640,
+     348,
+     713
+    ]
+   },
+   "amount": {
+    "value": "20,23,353.00",
+    "box": [
+     323,
+     784,
+     341,
+     897
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     379,
+     55,
+     401,
+     232
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     372,
+     354,
+     385,
+     400
+    ]
+   },
+   "quantity": {
+    "value": "488",
+    "box": [
+     368,
+     454,
+     379,
+     487
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     366,
+     554,
+     374,
+     572
+    ]
+   },
+   "rate": {
+    "value": "1,806.50",
+    "box": [
+     357,
+     642,
+     373,
+     718
+    ]
+   },
+   "amount": {
+    "value": "8,81,572.00",
+    "box": [
+     349,
+     787,
+     366,
+     886
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "buyer_name",
+   "index": null,
+   "printed": "Trial Motors Pvt Ltd",
+   "read": "Tril Motors Pvt Ltd"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

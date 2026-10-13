@@ -1,0 +1,9 @@
+{
+  "key": "1c91164a998a8d218f20b396f0ab3093c581a347b06c026bdbf4de353a5bacd4:po:1:r0:a1:supplier_name:203,122,230,340",
+  "text": "{\"value\": \"Example Castings LLP\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

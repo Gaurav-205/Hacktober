@@ -1,0 +1,9 @@
+{
+  "key": "6ec63b3ef424c5947095c15f534f7ddf678e3026b93f32027eba189d79dfc547:challan:1:r0:a1",
+  "text": "{\"kind\": \"challan\", \"supplier_name\": {\"value\": \"Mock Packaging Works\", \"box_2d\": [108, 160, 135, 394]}, \"supplier_gstin\": {\"value\": \"09AAAPZ2111Z1ZT\", \"box_2d\": [135, 166, 154, 346]}, \"challan_number\": {\"value\": \"DC-1414\", \"box_2d\": [136, 721, 150, 800]}, \"challan_date\": {\"value\": \"13/03/2026\", \"box_2d\": [156, 665, 176, 777]}, \"buyer_name\": {\"value\": \"Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance Instance \", \"box_2d\": [177, 130, 198, 318]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6123Z1ZJ\", \"box_2d\": [206, 159, 226, 337]}, \"po_reference\": {\"value\": \"PO-2026-0344\", \"box_2d\": [205, 674, 222, 816]}, \"vehicle_number\": {\"value\": \"MH12 AB 0000\", \"box_2d\": [230, 679, 247, 828]}, \"receiver_stamp_present\": {\"value\": \"yes\", \"box_2d\": [411, 623, 511, 919]}, \"receiver_signature_present\": {\"value\": \"yes\", \"box_2d\": [505, 619, 550, 910]}, \"line_items\": [{\"description\": {\"value\": \"Brass fitting 1/2 in\", \"box_2d\": [280, 85, 302, 243]}, \"quantity\": {\"value\": \"460\", \"box_2d\": [303, 529, 314, 564]}, \"unit\": {\"value\": \"nos\", \"box_2d\": [312, 684, 321, 716]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

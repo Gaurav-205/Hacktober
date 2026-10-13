@@ -1,0 +1,325 @@
+{
+ "id": "case-04-invoice",
+ "kind": "invoice",
+ "case": "case-04",
+ "synthetic": true,
+ "image": "papers/case-04-invoice.jpg",
+ "sha256": "7cb956c2dbfa9ee32c6c0b017deb8fcbc7d64311b904dd92c6920a4b17cbebfc",
+ "fields": {
+  "supplier_name": {
+   "value": "Model Wire Products",
+   "box": [
+    132,
+    121,
+    153,
+    331
+   ]
+  },
+  "supplier_gstin": {
+   "value": "27AAAPZ2148Z1ZI",
+   "box": [
+    161,
+    103,
+    180,
+    280
+   ]
+  },
+  "invoice_number": {
+   "value": "INV/26-27/712",
+   "box": [
+    111,
+    650,
+    131,
+    786
+   ]
+  },
+  "invoice_date": {
+   "value": "13/05/2026",
+   "box": [
+    139,
+    602,
+    158,
+    714
+   ]
+  },
+  "buyer_name": {
+   "value": "Trial Motors Pvt Ltd",
+   "box": [
+    204,
+    104,
+    224,
+    303
+   ]
+  },
+  "buyer_gstin": {
+   "value": "27AAAPZ6164Z1ZA",
+   "box": [
+    231,
+    109,
+    250,
+    297
+   ]
+  },
+  "place_of_supply": {
+   "value": "27-Maharashtra",
+   "box": [
+    252,
+    189,
+    272,
+    347
+   ]
+  },
+  "po_reference": {
+   "value": "PO-2026-0859",
+   "box": [
+    185,
+    620,
+    201,
+    761
+   ]
+  },
+  "challan_reference": {
+   "value": "DC-9835",
+   "box": [
+    211,
+    662,
+    225,
+    745
+   ]
+  },
+  "taxable_total": {
+   "value": "8,30,015.00",
+   "box": [
+    396,
+    678,
+    415,
+    795
+   ]
+  },
+  "cgst": {
+   "value": "74,701.35",
+   "box": [
+    424,
+    666,
+    442,
+    759
+   ]
+  },
+  "sgst": {
+   "value": "74,701.35",
+   "box": [
+    451,
+    669,
+    468,
+    762
+   ]
+  },
+  "round_off": {
+   "value": "0.30",
+   "box": [
+    481,
+    653,
+    493,
+    698
+   ]
+  },
+  "invoice_total": {
+   "value": "9,79,418.00",
+   "box": [
+    511,
+    614,
+    529,
+    726
+   ]
+  },
+  "bank_ifsc": {
+   "value": "SBIN0001234",
+   "box": [
+    891,
+    200,
+    907,
+    334
+   ]
+  }
+ },
+ "line_items": [
+  {
+   "description": {
+    "value": "Copper wire 2.5 mm",
+    "box": [
+     328,
+     51,
+     349,
+     229
+    ]
+   },
+   "hsn_sac": {
+    "value": "7408",
+    "box": [
+     322,
+     351,
+     334,
+     396
+    ]
+   },
+   "quantity": {
+    "value": "743",
+    "box": [
+     318,
+     451,
+     329,
+     482
+    ]
+   },
+   "unit": {
+    "value": "m",
+    "box": [
+     316,
+     551,
+     324,
+     569
+    ]
+   },
+   "rate": {
+    "value": "200.00",
+    "box": [
+     308,
+     639,
+     320,
+     703
+    ]
+   },
+   "amount": {
+    "value": "1,48,600.00",
+    "box": [
+     300,
+     783,
+     317,
+     886
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "MS angle 40x40x5",
+    "box": [
+     354,
+     53,
+     375,
+     217
+    ]
+   },
+   "hsn_sac": {
+    "value": "7216",
+    "box": [
+     347,
+     353,
+     359,
+     394
+    ]
+   },
+   "quantity": {
+    "value": "303",
+    "box": [
+     343,
+     453,
+     354,
+     487
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     338,
+     552,
+     352,
+     575
+    ]
+   },
+   "rate": {
+    "value": "675.50",
+    "box": [
+     333,
+     641,
+     346,
+     702
+    ]
+   },
+   "amount": {
+    "value": "2,04,676.50",
+    "box": [
+     325,
+     785,
+     342,
+     889
+    ]
+   }
+  },
+  {
+   "description": {
+    "value": "HDPE granules",
+    "box": [
+     381,
+     56,
+     400,
+     187
+    ]
+   },
+   "hsn_sac": {
+    "value": "3901",
+    "box": [
+     372,
+     355,
+     383,
+     397
+    ]
+   },
+   "quantity": {
+    "value": "749",
+    "box": [
+     368,
+     455,
+     380,
+     488
+    ]
+   },
+   "unit": {
+    "value": "kg",
+    "box": [
+     363,
+     555,
+     377,
+     577
+    ]
+   },
+   "rate": {
+    "value": "636.50",
+    "box": [
+     358,
+     644,
+     370,
+     704
+    ]
+   },
+   "amount": {
+    "value": "4,76,738.50",
+    "box": [
+     350,
+     788,
+     367,
+     887
+    ]
+   }
+  }
+ ],
+ "simulated_misreads": [
+  {
+   "field": "quantity",
+   "index": 1,
+   "printed": "303",
+   "read": "3O3"
+  }
+ ],
+ "special_recording": null,
+ "injected": []
+}

@@ -44,14 +44,14 @@ Order matters: each item is test-first.
 
 ## Gate 2: AI layer (2:15 to 3:45)
 
-- [ ] T2.1 `schemas.py`, `normalize.py`, tests.
-- [ ] T2.2 `imageprep.py`: orient (EXIF), resize to long edge 1568, JPEG q90, quality heuristics (brightness, Laplacian variance), crop with expansion, PDF first pages via pypdfium2. Tests with generated images.
-- [ ] T2.3 `Provider` protocol, `ReplayProvider` (+ record wrapper), `OllamaProvider`, `GeminiProvider` (optional extra), contract tests against replay and a fake Ollama transport.
-- [ ] T2.4 Prompts as files with `prompt_version`; builder that renders the schema compactly.
-- [ ] T2.5 `extract.py` (parse, validate, one retry, soft failure) and `repair.py` (section 7 of AI_SPEC) with outcomes; tests with replay fixtures including malformed output and runaway text.
-- [ ] T2.6 `scripts/gen_fixtures.py`: deterministic synthetic papers + degradations + ground truth + injected-fault variants; produce >= 30 papers; commit as `eval/fixtures/*` (images are small JPEGs, total under 6 MB).
-- [ ] T2.7 `eval/run_eval.py` and report schema; run against the replay provider to prove the harness; **run against a live provider (Ollama if available, else Gemini) and record fixtures with `record` mode**; write `eval/reports/latest.json`.
-- [ ] T2.8 Preflight probes for Ollama (model present, vision, JSON format) and the Settings messages.
+- [x] T2.1 `schemas.py`, `normalize.py`, tests.
+- [x] T2.2 `imageprep.py`: orient (EXIF), resize to long edge 1568, JPEG q90, quality heuristics (brightness, Laplacian variance), crop with expansion, PDF first pages via pypdfium2. Tests with generated images.
+- [x] T2.3 `Provider` protocol, `ReplayProvider` (+ record wrapper), `OllamaProvider`, `GeminiProvider` (optional extra), contract tests against replay and a fake Ollama transport.
+- [x] T2.4 Prompts as files with `prompt_version`; builder that renders the schema compactly.
+- [x] T2.5 `extract.py` (parse, validate, one retry, soft failure) and `repair.py` (section 7 of AI_SPEC) with outcomes; tests with replay fixtures including malformed output and runaway text.
+- [x] T2.6 `scripts/gen_fixtures.py`: deterministic synthetic papers + degradations + ground truth + injected-fault variants; produce >= 30 papers; commit as `eval/fixtures/*` (images are small JPEGs, total under 6 MB).
+- [x] T2.7 `eval/run_eval.py` and report schema; run against the replay provider to prove the harness; **run against a live provider (Ollama if available, else Gemini) and record fixtures with `record` mode**; write `eval/reports/latest.json`.
+- [x] T2.8 Preflight probes for Ollama (model present, vision, JSON format) and the Settings messages.
 
 **Exit:** `make eval` produces a valid report with all metrics (replay runs write `eval/reports/replay.json`; only a live provider writes `latest.json`); recorded fixtures exist for every synthetic paper; `uv run pytest tests -q -m "not e2e and not live" --cov=munim_core --cov=munim_ai` green; if no live model is reachable, the report is explicitly labelled "replay only" and Gate 6 includes a live run.
 

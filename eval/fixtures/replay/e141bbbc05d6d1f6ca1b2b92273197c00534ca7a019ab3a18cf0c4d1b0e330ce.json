@@ -1,0 +1,9 @@
+{
+  "key": "903b34c8b9c3bd8b154a33fac8c4a1bb26d2359f30cfbd27c01371848dc476e2:po:1:r0:a1",
+  "text": "{\"kind\": \"po\", \"buyer_name\": {\"value\": \"Trial Motors Pvt Ltd\", \"box_2d\": [106, 172, 129, 371]}, \"buyer_gstin\": {\"value\": \"27AAAPZ6164Z1ZA\", \"box_2d\": [133, 171, 154, 358]}, \"po_number\": {\"value\": \"PO-2026-0859\", \"box_2d\": [136, 686, 153, 828]}, \"po_date\": {\"value\": \"02 May 2026\", \"box_2d\": [160, 669, 182, 797]}, \"supplier_name\": {\"value\": \"Model Wire Products\", \"box_2d\": [178, 186, 201, 397]}, \"supplier_gstin\": {\"value\": \"27AAAPZ2148Z1ZI\", \"box_2d\": [203, 163, 224, 341]}, \"payment_terms_text\": {\"value\": \"Payment within 60 days of delivery\", \"box_2d\": [388, 144, 424, 500]}, \"credit_days\": {\"value\": \"60\", \"box_2d\": [420, 186, 432, 213]}, \"line_items\": [{\"description\": {\"value\": \"Copper wire 2.5 mm\", \"box_2d\": [278, 88, 301, 266]}, \"quantity\": {\"value\": \"743\", \"box_2d\": [300, 487, 312, 519]}, \"unit\": {\"value\": \"m\", \"box_2d\": [310, 620, 318, 639]}, \"rate\": {\"value\": \"200.00\", \"box_2d\": [315, 753, 328, 817]}}, {\"description\": {\"value\": \"MS angle 40x40x5\", \"box_2d\": [303, 85, 325, 249]}, \"quantity\": {\"value\": \"303\", \"box_2d\": [325, 485, 337, 519]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [332, 617, 346, 640]}, \"rate\": {\"value\": \"675.50\", \"box_2d\": [340, 750, 353, 811]}}, {\"description\": {\"value\": \"HDPE granules\", \"box_2d\": [328, 83, 348, 214]}, \"quantity\": {\"value\": \"749\", \"box_2d\": [351, 482, 362, 515]}, \"unit\": {\"value\": \"kg\", \"box_2d\": [357, 614, 371, 637]}, \"rate\": {\"value\": \"636.50\", \"box_2d\": [365, 748, 378, 809]}}]}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

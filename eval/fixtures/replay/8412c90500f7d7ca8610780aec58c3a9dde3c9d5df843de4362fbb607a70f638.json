@@ -1,0 +1,9 @@
+{
+  "key": "d9f6c378ab820ca14e897df8adbaed2dbd9b9ae5e198c18e481facf15d308e81:challan:1:r0:a1",
+  "text": "Here is the invoice data: {\"kind\": \"challan",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

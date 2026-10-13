@@ -1,0 +1,9 @@
+{
+  "key": "fed4b06eeb631fffd202f759c05a916628e358e7e093840bdc93d0bcb83c516c:challan:1:r0:a1:po_reference:204,672,221,814",
+  "text": "{\"value\": \"PO-2026-0668\", \"box_2d\": null}",
+  "provider": "synthetic",
+  "model": "none",
+  "recorded_at": "2026-10-13T00:00:00+00:00",
+  "recorded_from": "synthetic",
+  "latency_ms": null
+}

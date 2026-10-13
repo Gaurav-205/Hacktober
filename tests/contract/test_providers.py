@@ -19,7 +19,12 @@ import pytest
 from munim_ai.prompts import extraction_prompt, strict_suffix
 from munim_ai.providers import ProviderTimeout, ProviderUnavailable, ReadContext, make_provider
 from munim_ai.providers.base import replay_filename, replay_key
-from munim_ai.providers.gemini import GeminiProvider, QuotaExceeded
+from munim_ai.providers.gemini import (
+    GeminiKeyMissing,
+    GeminiProvider,
+    GeminiUnavailable,
+    QuotaExceeded,
+)
 from munim_ai.providers.ollama import ModelMissing, OllamaProvider
 from munim_ai.providers.replay import (
     RecordingProvider,
@@ -282,11 +287,16 @@ class FakeModels:
     def __init__(self, files: FakeFiles, error: Exception | None) -> None:
         self.files, self.error = files, error
         self.config: Any = None
+        self.errors: list[Exception] = []
 
     def generate_content(self, *, model: str, contents: list[Any], config: Any) -> Any:
         self.files.calls.append("generate")
         self.config = config
-        if self.error:
+        if self.errors:
+            err = self.errors.pop(0)
+            if err:
+                raise err
+        elif self.error:
             raise self.error
         return type("Response", (), {"text": ANSWER})()
 
@@ -307,15 +317,28 @@ async def test_gemini_uploads_generates_then_deletes() -> None:
     assert client.files.calls == ["upload", "generate", "delete:files/synthetic-1"]
 
 
+async def test_gemini_retries_transient_errors_and_succeeds() -> None:
+    client = FakeClient()
+    client.models.errors = [
+        RuntimeError("503 UNAVAILABLE (high demand)"),
+        RuntimeError("500 internal"),
+    ]
+    result = await GeminiProvider("k", "gemma-4-31b-it", client=client).extract(
+        IMAGE, "invoice", None, CTX
+    )
+    assert result.text == ANSWER
+    assert client.files.calls.count("generate") == 3
+
+
 @pytest.mark.parametrize(
-    ("error", "expected"),
+    ("error", "expected", "expected_key"),
     [
-        (RuntimeError("429 RESOURCE_EXHAUSTED"), QuotaExceeded),
-        (RuntimeError("500 internal"), ProviderUnavailable),
+        (RuntimeError("429 RESOURCE_EXHAUSTED"), QuotaExceeded, "fix.gemini.quota"),
+        (RuntimeError("500 internal"), GeminiUnavailable, "fix.gemini.down"),
     ],
 )
 async def test_gemini_deletes_the_upload_even_when_the_call_fails(
-    error: Exception, expected: type
+    error: Exception, expected: type, expected_key: str
 ) -> None:
     secret = "synthetic-key-value"  # pragma: allowlist secret
     client = FakeClient(error)
@@ -324,12 +347,14 @@ async def test_gemini_deletes_the_upload_even_when_the_call_fails(
             IMAGE, field_spec("buyer_gstin"), CTX
         )
     assert client.files.calls[-1] == "delete:files/synthetic-1"
+    assert info.value.message_key == expected_key
     assert secret not in str(info.value) and secret not in repr(info.value)
 
 
 def test_gemini_needs_a_key() -> None:
-    with pytest.raises(ProviderUnavailable):
+    with pytest.raises(GeminiKeyMissing) as info:
         GeminiProvider("", "m", client=FakeClient())
+    assert info.value.message_key == "fix.gemini.key"
 
 
 # ---------------------------------------------------------------- factory

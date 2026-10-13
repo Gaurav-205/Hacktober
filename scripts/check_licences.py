@@ -27,6 +27,7 @@ WEB_STATIC = Path("packages/munim_web/src/munim_web/static")
 ALLOWED = frozenset(
     {
         "MIT",
+        "MIT-0",
         "MIT-CMU",
         "BSD-2-Clause",
         "BSD-3-Clause",

@@ -19,11 +19,22 @@ def tab_to(page: Page, target: Locator, limit: int = 120) -> None:
     control tests the engine's heuristic rather than the CSS. Tabbing in is the interaction the
     ring is actually specified for.
     """
-    page.evaluate("document.activeElement && document.activeElement.blur()")
+    # Anchor the walk at the document's first tabbable element. A bare blur() leaves the
+    # sequential focus navigation starting point where it was, and Firefox then runs off the
+    # end of the document into the browser chrome and never comes back, so a control above
+    # the current focus (the viewer button, above the claims table) can never be reached.
+    page.evaluate(
+        """() => {
+          const sel = "a[href], button, input, select, textarea, [tabindex]";
+          [...document.querySelectorAll(sel)]
+            .find((el) => el.tabIndex >= 0 && el.offsetParent !== null && !el.disabled)
+            ?.focus();
+        }"""
+    )
     for _ in range(limit):
-        page.keyboard.press("Tab")
         if target.evaluate("el => el === document.activeElement"):
             return
+        page.keyboard.press("Tab")
     raise AssertionError(f"never reached {target} by Tab")
 
 
@@ -45,7 +56,7 @@ def test_keyboard_only_edit_and_cancel(page: Page, server: str) -> None:
     # The focus ring is visible on a control reached by keyboard.
     button = page.get_by_role("button", name="Read this paper again")
     tab_to(page, button)
-    assert button.evaluate("el => getComputedStyle(el).outlineStyle") == "solid"
+    expect(button).to_have_css("outline-style", "solid")
 
 
 def test_phone_width_has_no_sideways_scroll_and_44px_targets(page: Page, server: str) -> None:

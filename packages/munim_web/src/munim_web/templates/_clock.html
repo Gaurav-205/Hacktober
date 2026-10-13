@@ -1,3 +1,4 @@
+{% from "components/icons.html" import icon %}
 <section class="clock sheet" aria-labelledby="clock-title" id="clock">
   <h2 id="clock-title" class="visually-hidden">{{ t("clock.title") }}</h2>
   {% if clock.missing %}
@@ -9,11 +10,24 @@
       <div><dt>{{ t("clock.delivered") }}</dt><dd class="num">{{ t.date(clock.delivered) }}</dd></div>
       <div><dt>{{ t("clock.due") }}</dt><dd class="num">{{ t.date(result.due_date) }}</dd></div>
       <div><dt>{{ t("clock.late") }}</dt><dd class="num">{{ result.days_late }}</dd></div>
+      <div class="clock-verdict">
+        <dt class="visually-hidden">{{ t("claims.col.check") }}</dt>
+        <dd>
+          <span class="verdict verdict-{{ counts.overall }}">
+            {%- if counts.overall == "passed" %}{{ icon("tick") }}<span>{{ t("check.passed") }}</span>
+            {%- elif counts.overall == "failed" %}{{ icon("strike") }}<span>{{ t("check.failed") }}</span>
+            {%- elif counts.overall == "review" %}{{ icon("bracket-hand") }}<span>{{ t("check.review") }}</span>
+            {%- else %}<span>{{ t("check.none") }}</span>{% endif -%}
+          </span>
+        </dd>
+      </div>
       {% if clock.interest_off %}
       <div class="clock-wide"><dt>{{ t("clock.interest") }}</dt><dd>{{ t("clock.interest_off") }}</dd></div>
+      <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ (result.total_paise - result.interest_paise) | inr }}</dd></div>
       {% else %}
-      <div><dt>{{ t("clock.interest") }}</dt><dd class="num">{{ result.interest_paise | inr }}</dd></div>
-      <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd></div>
+      <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd>
+        <dd class="clock-interest"><span>{{ t("clock.interest") }}</span> <span class="num">{{ result.interest_paise | inr }}</span></dd>
+      </div>
       {% endif %}
     </dl>
     <p class="clock-notes">

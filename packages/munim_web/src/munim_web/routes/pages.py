@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import contextlib
 import io
 import json
+from collections.abc import Mapping
 from datetime import date
 from decimal import Decimal, InvalidOperation
 from typing import Annotated, Any
@@ -15,7 +17,12 @@ from PIL import Image
 from munim_ai import imageprep
 from munim_ai.schemas import FIELD_SPECS
 from munim_core.dates import DateParseError, parse_date_dayfirst
+from munim_core.discrepancy import build_discrepancy_map
 from munim_core.money import MoneyParseError, parse_inr
+from munim_core.samadhaan import SamadhaanInput, build_samadhaan_packet
+from munim_core.stamp_forensics import analyze_challan_stamp
+from munim_core.tax_disallowance import compute_43b_disallowance
+from munim_core.text import whole_number
 from munim_core.verify.catalog import RULES
 from munim_core.verify.models import FieldRef
 from munim_web.db import Database
@@ -75,7 +82,11 @@ async def cases(request: Request) -> Response:
         snap = load_case(db, case["id"], today(request))
         owed = None
         if snap and snap.clock.outcome and snap.clock.outcome.result:
-            owed = snap.clock.outcome.result.total_paise
+            result = snap.clock.outcome.result
+            if snap.clock.interest_off:
+                owed = result.total_paise - result.interest_paise
+            else:
+                owed = result.total_paise
         rows.append(
             {"case": case, "kinds": [p["kind"] for p in db.papers(case["id"])], "owed": owed}
         )
@@ -168,16 +179,18 @@ async def case_settings(request: Request, case_id: str) -> Response:
         values["agreement"] = get("agreement") if get("agreement") in ("written", "none") else None
     if "credit_days" in form:
         days = get("credit_days")
-        if days and not days.isdigit():
+        credit_days = whole_number(days)
+        if days and credit_days is None:
             return back(f"/cases/{case_id}?error=settings.case.err.days#terms")
-        values["credit_days"] = int(days) if days else None
+        values["credit_days"] = credit_days
     if "enterprise_size" in form:
         size = get("enterprise_size")
         values["enterprise_size"] = size if size in ("micro", "small", "medium") else None
     if "interest_base" in form and get("interest_base") in ("invoice_total", "taxable_total"):
         values["interest_base"] = get("interest_base")
-    if "notice_days" in form and get("notice_days").isdigit():
-        values["notice_days"] = max(1, min(90, int(get("notice_days"))))
+    notice_days = whole_number(get("notice_days")) if "notice_days" in form else None
+    if notice_days is not None:
+        values["notice_days"] = max(1, min(90, notice_days))
     for name in ("udyam_number", "supplier_address", "buyer_address"):
         if name in form:
             values[name] = get(name)[:300] or None
@@ -429,6 +442,13 @@ async def dossier(request: Request, case_id: str) -> Response:
         papers.append({"paper": paper, "rows": rows})
     notices = {code: notice_text(snap, code, today(request)) for code in LANGS}
     db_of(request).event(case_id, "evidence.viewed")
+    disallowance = None
+    if snap.clock.outcome and snap.clock.outcome.result and snap.clock.principal_paise:
+        disallowance = compute_43b_disallowance(
+            invoice_total_paise=snap.clock.principal_paise,
+            due_date=snap.clock.outcome.result.due_date,
+            as_on=snap.clock.as_on,
+        )
     return render(
         request,
         "dossier.html",
@@ -437,8 +457,132 @@ async def dossier(request: Request, case_id: str) -> Response:
         model=model,
         papers=papers,
         notices=notices,
+        disallowance=disallowance,
         step_label=views.step_label,
         **views.clock_context(snap, t),
+    )
+
+
+@router.get("/cases/{case_id}/samadhaan", response_class=HTMLResponse)
+async def samadhaan_page(request: Request, case_id: str) -> Response:
+    snap = snapshot_or_404(request, case_id)
+    po_dt = None
+    if snap.value("po", "po_date"):
+        with contextlib.suppress(DateParseError):
+            po_dt = parse_date_dayfirst(snap.value("po", "po_date") or "").value
+
+    inv_dt = today(request)
+    if snap.value("invoice", "invoice_date"):
+        with contextlib.suppress(DateParseError):
+            inv_dt = parse_date_dayfirst(snap.value("invoice", "invoice_date") or "").value
+
+    due_dt = today(request)
+    interest_paise = 0
+    if snap.clock.outcome and snap.clock.outcome.result:
+        due_dt = snap.clock.outcome.result.due_date
+        interest_paise = snap.clock.outcome.result.interest_paise
+
+    inp = SamadhaanInput(
+        supplier_name=snap.value("invoice", "supplier_name") or snap.case["supplier_name"] or "",
+        supplier_udyam=snap.case["udyam_number"] or "",
+        supplier_gstin=snap.value("invoice", "supplier_gstin") or "",
+        supplier_state=snap.case["supplier_address"] or "",
+        buyer_name=snap.value("invoice", "buyer_name") or snap.case["buyer_name"] or "",
+        buyer_gstin=snap.value("invoice", "buyer_gstin") or "",
+        buyer_type="Private Limited Company",
+        po_number=snap.value("po", "po_number") or snap.value("invoice", "po_reference"),
+        po_date=po_dt,
+        invoice_number=snap.value("invoice", "invoice_number") or "",
+        invoice_date=inv_dt,
+        invoice_amount_paise=snap.clock.principal_paise or 0,
+        delivery_date=snap.clock.delivered,
+        due_date=due_dt,
+        as_on_date=snap.clock.as_on,
+        principal_claimed_paise=snap.clock.principal_paise or 0,
+        interest_claimed_paise=interest_paise,
+    )
+    packet = build_samadhaan_packet(inp)
+    return render(
+        request,
+        "samadhaan.html",
+        case=snap.case,
+        snap=snap,
+        packet=packet,
+    )
+
+
+@router.get("/cases/{case_id}/samadhaan/csv")
+async def samadhaan_csv(request: Request, case_id: str) -> Response:
+    snap = snapshot_or_404(request, case_id)
+    po_dt = None
+    if snap.value("po", "po_date"):
+        with contextlib.suppress(DateParseError):
+            po_dt = parse_date_dayfirst(snap.value("po", "po_date") or "").value
+
+    inv_dt = today(request)
+    if snap.value("invoice", "invoice_date"):
+        with contextlib.suppress(DateParseError):
+            inv_dt = parse_date_dayfirst(snap.value("invoice", "invoice_date") or "").value
+
+    due_dt = today(request)
+    interest_paise = 0
+    if snap.clock.outcome and snap.clock.outcome.result:
+        due_dt = snap.clock.outcome.result.due_date
+        interest_paise = snap.clock.outcome.result.interest_paise
+
+    inp = SamadhaanInput(
+        supplier_name=snap.value("invoice", "supplier_name") or snap.case["supplier_name"] or "",
+        supplier_udyam=snap.case["udyam_number"] or "",
+        supplier_gstin=snap.value("invoice", "supplier_gstin") or "",
+        supplier_state=snap.case["supplier_address"] or "",
+        buyer_name=snap.value("invoice", "buyer_name") or snap.case["buyer_name"] or "",
+        buyer_gstin=snap.value("invoice", "buyer_gstin") or "",
+        buyer_type="Private Limited Company",
+        po_number=snap.value("po", "po_number") or snap.value("invoice", "po_reference"),
+        po_date=po_dt,
+        invoice_number=snap.value("invoice", "invoice_number") or "",
+        invoice_date=inv_dt,
+        invoice_amount_paise=snap.clock.principal_paise or 0,
+        delivery_date=snap.clock.delivered,
+        due_date=due_dt,
+        as_on_date=snap.clock.as_on,
+        principal_claimed_paise=snap.clock.principal_paise or 0,
+        interest_claimed_paise=interest_paise,
+    )
+    packet = build_samadhaan_packet(inp)
+    return Response(
+        content=packet.csv_export,
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="samadhaan_{case_id}.csv"'},
+    )
+
+
+@router.get("/cases/{case_id}/discrepancies", response_class=HTMLResponse)
+async def discrepancies_page(request: Request, case_id: str) -> Response:
+    snap = snapshot_or_404(request, case_id)
+    inv_paper = snap.state.papers.get("invoice")
+    ch_paper = snap.state.papers.get("challan")
+
+    inv_lines: list[Mapping[str, Any]] = [
+        {k: v.text for k, v in line.items()} for line in (inv_paper.lines if inv_paper else ())
+    ]
+    ch_lines: list[Mapping[str, Any]] = [
+        {k: v.text for k, v in line.items()} for line in (ch_paper.lines if ch_paper else ())
+    ]
+    heatmap = build_discrepancy_map(inv_lines, ch_lines)
+
+    stamp_text = snap.value("challan", "receiver_stamp_text")
+    buyer_name = snap.value("invoice", "buyer_name") or snap.case["buyer_name"]
+    supplier_name = snap.value("invoice", "supplier_name") or snap.case["supplier_name"]
+    stamp_res = analyze_challan_stamp(stamp_text, buyer_name, supplier_name)
+
+    return render(
+        request,
+        "discrepancies.html",
+        case=snap.case,
+        snap=snap,
+        heatmap=heatmap,
+        stamp_res=stamp_res,
     )
 
 

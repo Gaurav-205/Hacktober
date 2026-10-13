@@ -193,9 +193,11 @@ def available(root: str, check: Check) -> bool:
 
 def _kill(process: subprocess.Popen[str]) -> None:
     """Kill a timed-out command and everything it started."""
-    if os.name == "posix":
+    killpg = getattr(os, "killpg", None)
+    sigkill = getattr(signal, "SIGKILL", None)
+    if os.name == "posix" and killpg is not None and sigkill is not None:
         try:
-            os.killpg(process.pid, signal.SIGKILL)
+            killpg(process.pid, sigkill)
         except OSError:
             process.kill()
     else:

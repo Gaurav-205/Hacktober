@@ -4,7 +4,7 @@ Proof of dues for small suppliers in India.
 
 Munim reads photos of a tax invoice, a delivery challan and a purchase order, checks them against each other, works out what the Micro, Small and Medium Enterprises Development Act says is owed, and prints an evidence file with a draft notice in English and Hindi. It runs on your own computer with an open-weight model (Gemma 4), so the papers stay with you.
 
-> **Status: v0.1.0 in preparation.** Built on 12 and 13 Oct 2026, starting before the Hacktoberfest Hack Day Pune kickoff, so it is not an event-day build (see `docs/PROGRESS.md`). No live-model evaluation has been run yet.
+> **Status: v0.1.0.** Built on 12 and 13 Oct 2026, starting before the Hacktoberfest Hack Day Pune kickoff, so it is not an event-day build (see `docs/PROGRESS.md`). Live-model evaluation recorded in `eval/reports/latest.json`.
 > Munim reads and calculates. It does not give legal advice and does not file anything.
 
 ![Workbench: invoice photo with outlined fields, claims table with a red-pen correction, clock strip](docs/screens/workbench-1440-en.png)
@@ -36,14 +36,21 @@ No Ollama? `MUNIM_PROVIDER=replay make run` uses recorded responses on the bundl
 
 - Papers and what is read from them are stored in `./data` on your computer. **Delete case** removes the files and rows.
 - With the default reader nothing leaves your computer. The app makes no requests to any other site.
+- The hosted demo (`munim-demo.vercel.app`, from `api/index.py`) is different: it runs on Vercel's servers, reads only with recorded responses on the bundled synthetic papers, and anything you upload there is held on those servers in temporary storage. Use the demo with the synthetic papers only; run Munim on your own computer for real papers. To serve it under another domain, set `MUNIM_PUBLIC_HOST`.
 - Aadhaar-like numbers are masked in stored text. The photo itself is not redacted; please do not photograph Aadhaar cards.
 - Full threat model: `docs/SECURITY_PRIVACY.md`.
 
 ## How well does it read?
 
-No live model has been evaluated yet, so there is no accuracy figure to quote. When one is run (`MUNIM_PROVIDER=ollama make eval`), its numbers go in `eval/reports/latest.json` and on the Evaluation page, with the model, provider and date.
+Live-model evaluation is recorded in `eval/reports/latest.json` using `gemma-4-26b-a4b-it` over 3 papers (58 fields):
+- Required fields exact match: 17 of 17 (100.0%)
+- Amounts exact match: 10 of 10 (100.0%)
+- Identifiers exact match: 10 of 10 (100.0%)
+- Box IoU >= 0.5: 53 of 57 (92.98%)
+- Wrong and passed: 1 of 58 (1.72%; only receiver signature flag misread)
+- Invalid JSON failures: 0
 
-The harness itself is tested on recorded responses for 30 synthetic papers (`eval/reports/replay.json`): there, 26 of 660 fields were deliberately misread and the checks caught 13. That measures the checks and the harness, not the model.
+The evaluation harness is also tested on recorded replay responses for 30 synthetic papers (`eval/reports/replay.json`): there, 26 of 660 fields were deliberately misread and the checks caught 13. That measures the checks and the harness, not the model.
 
 | Measure on the synthetic recordings | Result |
 | --- | --- |

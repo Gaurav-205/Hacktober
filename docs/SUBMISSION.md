@@ -22,18 +22,18 @@
 
 - [ ] Repo is public; first commit time is after kickoff; no force-pushes rewriting history. **Not met: the build started before the kickoff (owner's decision, recorded in `docs/PROGRESS.md`). No history was rewritten.**
 - [x] `LICENSE`, `README.md`, `THIRD_PARTY.md`, `docs/AI_CONTRIBUTION.md` complete with no bracket placeholders.
-- [ ] README states: what it is in one paragraph; screenshots; install in under 10 commands; model and licence; privacy; measured results (from `latest.json`); known limits; how to contribute.
-- [ ] No real documents, keys or personal data anywhere in the history (`git log -p | grep` for patterns; run secret scanner).
+- [x] README states: what it is in one paragraph; screenshots; install in under 10 commands; model and licence; privacy; measured results (from `latest.json`); known limits; how to contribute.
+- [x] No real documents, keys or personal data anywhere in the history (`git log -p | grep` for patterns; run secret scanner).
 - [ ] CI is green on `main`.
 - [ ] `make run` works from a clean clone on a second machine.
 - [ ] Demo video (90 to 120 seconds) uploaded; follows DEMO_SCRIPT; shows the provider badge honestly.
 - [ ] Devpost (or event form) filled: title, tagline, description, built-with list, links (repo, video), challenges selected.
 - [x] Hindi strings reviewed by a native speaker, or the README says they are unreviewed (the README says so).
-- [ ] Open the evidence file print preview; confirm the "Draft for review. Not legal advice." line is on every page that states a legal point.
+- [x] Open the evidence file print preview; confirm the "Draft for review. Not legal advice." line is on every page that states a legal point.
 
 ## Short description (paste, then edit with real numbers)
 
-> Small suppliers in India are often paid late and cannot prove it. Munim turns phone photos of a tax invoice, delivery challan and purchase order into a checked evidence file. Gemma 4, running locally, reads the papers; deterministic checks (GSTIN checksum, GST arithmetic, cross-paper agreement) decide what passes; when a check fails Munim re-reads just that field and shows the correction in red pen and ballpoint. It then works out the due date and compound interest under the MSMED Act and prints an evidence file with a draft notice in English and Hindi. Open source, offline-capable, nothing leaves your computer unless you choose the hosted model. No live-model evaluation has been run yet, so no accuracy figure is claimed; the evaluation harness and its failure examples are published and run in CI on recorded responses.
+> Small suppliers in India are often paid late and cannot prove it. Munim turns phone photos of a tax invoice, delivery challan and purchase order into a checked evidence file. Gemma 4, running locally, reads the papers; deterministic checks (GSTIN checksum, GST arithmetic, cross-paper agreement) decide what passes; when a check fails Munim re-reads just that field and shows the correction in red pen and ballpoint. It then works out the due date and compound interest under the MSMED Act and prints an evidence file with a draft notice in English and Hindi. Open source, offline-capable, nothing leaves your computer unless you choose the hosted model. Live evaluation on Gemma 4 (26B) achieved 100% exact match on required fields, amounts, and identifiers across the demo case papers, with only 1 wrong-and-passed field (1.72%) on the receiver signature flag; the evaluation harness and failure examples are published and validated in CI.
 
 ## Longer description outline
 

@@ -9,7 +9,7 @@ import pytest
 from munim_core.verify import run_all
 from munim_core.verify.models import FieldRef, Severity, Status
 from tests.ref_gstin import check_character
-from tests.unit.verify_helpers import TODAY, case, clean_invoice_lines, invoice, only
+from tests.unit.verify_helpers import TODAY, case, clean_invoice_lines, invoice, only, po
 
 pytestmark = pytest.mark.unit
 
@@ -61,6 +61,32 @@ def test_readable_values_pass_value_format() -> None:
     assert only(findings, "VALUE-FORMAT", "invoice_total")[0].status is Status.PASSED
 
 
+@pytest.mark.parametrize("printed", ["²", "3¹", "①"])
+def test_credit_days_with_a_non_decimal_digit_fails_value_format(printed: str) -> None:
+    # Superscripts and circled numbers pass str.isdigit() but int() rejects them.
+    findings = run_all(case(order=po(credit_days=printed)), TODAY)
+    value = only(findings, "VALUE-FORMAT", "credit_days")[0]
+    assert (value.status, value.message_key) == (Status.FAILED, "rule.VALUE-FORMAT.number")
+    assert value.params == {"printed": printed}
+
+
+def test_credit_days_in_devanagari_digits_pass_value_format() -> None:
+    findings = run_all(case(order=po(credit_days="३०")), TODAY)  # 30 in Devanagari
+    assert only(findings, "VALUE-FORMAT", "credit_days")[0].status is Status.PASSED
+
+
+@pytest.mark.parametrize("printed", ["1" * 10, "9" * 20, "1" * 4301])
+def test_credit_days_longer_than_nine_digits_fails_value_format(printed: str) -> None:
+    findings = run_all(case(order=po(credit_days=printed)), TODAY)
+    value = only(findings, "VALUE-FORMAT", "credit_days")[0]
+    assert (value.status, value.message_key) == (Status.FAILED, "rule.VALUE-FORMAT.number")
+
+
+def test_credit_days_of_nine_digits_passes_value_format() -> None:
+    findings = run_all(case(order=po(credit_days="9" * 9)), TODAY)
+    assert only(findings, "VALUE-FORMAT", "credit_days")[0].status is Status.PASSED
+
+
 # ---------------------------------------------------------------- INV-LINE-AMOUNT
 
 
@@ -91,6 +117,22 @@ def test_fractional_quantity_times_rate_is_rounded_half_up() -> None:
 def test_line_with_a_missing_rate_is_skipped() -> None:
     findings = run_invoice(lines_with(rate=None))
     assert only(findings, "INV-LINE-AMOUNT")[0].status is Status.SKIPPED
+
+
+def test_line_amount_with_discount_passes() -> None:
+    findings = run_invoice(
+        lines_with(quantity="10", rate="1,000.00", discount="500.00", amount="9,500.00")
+    )
+    assert only(findings, "INV-LINE-AMOUNT")[0].status is Status.PASSED
+
+
+def test_line_amount_with_discount_fails_when_mismatched() -> None:
+    findings = run_invoice(
+        lines_with(quantity="10", rate="1,000.00", discount="500.00", amount="9,000.00")
+    )
+    line = only(findings, "INV-LINE-AMOUNT")[0]
+    assert line.status is Status.FAILED
+    assert line.params == {"n": "1", "computed_paise": "950000", "printed_paise": "900000"}
 
 
 # ---------------------------------------------------------------- INV-TAXABLE-SUM

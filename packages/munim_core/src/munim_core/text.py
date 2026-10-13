@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unicodedata
 
-__all__ = ["to_ascii_digits"]
+__all__ = ["to_ascii_digits", "whole_number"]
 
 
 def to_ascii_digits(text: str) -> str:
@@ -20,3 +20,23 @@ def to_ascii_digits(text: str) -> str:
         else:
             out.append(char)
     return "".join(out)
+
+
+WHOLE_NUMBER_DIGITS = 9
+
+
+def whole_number(text: str | None) -> int | None:
+    """Read a whole number of days or similar, in any script's decimal digits; else None.
+
+    ``str.isdigit()`` also accepts superscripts and circled numbers ("²", "①") that ``int()``
+    rejects, so only ASCII digits after ``to_ascii_digits`` count. More than nine digits is
+    no count of days, would overflow SQLite's integer and, past 4300, ``int()`` itself.
+    """
+    if text is None:
+        return None
+    digits = to_ascii_digits(text.strip())
+    if not digits or len(digits) > WHOLE_NUMBER_DIGITS:
+        return None
+    if not (digits.isascii() and digits.isdecimal()):
+        return None
+    return int(digits)

@@ -42,23 +42,29 @@ def _line_amounts(inv: PaperState) -> list[int | None]:
 def line_amount(inv: PaperState) -> list[Finding]:
     out: list[Finding] = []
     for index, line in enumerate(inv.lines):
-        refs = (ref("quantity", index), ref("rate", index), ref("amount", index))
+        refs = [ref("quantity", index), ref("rate", index), ref("amount", index)]
+        if "discount" in line:
+            refs.append(ref("discount", index))
         qty = quantity(text_of(line.get("quantity")))
         rate = rate_paise(text_of(line.get("rate")))
         printed = amount(text_of(line.get("amount")))
         if qty is None or rate is None or printed is None:
-            out.append(finding("INV-LINE-AMOUNT", Status.SKIPPED, refs))
+            out.append(finding("INV-LINE-AMOUNT", Status.SKIPPED, tuple(refs)))
             continue
         computed = round_half_up(qty * rate)
+        if "discount" in line:
+            disc = amount(text_of(line.get("discount")))
+            if disc is not None:
+                computed -= disc
         if abs(computed - printed) <= LINE_TOLERANCE_PAISE:
-            out.append(finding("INV-LINE-AMOUNT", Status.PASSED, refs))
+            out.append(finding("INV-LINE-AMOUNT", Status.PASSED, tuple(refs)))
         else:
             params = {
                 "n": str(index + 1),
                 "computed_paise": str(computed),
                 "printed_paise": str(printed),
             }
-            out.append(finding("INV-LINE-AMOUNT", Status.FAILED, refs, params=params))
+            out.append(finding("INV-LINE-AMOUNT", Status.FAILED, tuple(refs), params=params))
     return out
 
 

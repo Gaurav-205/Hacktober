@@ -29,14 +29,14 @@ Legend: `[ ]` open, `[x]` done. "Exit" lines are commands that must pass.
 
 Order matters: each item is test-first.
 
-- [ ] T1.1 `money.py`: `Paise` helpers, `parse_inr`, `format_inr`, rounding. Tests + properties (TESTING section 2, 3).
-- [ ] T1.2 `dates.py`: parse with day-first assumption, ambiguity detection, Devanagari digit conversion, month-end-safe `add_months`.
-- [ ] T1.3 `ids.py`: GSTIN/PAN/Aadhaar wrappers around python-stdnum, `lookalike_candidates`, `mask_aadhaar`. Pure-Python reference GSTIN in `tests/ref_gstin.py` and the hypothesis cross-check.
-- [ ] T1.4 `verify/` package: `Finding` model; one module per rule family (identifiers, invoice, cross); registry `run_all(case_state) -> list[Finding]`; message keys only.
-- [ ] T1.5 `clock.py`: `compute_due_date`, `compute_interest` returning `ClockResult` with `steps`; bank rate table lookup; part payments (should); golden outputs from `DOMAIN_RULES.md` 5.3 as tests.
-- [ ] T1.6 `dossier_model.py`: pure builder from claims + findings + clock to a `DossierModel` dataclass.
-- [ ] T1.7 `rules/*.yaml` + loader; test that every rule id in `DOMAIN_RULES.md` exists in YAML and in code, and vice versa.
-- [ ] T1.8 CLI: `python -m munim_core.cli interest --principal 500000 --due 2026-01-01 --as-on 2026-04-01 --rate 18` (for the fallback demo and for debugging).
+- [x] T1.1 `money.py`: `Paise` helpers, `parse_inr`, `format_inr`, rounding. Tests + properties (TESTING section 2, 3).
+- [x] T1.2 `dates.py`: parse with day-first assumption, ambiguity detection, Devanagari digit conversion, month-end-safe `add_months`.
+- [x] T1.3 `ids.py`: GSTIN/PAN/Aadhaar wrappers around python-stdnum, `lookalike_candidates`, `mask_aadhaar`. Pure-Python reference GSTIN in `tests/ref_gstin.py` and the hypothesis cross-check.
+- [x] T1.4 `verify/` package: `Finding` model; one module per rule family (identifiers, invoice, cross); registry `run_all(case_state) -> list[Finding]`; message keys only.
+- [x] T1.5 `clock.py`: `compute_due_date`, `compute_interest` returning `ClockResult` with `steps`; bank rate table lookup; part payments (should); golden outputs from `DOMAIN_RULES.md` 5.3 as tests.
+- [x] T1.6 `dossier_model.py`: pure builder from claims + findings + clock to a `DossierModel` dataclass.
+- [x] T1.7 `rules/*.yaml` + loader; test that every rule id in `DOMAIN_RULES.md` exists in YAML and in code, and vice versa.
+- [x] T1.8 CLI: `python -m munim_core.cli interest --principal 500000 --due 2026-01-01 --as-on 2026-04-01 --rate 18` (for the fallback demo and for debugging).
 
 **Exit:** `uv run pytest tests/unit tests/property tests/golden -q --cov=munim_core --cov-branch` passes with core coverage >= 95% lines and >= 90% branches (tests live in the top-level `tests/` tree, see ARCHITECTURE section 2); mypy strict clean; `make check` green.
 
@@ -91,13 +91,13 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 
 ## Gate 5: Quality pass (7:30 to 8:30)
 
-- [ ] T5.1 Hindi complete: every screen in `hi`, long-text checks, E2E-4; flag unreviewed status in the About page footer until a human reviewer signs off.
-- [ ] T5.2 Responsive: 360, 768, 1024, 1440; E2E-7.
-- [ ] T5.3 Keyboard and screen-reader pass; E2E-5, E2E-6; `docs/A11Y_CHECKLIST.md` completed.
-- [ ] T5.4 Privacy: delete case wipe test, VACUUM, network-only-loopback assertion in E2E, About and Settings text, consent flow for Gemini.
-- [ ] T5.5 Design review against `DESIGN.md` section 7 using screenshots; fix every violation; run `design_lint`.
-- [ ] T5.6 Evaluation page and Rules page.
-- [ ] T5.7 Error states: provider down (E2E-9), corrupt image, unsupported file, timeouts.
+- [x] T5.1 Hindi complete: every screen in `hi`, long-text checks, E2E-4; flag unreviewed status in the About page footer until a human reviewer signs off.
+- [x] T5.2 Responsive: 360, 768, 1024, 1440; E2E-7.
+- [x] T5.3 Keyboard and screen-reader pass; E2E-5, E2E-6; `docs/A11Y_CHECKLIST.md` completed.
+- [x] T5.4 Privacy: delete case wipe test, VACUUM, network-only-loopback assertion in E2E, About and Settings text, consent flow for Gemini.
+- [x] T5.5 Design review against `DESIGN.md` section 7 using screenshots; fix every violation; run `design_lint`.
+- [x] T5.6 Evaluation page and Rules page.
+- [x] T5.7 Error states: provider down (E2E-9), corrupt image, unsupported file, timeouts.
 
 **Exit:** `make ci` green locally; all E2E scenarios pass in Chromium and Firefox; no `TODO` or `FIXME` without an issue reference.
 
@@ -106,11 +106,11 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 ## Gate 6: Release and stretch (8:30 to end)
 
 Required:
-- [ ] T6.1 `README.md` completed with real numbers from `eval/reports/latest.json`, real screenshots from `docs/screens/`, install steps verified from a clean clone in a temp directory (record the commands that were run).
-- [ ] T6.2 `THIRD_PARTY.md` complete (`check_licences.py` green); `docs/AI_CONTRIBUTION.md` brackets filled.
-- [ ] T6.3 Live run against a real model, recorded as fixtures; re-run `make eval`.
-- [ ] T6.4 `docs/SUBMISSION.md` filled; demo video checklist.
-- [ ] T6.5 Tag `v0.1.0`; GitHub release notes; make sure the repository is public.
+- [x] T6.1 `README.md` completed with real numbers from `eval/reports/latest.json`, real screenshots from `docs/screens/`, install steps verified from a clean clone in a temp directory (record the commands that were run).
+- [x] T6.2 `THIRD_PARTY.md` complete (`check_licences.py` green); `docs/AI_CONTRIBUTION.md` brackets filled.
+- [x] T6.3 Live run against a real model, recorded as fixtures; re-run `make eval`.
+- [x] T6.4 `docs/SUBMISSION.md` filled; demo video checklist.
+- [x] T6.5 Tag `v0.1.0`; GitHub release notes; make sure the repository is public.
 
 Stretch, in this order, only if Gates 0 to 5 are green:
 - [ ] T6.6 `munim_mcp` with three tools + tests via the MCP SDK client; README snippet for connecting.

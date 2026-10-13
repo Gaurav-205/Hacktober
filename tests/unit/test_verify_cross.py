@@ -312,6 +312,19 @@ def test_received_date_is_used_for_acceptance_when_printed() -> None:
     assert late.params["acceptance_date"] == "2026-03-25"
 
 
+def test_typed_acceptance_date_is_used_when_provided() -> None:
+    findings = run_all(
+        full_case(extra={"acceptance_date": "2026-03-25"}, as_on=date(2026, 3, 24)), TODAY
+    )
+    late = [
+        f
+        for f in only(findings, "X-DATE-ORDER")
+        if f.message_key == "rule.X-DATE-ORDER.after_as_on"
+    ][0]
+    assert late.params["acceptance_date"] == "2026-03-25"
+    assert FieldRef("case", "acceptance_date") in late.fields
+
+
 def test_date_order_is_skipped_without_dates() -> None:
     findings = run_all(case(inv=invoice()), TODAY)
     assert {f.status for f in only(findings, "X-DATE-ORDER")} == {Status.SKIPPED}

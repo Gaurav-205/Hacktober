@@ -179,7 +179,7 @@ def step_label(step: Any, t: Translator) -> str:
     if kind == "partial":
         return t("working.step.partial", days=step.days, period_days=step.period_days)
     if kind == "payment":
-        return t("working.step.payment", amount_paise=step.payment_paise)
+        return t("working.step.payment", amount=t.money(step.payment_paise))
     if kind == "month":
         return t("working.step.month")
     return t("working.step.due")

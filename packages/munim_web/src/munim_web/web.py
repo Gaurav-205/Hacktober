@@ -68,7 +68,15 @@ def render(request: Request, name: str, status_code: int = 200, **context: Any) 
             "csrf": csrf_token(request),
             "provider_name": choice.name,
             "path": request.url.path,
-            "fix_params": {"url": settings.ollama_url, "model": settings.ollama_model},
+            "fix_params": {
+                "url": settings.ollama_url,
+                "model": (
+                    request.app.state.db.setting("ollama_model")
+                    if hasattr(request.app.state, "db")
+                    else None
+                )
+                or settings.ollama_model,
+            },
             **context,
         },
         status_code=status_code,

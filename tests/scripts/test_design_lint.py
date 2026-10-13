@@ -580,7 +580,9 @@ def test_default_roots_are_found_under_root(tmp_path: Path) -> None:
 
 def test_findings_under_default_roots_print_paths_relative_to_root(tmp_path: Path) -> None:
     repo = make_repo(tmp_path)
-    (repo / WEB / "templates/cases.html").write_text("<p>{{ t('x') }}</p>\n<p>✨</p>\n")
+    (repo / WEB / "templates/cases.html").write_text(
+        "<p>{{ t('x') }}</p>\n<p>✨</p>\n", encoding="utf-8"
+    )
 
     result = run_script("design_lint", "--root", repo)
 

@@ -239,3 +239,34 @@ def test_hindi_pages_render_without_missing_keys(web: Web) -> None:
         assert 'lang="hi"' in r.text
         assert "⟦" not in r.text
     assert "इन मानों की पुष्टि करें" in web.client.get(f"/cases/{case_id}").text
+
+
+# ---------------------------------------------------------------- case settings numbers
+@pytest.mark.parametrize("printed", ["\u00b2", "3\u00b9", "9" * 20, "1" * 4301])
+def test_unreadable_credit_days_are_refused_not_a_500(web: Web, printed: str) -> None:
+    case_id, _ = demo_case(web)
+    r = web.post(f"/cases/{case_id}/settings", {"credit_days": printed})
+    assert r.status_code == 303
+    assert "error=settings.case.err.days" in r.headers["location"]
+    row = web.app.state.db.case(case_id)
+    assert row is not None and row["credit_days"] is None
+
+
+@pytest.mark.parametrize("printed", ["\u00b2", "1" * 4301])
+def test_unreadable_notice_days_are_ignored_not_a_500(web: Web, printed: str) -> None:
+    case_id, _ = demo_case(web)
+    before = web.app.state.db.case(case_id)
+    assert before is not None
+    r = web.post(f"/cases/{case_id}/settings", {"notice_days": printed})
+    assert r.status_code == 303
+    after = web.app.state.db.case(case_id)
+    assert after is not None and after["notice_days"] == before["notice_days"]
+
+
+def test_credit_days_in_devanagari_digits_are_stored_as_a_number(web: Web) -> None:
+    case_id, _ = demo_case(web)
+    r = web.post(f"/cases/{case_id}/settings", {"credit_days": "\u0969\u0966"})  # 30
+    assert r.status_code == 303
+    assert "error" not in r.headers["location"]
+    row = web.app.state.db.case(case_id)
+    assert row is not None and row["credit_days"] == 30

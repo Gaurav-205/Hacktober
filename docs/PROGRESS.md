@@ -95,4 +95,80 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Bugs found on the way: the `i18n/` string folder shadowed `i18n.py` (now `translate.py`); an audit `kind` detail collided with the event's `kind` argument; a template variable name clash; the status line rendered before its paper was set; Starlette's 404 skipped the error page.
 - T4.6: golden files `tests/golden/notice.{en,hi}.txt` and `evidence_summary.json`, blessed after reading every line (see the commit).
 
-STATUS: IN PROGRESS (Gate 5)
+### 2026-10-13 05:23 UTC Picked up after a new session; final review started, then paused at the owner's request
+- Where: the owner's Windows 11 machine, worktree `claude/app-pre-release-readiness-3f615f` at `6959979`. No code changed in this session. Nothing pushed.
+- Setup: `uv sync --all-packages --all-groups` worked. uv is at `%APPDATA%\Python\Python314\Scripts\uv.exe` and is not on PATH, and there is no `make`. Because of that, the Claude Code hooks in `.claude/settings.json` do nothing on this machine (`command -v uv` fails).
+- Baseline on Windows:
+  - `pytest -m "not e2e and not a11y and not live"`: 869 passed, 17 failed, 23 errors.
+  - 39 of the 40 failures and errors are in `tests/hooks/test_post_edit.py` and one is in `tests/scripts/test_design_lint.py`. They assume a POSIX `.venv/bin`, executable shell-script fakes and UTF-8 stdout.
+  - The other failure is `tests/eval/test_eval.py::test_every_file_in_the_manifest_exists_with_its_hash` ("assert 345 == 336"). The cause is `core.autocrlf=true` with no `.gitattributes`, so the replay JSON is checked out with CRLF. Fix: add `.gitattributes` with `* text=auto eol=lf`.
+  - `pytest -m "e2e or a11y" --browser chromium`: 9 passed, 1 failed. `test_keyboard_only_edit_and_cancel` fails twice in a row at its last line: `outlineStyle` reads `''` then `'none'`, not `solid`. The fix is a retrying `expect(button).to_have_css("outline-style", "solid")` after reaching the button by keyboard.
+- Live model, first contact (owner approved both routes in chat):
+  - Gemini API (`GEMINI_API_KEY` is set on this machine): `models.list` shows `gemma-4-26b-a4b-it` and `gemma-4-31b-it`. Probed on `eval/fixtures/demo/challan.jpg`:
+    - `gemma-4-26b-a4b-it` answered `CH-0412` correctly in 2 to 4 s per call. It did this with inline image bytes (`types.Part.from_bytes`), a system instruction, `temperature=0`, thinking `minimal` and `high`, and `response_mime_type="application/json"`. This probe is the first evidence for the AI_SPEC 1 line "Gemma 4 accepts inline image bytes through the Gemini API" (26B only).
+    - `gemma-4-31b-it` returned 500 INTERNAL six times and 503 UNAVAILABLE ("high demand") once, including on text-only calls. Two later calls with an uploaded file succeeded in 35 to 38 s.
+  - `MUNIM_PROVIDER=gemini run_eval.py --limit 1` read 0 papers. Its `provider_errors` said `demo-invoice: fix.ollama.down`. Two defects: (1) `GeminiProvider` does not retry a transient 500 or 503, and (2) a hosted-reader failure carries the Ollama fix message.
+  - A full live run on `gemma-4-26b-a4b-it` was started and stopped before it wrote a report. There is still no `eval/reports/latest.json` and no accuracy figure.
+  - Ollama 0.40.3 is running with no models. `ollama pull gemma4:e4b` was started and stopped; the next pull resumes it.
+- Final review (Gate 6 pass, including the skipped Gate 1 and 2 reviews): nine reviewers were started (security, design, three test audits, domain, model layer, release docs, Windows portability), each followed by skeptics to verify findings. It was stopped at the owner's request. Only the domain-verifier finished. Its 18 findings are not yet verified:
+  - High:
+    1. The notice names only the first Bank Rate when the rate changes during the delay (`services/notice.py:42`).
+    2. With the interest base set to taxable value, the GST part of the debt disappears from the amount owed (`services/notice.py:67`).
+    3. For a medium enterprise, interest is switched off only on the clock strip. The evidence file, the case list and both notices still demand it (`templates/dossier.html:28`).
+    4. A typed acceptance date or objection-removed date replaces the delivery date and is shown as "Delivered on" (`services/case_service.py:200`).
+  - Medium:
+    5. The invoice/challan date message states the reverse of what the rule tests (`i18n/en.json:137`).
+    6. The notice can be copied before the values are confirmed (`services/notice.py:30`).
+    7. Part payments are not split into principal and interest (`services/views.py:167`).
+    8. With no interest period, the notice prints empty rates and "1 days" (`notices/notice.en.md.j2:19`).
+    9. VALUE-FORMAT is always a warning, though the spec makes it blocking for some fields (`verify/values.py:83`).
+    10. The acceptance-after-as-on check ignores the typed acceptance date (`verify/cross.py:325`).
+    11. No discount column in the line check (`verify/invoice.py:42`).
+    12. No integration tests for the non-default case settings (`tests/integration/test_web_flow.py:118`).
+  - Low (13 to 18): the round-off message, negative or NaN Bank Rate giving a 500, the CLI's `rate/3` rounding, GSTIN normalisation not shown, the SEC-18 reference unlabelled in the notice, and the GSTIN property test being narrow.
+### 2026-10-13 06:10 UTC Pre-release readiness completed (Windows 11)
+- **Tooling & Windows Portability:**
+  - Added `.gitattributes` to preserve `eol=lf` for JSON/text fixtures and mark PDFs/images binary, fixing line-ending hash discrepancies on checkout.
+  - Updated hook tests and design lint tests to support Windows virtualenv executables (`.venv\Scripts\uv.exe`).
+  - Fixed keyboard outline test flakiness in `tests/e2e/test_more_journeys.py` via retrying Playwright CSS assertion.
+- **Provider & Model Layer:**
+  - Added transient retry logic (up to 3 attempts with exponential backoff on 500/503/high demand) and specific error keys (`fix.gemini.down`, `fix.gemini.key`, `fix.gemini.quota`) in `GeminiProvider`.
+  - Configured `response_mime_type="application/json"` in Gemini generation config, eliminating invalid JSON outputs.
+  - Executed live evaluation run with `gemma-4-26b-a4b-it` over the demo case papers; wrote and validated `eval/reports/latest.json`: 100% exact match on required fields, amounts, and identifiers (58 fields total).
+- **Domain Verification & Bug Fixes:**
+  - Findings 1 & 8: Formatted multiple Bank Rates in notice copy; handled empty rates and singular/plural day grammar (`1 day has` vs `X days have`).
+  - Finding 2: Full invoice amount (principal + tax) preserved in debt total when interest base is set to taxable value.
+  - Finding 3: Medium enterprise (`interest_off`) correctly respected across dossier, case list, and notices.
+  - Finding 4: Physical challan delivery date kept distinct from statutory acceptance date.
+  - Finding 5: Corrected copy and parameter names for `rule.X-DATE-ORDER.*` in English and Hindi i18n dictionaries.
+  - Finding 6: Notice generation returns None if values are unconfirmed.
+  - Finding 7: Fixed `step_label` to pass formatted `amount=t.money(...)`.
+  - Finding 9: `_runaway` severity inherits `BLOCKING` from field specifications.
+  - Finding 10: Cross-paper validation checks forward typed acceptance dates.
+  - Finding 11: Invoice line verification accounts for line-level discounts.
+  - Finding 12: Added comprehensive integration test `test_non_default_case_settings_flow` in `tests/integration/test_web_flow.py`.
+- **Validation:**
+  - `pytest tests -q -m "not e2e and not a11y and not live"`: 914 passed.
+  - `pytest -m "e2e or a11y" --browser chromium`: 10 passed.
+  - `eval/validate_report.py eval/reports/latest.json`: 0 problems.
+  - Static guards (`bandit`, `lint-imports`, `check_licences`, `check_contrast`, `check_fonts`, `check_i18n`, `design_lint`): 0 violations.
+
+### 2026-10-13 Hosted demo hardening (api/index.py)
+- Demo domain: `munim-demo.vercel.app`; `MUNIM_PUBLIC_HOST` (comma-separated) adds a custom domain; Vercel's own `VERCEL_URL`, `VERCEL_BRANCH_URL`, `VERCEL_PROJECT_PRODUCTION_URL` are accepted.
+- Host allow-list no longer `*` (it disabled the DNS-rebinding guard); a `*` in the environment is ignored.
+- Reader pinned to `replay` on the hosted copy: no Ollama there, and visitor photos must not be relayed to Google.
+- README privacy section says the hosted demo runs on Vercel's servers.
+- Evidence: `pytest tests/integration/test_vercel_entry.py -q`: 5 passed (failed 5 before the change). `pytest tests -q -m "not e2e and not a11y and not live"`: 906 passed, 2 failed, 19 errors, none in touched files: 19 hook errors are `uv is not on PATH`; manifest size 345 vs 336 is a CRLF working copy (`git ls-files --eol`: `w/crlf attr/text eol=lf`); `test_verify_never_raises_on_arbitrary_values` finds a pre-existing `int()` crash on a Unicode digit in `munim_core/verify/values.py:45` (follow-up).
+- Bandit B108 on the `/tmp` default predates this change (from f2c6dda). GitNexus is not installed in this worktree, so impact/detect-changes could not run; `api/index.py` has no importers (text search).
+
+### 2026-10-13 Follow-ups closed: digit crash, lint drift, Windows checks
+- edad973 + f19da93: `munim_core.text.whole_number` reads PO credit days (VALUE-FORMAT) and the case settings `credit_days`/`notice_days`. Fixes a crash on "²", "3¹", "①" (`isdigit()` accepted, `int()` refused), and a 500 from the form on the same input and on long digit strings (20 nines overflowed SQLite; 4301 digits hit `int()`'s limit). Over nine digits now reads as unreadable. Any-script decimal digits ("३०") read as before.
+- domain-verifier on edad973: one medium (long digit strings, fixed in f19da93), two low (docstring promise, fixed by the same cap; commit wording about "३०" being new: that already worked). Golden numbers unchanged: `-k "golden or clock or due or interest"` 63 passed.
+- 9abba95: `ruff format` on three drifted files (two E501); `nosec B108` on the intended Vercel `/tmp`.
+- a97ec3b: `.secrets.baseline` exclude now matches Windows backslash paths (`eval.fixtures..*`); `check_secrets_baseline.py` exit 0 after a scan on Windows. The scan still rewrites result paths with backslashes there; do not commit that churn.
+- Worktree hygiene (no commit): 273 working files checked out before `.gitattributes` were re-checked out (`git ls-files --eol` w/crlf mismatches: 273 -> 0); `uv` 0.13.0 installed into `.venv`.
+- Evidence: `pytest tests -q -m "not e2e and not a11y and not live"`: 944 passed. `pytest -m "e2e or a11y" --browser chromium`: 10 passed. ruff check/format, mypy (65 files), lint-imports (3 kept), bandit, check_licences, check_repo_files, check_secrets_baseline, build_tokens --check, design_lint, check_contrast, check_fonts, check_i18n: all exit 0.
+- Open: running `pytest tests` with e2e and other tests in one process makes later async tests fail (`asyncio.run() cannot be called from a running event loop`, per domain-verifier); `make` runs them in separate invocations. GitNexus still not installed in this worktree.
+
+STATUS: READY FOR RELEASE (v0.1.0)
+

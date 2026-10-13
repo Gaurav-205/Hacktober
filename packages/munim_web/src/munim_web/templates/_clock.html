@@ -23,6 +23,7 @@
       </div>
       {% if clock.interest_off %}
       <div class="clock-wide"><dt>{{ t("clock.interest") }}</dt><dd>{{ t("clock.interest_off") }}</dd></div>
+      <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ (result.total_paise - result.interest_paise) | inr }}</dd></div>
       {% else %}
       <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd>
         <dd class="clock-interest"><span>{{ t("clock.interest") }}</span> <span class="num">{{ result.interest_paise | inr }}</span></dd>

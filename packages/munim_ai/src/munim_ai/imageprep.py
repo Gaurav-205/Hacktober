@@ -69,6 +69,9 @@ class Quality:
     sharpness: float
     dark: bool
     blurred: bool
+    glare: bool = False
+    corner_fold: bool = False
+    guidance_keys: tuple[str, ...] = ()
 
 
 def sniff(data: bytes) -> FileType:
@@ -198,14 +201,59 @@ def crop(prepared_jpeg: bytes, box: tuple[int, int, int, int]) -> bytes:
 
 
 def quality(prepared_jpeg: bytes) -> Quality:
-    """Mean brightness (0-255) and mean edge strength; flags a dark or blurred photo."""
+    """Mean brightness (0-255), sharpness, glare, and corner fold guidance."""
     gray = Image.open(io.BytesIO(prepared_jpeg)).convert("L")
-    brightness = float(ImageStat.Stat(gray).mean[0])
+    stat = ImageStat.Stat(gray)
+    brightness = float(stat.mean[0])
     edges = gray.filter(ImageFilter.FIND_EDGES)
     sharpness = float(ImageStat.Stat(edges).mean[0])
+
+    # Glare detection: bright flash hotspot (>= 250) on an otherwise normal document
+    w, h = gray.size
+    total_pixels = max(1, w * h)
+    hist = gray.histogram()
+    bright_pixels = sum(hist[250:])
+    glare_ratio = bright_pixels / total_pixels
+    glare = (glare_ratio >= 0.04) and (brightness < 235.0)
+
+    # Corner fold detection: check corners for dark triangular shadows
+    cw = max(4, round(w * 0.08))
+    ch = max(4, round(h * 0.08))
+    corners = [
+        (0, 0, cw, ch),
+        (w - cw, 0, w, ch),
+        (0, h - ch, cw, h),
+        (w - cw, h - ch, w, h),
+    ]
+    corner_fold = False
+    if brightness > 70.0:
+        corner_total = cw * ch
+        for box in corners:
+            c_hist = gray.crop(box).histogram()
+            dark_ratio = sum(c_hist[:40]) / corner_total
+            if dark_ratio > 0.20:
+                corner_fold = True
+                break
+
+    dark = brightness < DARK_MEAN
+    blurred = sharpness < BLUR_EDGE_MEAN
+
+    guidance = []
+    if dark:
+        guidance.append("paper.err.dark")
+    if blurred:
+        guidance.append("paper.err.blur")
+    if glare:
+        guidance.append("paper.err.glare")
+    if corner_fold:
+        guidance.append("paper.err.corner_fold")
+
     return Quality(
         brightness=brightness,
         sharpness=sharpness,
-        dark=brightness < DARK_MEAN,
-        blurred=sharpness < BLUR_EDGE_MEAN,
+        dark=dark,
+        blurred=blurred,
+        glare=glare,
+        corner_fold=corner_fold,
+        guidance_keys=tuple(guidance),
     )

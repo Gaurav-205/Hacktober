@@ -81,7 +81,7 @@ class PaperService:
         return make_provider(
             choice.name,
             ollama_url=self.settings.ollama_url,
-            ollama_model=self.settings.ollama_model,
+            ollama_model=self.db.setting("ollama_model") or self.settings.ollama_model,
             gemini_model=self.settings.gemini_model,
             gemini_key=self.settings.gemini_api_key,
             replay_dir=self.settings.replay_dir,

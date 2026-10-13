@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.json text eol=lf
+eval/fixtures/** text eol=lf
+*.pdf binary -eol
+*.jpg binary -eol
+*.jpeg binary -eol
+*.png binary -eol
+*.webp binary -eol
+*.woff2 binary -eol
+*.ico binary -eol
+*.gz binary -eol

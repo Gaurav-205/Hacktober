@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import verdict %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ t("discrepancy.title") }} | {{ case.title }}{% endblock %}
+{% block content %}
+<div class="wb-head no-print">
+  <div class="wb-title-group">
+    <a href="/cases/{{ case.id }}">{{ t("working.back") }}</a>
+    <h1>{{ t("discrepancy.title") }}</h1>
+    <p class="muted">{{ t("discrepancy.subtitle") }}</p>
+  </div>
+</div>
+
+<article class="sheet">
+  <h2>{{ t("discrepancy.stamp_title") }}</h2>
+  {% if stamp_res.forensic_status == "verified_buyer" %}
+    <p class="message message-passed">{{ icon("tick") }} {{ t("discrepancy.stamp_match") }}: {{ stamp_res.notes }}</p>
+  {% elif stamp_res.forensic_status == "possible_self_stamp" %}
+    <p class="message message-failed">{{ icon("strike") }} {{ t("discrepancy.stamp_self") }}: {{ stamp_res.notes }}</p>
+  {% elif stamp_res.forensic_status == "third_party_or_unmatched" %}
+    <p class="message message-review">{{ icon("bracket-hand") }} {{ t("discrepancy.stamp_unmatched") }}: {{ stamp_res.notes }}</p>
+  {% else %}
+    <p class="muted">{{ t("discrepancy.stamp_none") }}</p>
+  {% endif %}
+
+  <h2>{{ t("claims.title") }}</h2>
+  <table class="evidence">
+    <thead>
+      <tr>
+        <th scope="col">{{ t("claims.col.field") }}</th>
+        <th scope="col">{{ t("claims.col.value") }}</th>
+        <th scope="col">{{ t("claims.col.check") }}</th>
+        <th scope="col">{{ t("evidence.working") }}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in heatmap.items %}
+      <tr class="row-{{ 'passed' if item.status == 'match' else 'failed' if item.status == 'qty_mismatch' else 'review' }}">
+        <th scope="row">{{ item.invoice_description }}</th>
+        <td class="num">
+          <span>{{ item.invoice_quantity }}</span>
+          {% if item.challan_quantity %}
+            <span class="muted">/ {{ item.challan_quantity }}</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if item.status == "match" %}
+            <span class="verdict verdict-passed">{{ icon("tick") }} <span>{{ t("discrepancy.matched") }}</span></span>
+          {% elif item.status == "qty_mismatch" %}
+            <span class="verdict verdict-failed">{{ icon("strike") }} <span>{{ t("discrepancy.mismatch") }}</span></span>
+          {% elif item.status == "unit_mismatch" %}
+            <span class="verdict verdict-review">{{ icon("bracket-hand") }} <span>{{ t("discrepancy.unit_mismatch") }}</span></span>
+          {% else %}
+            <span class="verdict verdict-review">{{ icon("bracket-hand") }} <span>{{ t("discrepancy.missing") }}</span></span>
+          {% endif %}
+        </td>
+        <td>{{ item.notes }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</article>
+{% endblock %}

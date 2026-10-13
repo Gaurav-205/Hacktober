@@ -323,6 +323,12 @@ def _date_order(state: CaseState) -> list[Finding]:
         )
 
     acceptance, acceptance_ref = _acceptance(ch)
+    if "acceptance_date" in state.extra and state.extra["acceptance_date"]:
+        try:
+            acceptance = date.fromisoformat(state.extra["acceptance_date"])
+            acceptance_ref = FieldRef("case", "acceptance_date")
+        except ValueError:
+            pass
     refs = (acceptance_ref, FieldRef("case", "as_on_date"))
     if acceptance is None or state.as_on is None:
         out.append(finding("X-DATE-ORDER", Status.SKIPPED, refs))

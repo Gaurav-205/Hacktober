@@ -63,9 +63,12 @@ e2e: ## Browser journeys and accessibility checks (Playwright, replay provider)
 fixtures: ## Regenerate the synthetic papers, ground truth and replay recordings
 	$(PY) scripts/gen_fixtures.py
 
+# Replay runs write replay.json; only a live provider writes latest.json (PLAN_REVIEW D10).
+EVAL_REPORT = eval/reports/$(if $(filter-out replay,$(or $(MUNIM_PROVIDER),replay)),latest,replay).json
+
 eval: ## Evaluation harness (MUNIM_PROVIDER, default replay) and report schema check
 	$(PY) eval/run_eval.py
-	$(PY) eval/validate_report.py eval/reports/latest.json
+	$(PY) eval/validate_report.py $(EVAL_REPORT)
 
 eval-repair: ## Repair-loop evaluation on injected single-character GSTIN faults
 	$(PY) eval/run_eval.py --repair-only

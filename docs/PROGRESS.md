@@ -67,6 +67,11 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Reviewer: test-auditor on the scripts and hooks tests reported 1 high and 10 medium findings. All were fixed in `d66fcc5`: exit 2 on non-UTF-8 input in four scripts; `check_licences` main exit codes; tests that text-unidecode is not a run-time dependency and is never imported; the repo-file guard scans every text file in any letter case; the G4 guard catches GitHub fine-grained tokens; design-lint rule 4 requires every selector of a list to target `.stamp` (and `:not(.stamp)` does not count); rule 7 tracks `lang` per element instead of per line.
 - Checked with: `uv run pytest -q tests/scripts tests/hooks`: 390 passed. `make check` at `5263376` with the uncommitted Gate 2 files stashed: exit 0. Its output included: "Contracts: 3 kept, 0 broken.", "check_licences: 106 distributions, 0 problems", "design_lint: 2 files checked, 0 problems", "check_contrast: 21 pairs checked, 0 problems", "check_fonts: 18 checks, 0 problems", "752 passed, 1 skipped", "munim_core: lines 98.64%, branches 96.89% ... ok".
 - The first `make check` run at `d66fcc5` failed in bandit on two `assert` statements in the core (B101). They were replaced with plain control flow in `752a41d`. The repo-file guard then caught the CLI docstring GSTIN, fixed in `5263376`.
-- CI: run 1 (`71b4f0d`) failed in the secret scan; run 2 (`0435103`) passed; run 3 (`5263376`) queued at 03:45 UTC.
+- CI: run 1 (`71b4f0d`) failed in the secret scan; run 2 (`0435103`) passed; run 3 (`5263376`, all of Gate 1) passed on Ubuntu and macOS.
 
-STATUS: IN PROGRESS (Gate 1 close review and Gate 2 build)
+### 2026-10-13 04:10 UTC Paused at the owner's request (credits)
+- Done and pushed: Gate 0 (closed), Gate 1 code (CI run 3 green at `5263376`), docs aligned with D9 and D10 (`AI_SPEC.md`, `ARCHITECTURE.md`), Makefile `eval` validates `replay.json` on replay runs.
+- Gate 1 is not formally closed: the domain-verifier and test-auditor reviews were started but stopped before reporting.
+- Gate 2 model-layer code (`munim_ai`: schemas, prompts, providers, normalize, imageprep, extract, repair) is mypy-strict and ruff clean but has no tests yet. It is pushed on branch `wip/gate2-model-layer`, not on `main`, so `main`'s coverage gate stays green.
+
+STATUS: PAUSED (Gate 1 review pending; Gate 2 in progress on wip/gate2-model-layer)

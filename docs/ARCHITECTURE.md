@@ -23,7 +23,7 @@ munim/
 │  ├─ munim_core/                  # pure domain
 │  │  └─ src/munim_core/{money,dates,ids,verify,clock,dossier_model,i18n_keys}.py
 │  ├─ munim_ai/                    # model layer
-│  │  └─ src/munim_ai/{providers/,schemas,prompts/,extract,repair,imageprep,replay}.py
+│  │  └─ src/munim_ai/{providers/{base,ollama,gemini,replay},schemas,normalize,prompts/,extract,repair,imageprep}.py
 │  ├─ munim_web/                   # FastAPI app
 │  │  └─ src/munim_web/{main,deps,db,models,routes/,services/,templates/,static/,i18n/}
 │  └─ munim_mcp/                   # stretch: MCP server exposing core
@@ -146,10 +146,11 @@ POST /papers/{id}/read
 ### 5.2 Repair (the red pen)
 ```
 repair(claim, finding):
-   crop = imageprep.crop(original, claim.box expanded by 8%)
    candidates = ids.lookalike_candidates(claim.value) if claim.field is a GSTIN
    if exactly one candidate passes checksum: propose it (source='repair', needs_review)
-   else: value2 = provider.reread(crop, field_spec)       # a single-field prompt
+   else:
+     crop = imageprep.crop(prepared image, claim.box expanded by 8%)   # the image the model read (D9)
+     value2 = provider.reread(crop, field_spec, ctx.for_reread(field, box, reread_version))
    run verify for that field only
    outcome = corrected | unchanged | check_by_hand
    append event; update claim; UI swaps row with the red-pen animation class
@@ -173,16 +174,26 @@ GET /cases/{id}/clock?as_on=YYYY-MM-DD
 class Provider(Protocol):
     name: str
     model: str
-    async def extract(self, image: bytes, kind: PaperKind, language_hint: str | None) -> ProviderResult: ...
-    async def reread(self, crop: bytes, field: FieldSpec) -> ProviderResult: ...
+    async def extract(self, image: bytes, kind: PaperKind, language_hint: str | None, ctx: ReadContext) -> ProviderResult: ...
+    async def reread(self, crop: bytes, field: FieldSpec, ctx: ReadContext) -> ProviderResult: ...
     async def preflight(self) -> PreflightReport: ...        # model present? supports images? returns json?
+
+@dataclass(frozen=True)
+class ReadContext:            # PLAN_REVIEW D9: what replay keys on and what a retry or re-read needs
+    original_sha256: str      # hash of the original uploaded bytes, never of a re-encoded copy
+    kind: PaperKind; prompt_version: str
+    rotation: int = 0         # degrees the user rotated the paper before reading
+    attempt: int = 1          # 2 is the strict-JSON retry
+    field: str | None = None; box: tuple[int, int, int, int] | None = None   # re-reads only
 
 @dataclass(frozen=True)
 class ProviderResult:
     text: str                 # raw model text
     latency_ms: int
-    provider: str; model: str
+    provider: str; model: str # "replay" when replayed
     usage: dict[str, int] | None
+    replayed: bool = False
+    recorded_from: str | None = None   # "synthetic" or "live" for replayed results
 ```
 Details of prompts, schemas, retries and evaluation are in `docs/AI_SPEC.md`.
 

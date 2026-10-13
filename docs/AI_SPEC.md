@@ -103,6 +103,14 @@ The prompt gives the format of the field (this is allowed; it is public format k
 
 ## 5. Providers
 
+Every provider implements the same protocol (`munim_ai/providers/base.py`, PLAN_REVIEW D9):
+`extract(image, kind, language_hint, ctx)`, `reread(crop, field_spec, ctx)` and `preflight()`.
+`ctx` is a `ReadContext(original_sha256, kind, prompt_version, rotation, attempt, field, box)`: the
+hash of the original uploaded bytes, the paper kind, the prompt version, the rotation applied by
+the user, the attempt number (2 is the strict retry) and, for a re-read, the field and its box.
+Every call returns a `ProviderResult(text, latency_ms, provider, model, usage, replayed,
+recorded_from)`.
+
 ### 5.1 `ollama`
 - Python package `ollama`; `AsyncClient(host=MUNIM_OLLAMA_URL)`.
 - `chat(model=..., messages=[{role:'system',...},{role:'user', content:'Read this tax invoice.', images:[jpeg_bytes]}], options={'temperature': 0}, format=<schema or omitted>)`.
@@ -118,7 +126,8 @@ The prompt gives the format of the field (this is allowed; it is public format k
 
 ### 5.3 `replay`
 - Fixture format: `eval/fixtures/replay/<key>.json` containing `{text, provider, model, recorded_at, recorded_from}`.
-- Key for a full read: `sha256(original uploaded bytes) + ":" + paper kind + ":" + prompt_version`. Key for a re-read: the same plus `":" + field + ":" + box`. Never key on re-encoded or resized bytes: JPEG encoders differ between Pillow versions and platforms, so such keys break in CI.
+- Key for a full read: `sha256(original uploaded bytes) + ":" + paper kind + ":" + prompt_version + ":r" + rotation + ":a" + attempt`. Key for a re-read: the same plus `":" + field + ":" + box`. The file name is the sha256 of the key. Never key on re-encoded or resized bytes: JPEG encoders differ between Pillow versions and platforms, so such keys break in CI.
+- A replayed result reports `provider="replay"`, `replayed=True` and the recording's `recorded_from` (`synthetic` for hand-built recordings, `live` for recordings of a real model) (D9).
 - Committed fixture images are JPEGs already within the size limit (long edge <= 1568 px) so `imageprep` leaves them as they are.
 - `MUNIM_PROVIDER=replay` returns the recorded text for the image hash and prompt kind or raises `ReplayMiss` (never silently falls back).
 - A `record` mode wraps a live provider and writes fixtures. Fixtures contain only synthetic documents (CI checks the file list).
@@ -146,13 +155,15 @@ for finding in findings where finding.repairable (GSTIN-*, amount rules touching
         if field is GSTIN and (c := single_lookalike_fix(value)):
             propose(c, via="lookalike")
         else:
-            crop = crop(original, box expanded 8%, min 64 px each side)
+            crop = crop(prepared image, box expanded 8%, min 64 px each side)
             new = provider.reread(crop, field_spec)
             if normalize(new) == normalize(current): outcome = unchanged; break
             propose(new, via="model")
         rerun verify for the field
     outcome = corrected if finding now passed else check_by_hand
 ```
+- The crop is cut from the prepared image the model read, because the box is on that image's grid (D9). The re-read call carries `ctx.for_reread(field, box, reread prompt_version)`, so replay finds it.
+- A look-alike correction stays `needs_review` through the `GSTIN-LOOKALIKE` rule until the user accepts it (D1).
 - A proposal changes `value_current`, sets `source='repair'`, keeps `value_read`.
 - The UI shows corrections only through the red-pen sequence; the user still confirms.
 - Repair never edits more than the one field; it never changes totals to make arithmetic balance.
@@ -160,7 +171,7 @@ for finding in findings where finding.repairable (GSTIN-*, amount rules touching
 ## 8. Evaluation (the credibility engine)
 
 ### 8.1 Data
-- **Synthetic set (committed):** `scripts/gen_fixtures.py` renders at least 30 papers (12 invoices, 10 challans, 8 POs) with ReportLab from random but seeded data using valid GSTINs (constructed via the checksum algorithm), then applies photo degradations with Pillow: rotation of +/- 6 degrees, perspective warp, Gaussian blur, JPEG compression, uneven lighting, a coffee-ring stain overlay, partial shadow. Fonts: DejaVu and Noto Sans Devanagari to include Hindi labels. A ground-truth JSON per paper.
+- **Synthetic set (committed):** `scripts/gen_fixtures.py` renders at least 30 papers (12 invoices, 10 challans, 8 POs) with Pillow from random but seeded data using valid GSTINs (constructed via the checksum algorithm), then applies photo degradations with Pillow: rotation of +/- 6 degrees, perspective warp, Gaussian blur, JPEG compression, uneven lighting, a coffee-ring stain overlay, partial shadow. Fonts: the repository's own Mukta files (OFL), converted from WOFF2 in memory, so Hindi labels shape correctly; ReportLab cannot shape Devanagari and makes only the one Latin PDF sample. A ground-truth JSON per paper. Recordings for the synthetic set are hand-built from the truth with a seeded set of simulated misreads and are marked `recorded_from: "synthetic"`.
 - **Injected faults (committed):** variants with a single mutated character in a GSTIN, a wrong total, a swapped day/month, a quantity mismatch. These test the checks, not the model.
 - **Real documents (not committed):** a local folder `eval/real/` in `.gitignore`. `run_eval.py --real` computes the same metrics. Only aggregate numbers and short failure descriptions without personal data go into `docs/EVAL_REAL.md`.
 
@@ -172,12 +183,12 @@ for finding in findings where finding.repairable (GSTIN-*, amount rules touching
 | Identifier exact match | GSTIN/PAN/invoice no. after normalisation |
 | Box IoU >= 0.5 | fraction of fields with a box whose IoU with the truth box is at least 0.5 |
 | Invalid-JSON rate | fraction of calls needing the retry; fraction failing after retry |
-| **Wrong and passed** | fields where value != truth **and** all rules touching the field passed |
+| **Wrong and passed** | on first-read values (before repair): fields where value != truth and no applicable rule failed or flagged the field (a skipped rule, or no rule, does not catch it); reported over all scored fields and over wrong fields, both with n (D10) |
 | Detected and flagged | fields where value != truth and some rule failed or needs_review |
 | Repair outcome | corrected / unchanged / check_by_hand for injected GSTIN faults and for model misreads |
 | Latency | median and p95 per paper, by provider and model |
 
-Report JSON schema in `eval/reports/schema.json`; `latest.json` is rendered on the Evaluation page with the model name, provider, date, n, and a plain-language reading ("In 7 of 100 fields the value was wrong; the checks caught 5 of those 7").
+Report JSON schema in `eval/reports/schema.json`. A replay run writes `eval/reports/replay.json`; only a live provider writes `eval/reports/latest.json`, so a replay run never overwrites a live result (D10). `latest.json` is rendered on the Evaluation page with the model name, provider, date, n, and a plain-language reading ("In 7 of 100 fields the value was wrong; the checks caught 5 of those 7").
 
 ### 8.3 Honesty rules
 1. Headline number is **wrong and passed**, not accuracy.

@@ -138,7 +138,7 @@ def clock_context(snapshot: CaseSnapshot, t: Translator) -> dict[str, Any]:
         "clock": clock,
         "missing": ", ".join(t(f"clock.missing.{m}") for m in clock.missing),
         "result": outcome.result if outcome else None,
-        "error": t(outcome.error_key, outcome.error_params)
+        "clock_error": t(outcome.error_key, outcome.error_params)
         if outcome and outcome.error_key
         else None,
         "unconfirmed": bool(outcome and outcome.rates_unconfirmed),

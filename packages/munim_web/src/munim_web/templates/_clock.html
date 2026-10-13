@@ -2,8 +2,8 @@
   <h2 id="clock-title" class="visually-hidden">{{ t("clock.title") }}</h2>
   {% if clock.missing %}
     <p class="clock-missing">{{ t("clock.missing", items=missing) }} <a href="#terms">{{ t("settings.case.title") }}</a></p>
-  {% elif error %}
-    <p class="clock-missing">{{ error }} <a href="/rules#bank">{{ t("rules.bank.title") }}</a></p>
+  {% elif clock_error %}
+    <p class="clock-missing">{{ clock_error }} <a href="/rules#bank">{{ t("rules.bank.title") }}</a></p>
   {% elif result %}
     <dl class="clock-strip">
       <div><dt>{{ t("clock.delivered") }}</dt><dd class="num">{{ t.date(clock.delivered) }}</dd></div>

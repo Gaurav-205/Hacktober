@@ -9,10 +9,11 @@ from pathlib import Path
 
 import structlog
 import uvicorn
-from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException
 from ulid import ULID
 
 from munim_web import __version__

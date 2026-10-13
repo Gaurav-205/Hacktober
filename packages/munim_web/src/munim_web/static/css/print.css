@@ -1,0 +1,12 @@
+/* Evidence file on A4 (DESIGN.md 5, "Dossier print layout"). */
+@page { size: A4; margin: 18mm; }
+
+body { background: var(--color-sheet); }
+.topbar, .no-print, .dossier-tools, .skip, .toast { display: none; }
+.page { padding: 0; max-width: none; }
+.d-page { border: 0; padding: 0; margin: 0; break-after: page; }
+.d-page:last-child { break-after: auto; }
+.evidence tr, .working tr { break-inside: avoid; }
+.d-original .viewer-canvas { break-inside: avoid; }
+.notice { border: 0; padding: 0; }
+a { color: var(--color-ink); text-decoration: none; }

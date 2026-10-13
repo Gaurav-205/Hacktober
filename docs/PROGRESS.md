@@ -95,4 +95,43 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - Bugs found on the way: the `i18n/` string folder shadowed `i18n.py` (now `translate.py`); an audit `kind` detail collided with the event's `kind` argument; a template variable name clash; the status line rendered before its paper was set; Starlette's 404 skipped the error page.
 - T4.6: golden files `tests/golden/notice.{en,hi}.txt` and `evidence_summary.json`, blessed after reading every line (see the commit).
 
-STATUS: IN PROGRESS (Gate 5)
+### 2026-10-13 05:23 UTC Picked up after a new session; final review started, then paused at the owner's request
+- Where: the owner's Windows 11 machine, worktree `claude/app-pre-release-readiness-3f615f` at `6959979`. No code changed in this session. Nothing pushed.
+- Setup: `uv sync --all-packages --all-groups` worked. uv is at `%APPDATA%\Python\Python314\Scripts\uv.exe` and is not on PATH, and there is no `make`. Because of that, the Claude Code hooks in `.claude/settings.json` do nothing on this machine (`command -v uv` fails).
+- Baseline on Windows:
+  - `pytest -m "not e2e and not a11y and not live"`: 869 passed, 17 failed, 23 errors.
+  - 39 of the 40 failures and errors are in `tests/hooks/test_post_edit.py` and one is in `tests/scripts/test_design_lint.py`. They assume a POSIX `.venv/bin`, executable shell-script fakes and UTF-8 stdout.
+  - The other failure is `tests/eval/test_eval.py::test_every_file_in_the_manifest_exists_with_its_hash` ("assert 345 == 336"). The cause is `core.autocrlf=true` with no `.gitattributes`, so the replay JSON is checked out with CRLF. Fix: add `.gitattributes` with `* text=auto eol=lf`.
+  - `pytest -m "e2e or a11y" --browser chromium`: 9 passed, 1 failed. `test_keyboard_only_edit_and_cancel` fails twice in a row at its last line: `outlineStyle` reads `''` then `'none'`, not `solid`. The fix is a retrying `expect(button).to_have_css("outline-style", "solid")` after reaching the button by keyboard.
+- Live model, first contact (owner approved both routes in chat):
+  - Gemini API (`GEMINI_API_KEY` is set on this machine): `models.list` shows `gemma-4-26b-a4b-it` and `gemma-4-31b-it`. Probed on `eval/fixtures/demo/challan.jpg`:
+    - `gemma-4-26b-a4b-it` answered `CH-0412` correctly in 2 to 4 s per call. It did this with inline image bytes (`types.Part.from_bytes`), a system instruction, `temperature=0`, thinking `minimal` and `high`, and `response_mime_type="application/json"`. This probe is the first evidence for the AI_SPEC 1 line "Gemma 4 accepts inline image bytes through the Gemini API" (26B only).
+    - `gemma-4-31b-it` returned 500 INTERNAL six times and 503 UNAVAILABLE ("high demand") once, including on text-only calls. Two later calls with an uploaded file succeeded in 35 to 38 s.
+  - `MUNIM_PROVIDER=gemini run_eval.py --limit 1` read 0 papers. Its `provider_errors` said `demo-invoice: fix.ollama.down`. Two defects: (1) `GeminiProvider` does not retry a transient 500 or 503, and (2) a hosted-reader failure carries the Ollama fix message.
+  - A full live run on `gemma-4-26b-a4b-it` was started and stopped before it wrote a report. There is still no `eval/reports/latest.json` and no accuracy figure.
+  - Ollama 0.40.3 is running with no models. `ollama pull gemma4:e4b` was started and stopped; the next pull resumes it.
+- Final review (Gate 6 pass, including the skipped Gate 1 and 2 reviews): nine reviewers were started (security, design, three test audits, domain, model layer, release docs, Windows portability), each followed by skeptics to verify findings. It was stopped at the owner's request. Only the domain-verifier finished. Its 18 findings are not yet verified:
+  - High:
+    1. The notice names only the first Bank Rate when the rate changes during the delay (`services/notice.py:42`).
+    2. With the interest base set to taxable value, the GST part of the debt disappears from the amount owed (`services/notice.py:67`).
+    3. For a medium enterprise, interest is switched off only on the clock strip. The evidence file, the case list and both notices still demand it (`templates/dossier.html:28`).
+    4. A typed acceptance date or objection-removed date replaces the delivery date and is shown as "Delivered on" (`services/case_service.py:200`).
+  - Medium:
+    5. The invoice/challan date message states the reverse of what the rule tests (`i18n/en.json:137`).
+    6. The notice can be copied before the values are confirmed (`services/notice.py:30`).
+    7. Part payments are not split into principal and interest (`services/views.py:167`).
+    8. With no interest period, the notice prints empty rates and "1 days" (`notices/notice.en.md.j2:19`).
+    9. VALUE-FORMAT is always a warning, though the spec makes it blocking for some fields (`verify/values.py:83`).
+    10. The acceptance-after-as-on check ignores the typed acceptance date (`verify/cross.py:325`).
+    11. No discount column in the line check (`verify/invoice.py:42`).
+    12. No integration tests for the non-default case settings (`tests/integration/test_web_flow.py:118`).
+  - Low (13 to 18): the round-off message, negative or NaN Bank Rate giving a 500, the CLI's `rate/3` rounding, GSTIN normalisation not shown, the SEC-18 reference unlabelled in the notice, and the GSTIN property test being narrow.
+- Next, in order:
+  1. Re-run the eight unfinished reviewers.
+  2. Verify these 18 findings and fix every high and medium one, tests first.
+  3. Fix the Gemini retry and message key.
+  4. Add `.gitattributes`, the keyboard-test fix and Windows-safe hook tests.
+  5. Finish the live runs on Gemini and Ollama with recordings, then write `latest.json`.
+  6. Close Gates 1, 2 and 5, and then do the Gate 6 release steps.
+
+STATUS: IN PROGRESS (Gate 6 final review, paused)

@@ -36,6 +36,7 @@ No Ollama? `MUNIM_PROVIDER=replay make run` uses recorded responses on the bundl
 
 - Papers and what is read from them are stored in `./data` on your computer. **Delete case** removes the files and rows.
 - With the default reader nothing leaves your computer. The app makes no requests to any other site.
+- The hosted demo (`munim-demo.vercel.app`, from `api/index.py`) is different: it runs on Vercel's servers, reads only with recorded responses on the bundled synthetic papers, and anything you upload there is held on those servers in temporary storage. Use the demo with the synthetic papers only; run Munim on your own computer for real papers. To serve it under another domain, set `MUNIM_PUBLIC_HOST`.
 - Aadhaar-like numbers are masked in stored text. The photo itself is not redacted; please do not photograph Aadhaar cards.
 - Full threat model: `docs/SECURITY_PRIVACY.md`.
 

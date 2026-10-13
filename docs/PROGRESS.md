@@ -153,5 +153,13 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
   - `eval/validate_report.py eval/reports/latest.json`: 0 problems.
   - Static guards (`bandit`, `lint-imports`, `check_licences`, `check_contrast`, `check_fonts`, `check_i18n`, `design_lint`): 0 violations.
 
+### 2026-10-13 Hosted demo hardening (api/index.py)
+- Demo domain: `munim-demo.vercel.app`; `MUNIM_PUBLIC_HOST` (comma-separated) adds a custom domain; Vercel's own `VERCEL_URL`, `VERCEL_BRANCH_URL`, `VERCEL_PROJECT_PRODUCTION_URL` are accepted.
+- Host allow-list no longer `*` (it disabled the DNS-rebinding guard); a `*` in the environment is ignored.
+- Reader pinned to `replay` on the hosted copy: no Ollama there, and visitor photos must not be relayed to Google.
+- README privacy section says the hosted demo runs on Vercel's servers.
+- Evidence: `pytest tests/integration/test_vercel_entry.py -q`: 5 passed (failed 5 before the change). `pytest tests -q -m "not e2e and not a11y and not live"`: 906 passed, 2 failed, 19 errors, none in touched files: 19 hook errors are `uv is not on PATH`; manifest size 345 vs 336 is a CRLF working copy (`git ls-files --eol`: `w/crlf attr/text eol=lf`); `test_verify_never_raises_on_arbitrary_values` finds a pre-existing `int()` crash on a Unicode digit in `munim_core/verify/values.py:45` (follow-up).
+- Bandit B108 on the `/tmp` default predates this change (from f2c6dda). GitNexus is not installed in this worktree, so impact/detect-changes could not run; `api/index.py` has no importers (text search).
+
 STATUS: READY FOR RELEASE (v0.1.0)
 

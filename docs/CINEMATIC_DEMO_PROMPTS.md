@@ -1,5 +1,7 @@
 # Munim: 60-second cinematic demo prompt pack
 
+Superseded by [the cartoon animation prompt pack](ANIMATED_DEMO_PROMPTS.md), following the user's updated video direction.
+
 ## Creative direction
 
 **Title:** The work is done. The payment is waiting.

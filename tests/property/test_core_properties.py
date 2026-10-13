@@ -13,7 +13,7 @@ from munim_core.clock import BankRate, ClockInput, compute
 from munim_core.dates import add_months
 from munim_core.ids import check_gstin, normalise_gstin
 from munim_core.money import format_inr, parse_inr
-from munim_core.text import to_ascii_digits
+from munim_core.text import to_ascii_digits, whole_number
 from munim_core.verify import run_all
 from munim_core.verify.cross import normalise_description, normalise_name, normalise_reference
 from munim_core.verify.models import CaseState, ClaimValue, PaperState, Status
@@ -213,3 +213,15 @@ def test_verify_never_raises_on_arbitrary_values(
         assert f.status in set(Status)
         assert all(isinstance(v, str) for v in f.params.values())
         assert f.message_key.startswith(("rule.", "check."))
+
+
+@given(st.text())
+def test_whole_number_never_raises_and_is_small_and_non_negative(text: str) -> None:
+    value = whole_number(text)
+    assert value is None or 0 <= value <= 999_999_999
+
+
+@given(st.integers(0, 999_999_999))
+def test_whole_number_reads_what_str_writes(days: int) -> None:
+    assert whole_number(str(days)) == days
+    assert whole_number(f" {days} ") == days

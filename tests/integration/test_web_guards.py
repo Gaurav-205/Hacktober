@@ -242,8 +242,8 @@ def test_hindi_pages_render_without_missing_keys(web: Web) -> None:
 
 
 # ---------------------------------------------------------------- case settings numbers
-@pytest.mark.parametrize("printed", ["\u00b2", "3\u00b9"])
-def test_credit_days_with_a_non_decimal_digit_is_refused_not_a_500(web: Web, printed: str) -> None:
+@pytest.mark.parametrize("printed", ["\u00b2", "3\u00b9", "9" * 20, "1" * 4301])
+def test_unreadable_credit_days_are_refused_not_a_500(web: Web, printed: str) -> None:
     case_id, _ = demo_case(web)
     r = web.post(f"/cases/{case_id}/settings", {"credit_days": printed})
     assert r.status_code == 303
@@ -252,11 +252,12 @@ def test_credit_days_with_a_non_decimal_digit_is_refused_not_a_500(web: Web, pri
     assert row is not None and row["credit_days"] is None
 
 
-def test_notice_days_with_a_non_decimal_digit_is_ignored_not_a_500(web: Web) -> None:
+@pytest.mark.parametrize("printed", ["\u00b2", "1" * 4301])
+def test_unreadable_notice_days_are_ignored_not_a_500(web: Web, printed: str) -> None:
     case_id, _ = demo_case(web)
     before = web.app.state.db.case(case_id)
     assert before is not None
-    r = web.post(f"/cases/{case_id}/settings", {"notice_days": "\u00b2"})
+    r = web.post(f"/cases/{case_id}/settings", {"notice_days": printed})
     assert r.status_code == 303
     after = web.app.state.db.case(case_id)
     assert after is not None and after["notice_days"] == before["notice_days"]

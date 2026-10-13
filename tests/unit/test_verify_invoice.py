@@ -75,6 +75,18 @@ def test_credit_days_in_devanagari_digits_pass_value_format() -> None:
     assert only(findings, "VALUE-FORMAT", "credit_days")[0].status is Status.PASSED
 
 
+@pytest.mark.parametrize("printed", ["1" * 10, "9" * 20, "1" * 4301])
+def test_credit_days_longer_than_nine_digits_fails_value_format(printed: str) -> None:
+    findings = run_all(case(order=po(credit_days=printed)), TODAY)
+    value = only(findings, "VALUE-FORMAT", "credit_days")[0]
+    assert (value.status, value.message_key) == (Status.FAILED, "rule.VALUE-FORMAT.number")
+
+
+def test_credit_days_of_nine_digits_passes_value_format() -> None:
+    findings = run_all(case(order=po(credit_days="9" * 9)), TODAY)
+    assert only(findings, "VALUE-FORMAT", "credit_days")[0].status is Status.PASSED
+
+
 # ---------------------------------------------------------------- INV-LINE-AMOUNT
 
 

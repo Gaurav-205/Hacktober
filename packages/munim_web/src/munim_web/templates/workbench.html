@@ -7,8 +7,13 @@
 <div class="wb-head">
   <h1>{{ case.title }}</h1>
   <p class="muted">{{ t("cases.parties", supplier=case.supplier_name, buyer=case.buyer_name) }}</p>
-  <a class="btn btn-secondary" href="/cases/{{ case.id }}/dossier">{{ t("evidence.open") }}</a>
+  <div>
+    <a class="btn btn-secondary" href="/cases/{{ case.id }}/discrepancies">{{ t("discrepancy.button") }}</a>
+    <a class="btn btn-secondary" href="/cases/{{ case.id }}/samadhaan">{{ t("samadhaan.button") }}</a>
+    <a class="btn btn-secondary" href="/cases/{{ case.id }}/dossier">{{ t("evidence.open") }}</a>
+  </div>
 </div>
+
 {% if error %}<p class="message message-failed" role="alert">{{ t(error, n=unresolved | length, field=t("settings.case.as_on")) | code }}</p>{% endif %}
 
 <div class="wb-grid">

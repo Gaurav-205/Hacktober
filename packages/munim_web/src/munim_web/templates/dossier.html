@@ -28,7 +28,12 @@
       <div><dt>{{ t("clock.interest") }}</dt><dd class="num">{{ result.interest_paise | inr }}</dd></div>
       <div><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd></div>
       {% endif %}
+      {% if disallowance and (disallowance.is_disallowed or disallowance.is_at_risk) %}
+      <div><dt>{{ t("tax.43b_title") }}</dt><dd class="num">{{ t("tax.43b_disallowed", fy=disallowance.financial_year) if disallowance.is_disallowed else t("tax.43b_at_risk", fy=disallowance.financial_year) }}</dd></div>
+      <div><dt>{{ t("tax.43b_impact_25", amount=disallowance.estimated_tax_penalty_paise | inr) }}</dt><dd class="num">{{ disallowance.estimated_tax_penalty_paise | inr }}</dd></div>
+      {% endif %}
     </dl>
+
     {% if model.unresolved %}
     <h2>{{ t("evidence.unresolved") }}</h2>
     <ul>{% for f in model.unresolved %}<li>{{ t(f.message_key, f.params) }}</li>{% endfor %}</ul>

@@ -22,7 +22,14 @@ Subject: Payment due for invoice {{ invoice_number }} dated {{ invoice_date }}
 4. Please pay {{ total_owed }}, with interest accruing until payment, within {{ notice_days }} days of this notice.
    If we do not receive payment, we reserve all our rights, including referring the dispute to the
    Micro and Small Enterprises Facilitation Council under section 18 of the Act.   {# rule: SEC-18-REFERENCE #}
+{% if disallowance and (disallowance.is_disallowed or disallowance.is_at_risk) %}
+
+5. Under Section 43B(h) of the Income-tax Act, 1961 read with Section 15 of the MSMED Act, 2006,
+   this unpaid expenditure {% if disallowance.is_disallowed %}stands disallowed as a business deduction for FY {{ disallowance.financial_year }}{% else %}faces tax disallowance for FY {{ disallowance.financial_year }} unless paid before {{ disallowance.fy_end_date }}{% endif %}.
+   Under Section 23 of the MSMED Act, 2006, interest payable under Section 16 is non-deductible.
+{% endif %}
 
 {{ supplier_name }}
+
 {% if udyam_number %}Udyam registration: {{ udyam_number }}{% if udyam_date %} ({{ udyam_date }}){% endif %}
 {% endif %}Signature: ____________________

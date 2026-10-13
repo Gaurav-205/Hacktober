@@ -57,8 +57,8 @@
       </form>
       {% endif %}
     </div>
-    {% include "_status.html" with context %}
     {% set paper = selected %}
+    {% include "_status.html" with context %}
     {% if selected.dark %}<p class="message message-review">{{ t("paper.err.dark") }}</p>{% endif %}
     {% if selected.blurred %}<p class="message message-review">{{ t("paper.err.blur") }}</p>{% endif %}
     <div class="viewer-tools" role="toolbar" aria-label="{{ t('viewer.fit') }}">

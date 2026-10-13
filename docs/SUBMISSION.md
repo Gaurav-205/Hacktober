@@ -20,20 +20,20 @@
 
 ## Checklist
 
-- [ ] Repo is public; first commit time is after kickoff; no force-pushes rewriting history.
-- [ ] `LICENSE`, `README.md`, `THIRD_PARTY.md`, `docs/AI_CONTRIBUTION.md` complete with no bracket placeholders.
+- [ ] Repo is public; first commit time is after kickoff; no force-pushes rewriting history. **Not met: the build started before the kickoff (owner's decision, recorded in `docs/PROGRESS.md`). No history was rewritten.**
+- [x] `LICENSE`, `README.md`, `THIRD_PARTY.md`, `docs/AI_CONTRIBUTION.md` complete with no bracket placeholders.
 - [ ] README states: what it is in one paragraph; screenshots; install in under 10 commands; model and licence; privacy; measured results (from `latest.json`); known limits; how to contribute.
 - [ ] No real documents, keys or personal data anywhere in the history (`git log -p | grep` for patterns; run secret scanner).
 - [ ] CI is green on `main`.
 - [ ] `make run` works from a clean clone on a second machine.
 - [ ] Demo video (90 to 120 seconds) uploaded; follows DEMO_SCRIPT; shows the provider badge honestly.
 - [ ] Devpost (or event form) filled: title, tagline, description, built-with list, links (repo, video), challenges selected.
-- [ ] Hindi strings reviewed by a native speaker, or the README says they are unreviewed.
+- [x] Hindi strings reviewed by a native speaker, or the README says they are unreviewed (the README says so).
 - [ ] Open the evidence file print preview; confirm the "Draft for review. Not legal advice." line is on every page that states a legal point.
 
 ## Short description (paste, then edit with real numbers)
 
-> Small suppliers in India are often paid late and cannot prove it. Munim turns phone photos of a tax invoice, delivery challan and purchase order into a checked evidence file. Gemma 4, running locally, reads the papers; deterministic checks (GSTIN checksum, GST arithmetic, cross-paper agreement) decide what passes; when a check fails Munim re-reads just that field and shows the correction in red pen and ballpoint. It then works out the due date and compound interest under the MSMED Act and prints an evidence file with a draft notice in English and Hindi. Open source, offline-capable, nothing leaves your computer unless you choose the hosted model. On [n] synthetic papers it read [x]% of required fields exactly, and in [y]% of fields a wrong value passed every check; the evaluation and failures are published.
+> Small suppliers in India are often paid late and cannot prove it. Munim turns phone photos of a tax invoice, delivery challan and purchase order into a checked evidence file. Gemma 4, running locally, reads the papers; deterministic checks (GSTIN checksum, GST arithmetic, cross-paper agreement) decide what passes; when a check fails Munim re-reads just that field and shows the correction in red pen and ballpoint. It then works out the due date and compound interest under the MSMED Act and prints an evidence file with a draft notice in English and Hindi. Open source, offline-capable, nothing leaves your computer unless you choose the hosted model. No live-model evaluation has been run yet, so no accuracy figure is claimed; the evaluation harness and its failure examples are published and run in CI on recorded responses.
 
 ## Longer description outline
 
@@ -54,10 +54,10 @@ Python, FastAPI, Jinja2, htmx, SQLite, Pydantic, python-stdnum, Pillow, rapidfuz
 | Likely question | Prepared answer (verify against the final build) |
 | --- | --- |
 | Why not just use a big hosted model? | Papers are private business data; local open-weight keeps them on the machine; the checks make a small model usable; cost per page is zero. |
-| What if the model misreads? | The headline metric is "wrong and passed" ([y]%). Checks catch many; the user sees the box next to every value and must confirm. |
+| What if the model misreads? | The headline metric is "wrong and passed" (no live figure yet; on synthetic recordings the checks caught 13 of 26 deliberately wrong values). Checks catch many; the user sees the box next to every value and must confirm. |
 | Is this legal advice? | No. It calculates from stated rules, cites them, flags unsettled points (registration timing), and marks drafts. |
 | Is the interest right? | Matches golden vectors; assumptions (day count, base) are listed on the Rules page; an accountant should confirm. |
 | What did you build today? | Show the commit history and `PROGRESS.md`. Libraries listed in THIRD_PARTY. |
-| Does it work in Hindi? | UI and notice are bilingual; Hindi text is [reviewed by __ / awaiting review]. |
+| Does it work in Hindi? | UI and notice are bilingual; Hindi text is awaiting review by a native reader. |
 | How is this different from existing invoice-OCR hackathon projects? | Those extract fields; Munim verifies, repairs, computes the legal clock, and publishes its failure rate. |
-| Real users? | Not yet; [state exactly what testing was done and with whom, or say none]. |
+| Real users? | Not yet. Testing so far is automated: 30 synthetic papers plus 5 with injected faults, unit, property, integration, golden and browser tests. No real papers and no outside users. |

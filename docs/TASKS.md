@@ -61,15 +61,15 @@ Order matters: each item is test-first.
 
 Goal: a person can create a case, add three papers, read them (replay or live), see boxes and the claims table, edit values, see findings, and confirm. Use the design tokens from the start; do not write a throwaway unstyled version.
 
-- [ ] T3.1 App factory, `Settings`, structlog, security headers middleware, Host allow-list, CSRF dependency, error pages, `/healthz`.
-- [ ] T3.2 SQLite: connection management, migration runner, `0001_init.sql` from ARCHITECTURE section 4, repositories with tests on a temp DB.
-- [ ] T3.3 i18n: loader, `t()` Jinja global, language switch cookie, `⟦key⟧` dev placeholders, `check_i18n` passing; `en.json` and `hi.json` seeded from `docs/CONTENT.md`.
-- [ ] T3.4 Base layout, tokens.css, components.css, macros: button, field, sheet, verdict_chip, dropzone, claims_row, icons (section 10 of DESIGN.md).
-- [ ] T3.5 Pages: case list with empty state and create form; workbench frame (rail, viewer, claims panel placeholder).
-- [ ] T3.6 Upload endpoint with the validation in API.md; thumbnails; rotate; delete paper.
-- [ ] T3.7 Read flow: background task, status polling fragment, claims panel with rows, boxes on the viewer (SVG overlay), selection sync, edit with original struck through.
-- [ ] T3.8 Findings in the claims panel (run core verify after each change), accept-with-reason, confirm endpoint with 409 rules.
-- [ ] T3.9 Integration tests for all of the above; E2E-1a (slice happy path) and E2E-3a (failing GSTIN, accept with reason) pass.
+- [x] T3.1 App factory, `Settings`, structlog, security headers middleware, Host allow-list, CSRF dependency, error pages, `/healthz`.
+- [x] T3.2 SQLite: connection management, migration runner, `0001_init.sql` from ARCHITECTURE section 4, repositories with tests on a temp DB.
+- [x] T3.3 i18n: loader, `t()` Jinja global, language switch cookie, `⟦key⟧` dev placeholders, `check_i18n` passing; `en.json` and `hi.json` seeded from `docs/CONTENT.md`.
+- [x] T3.4 Base layout, tokens.css, components.css, macros: button, field, sheet, verdict_chip, dropzone, claims_row, icons (section 10 of DESIGN.md).
+- [x] T3.5 Pages: case list with empty state and create form; workbench frame (rail, viewer, claims panel placeholder).
+- [x] T3.6 Upload endpoint with the validation in API.md; thumbnails; rotate; delete paper.
+- [x] T3.7 Read flow: background task, status polling fragment, claims panel with rows, boxes on the viewer (SVG overlay), selection sync, edit with original struck through.
+- [x] T3.8 Findings in the claims panel (run core verify after each change), accept-with-reason, confirm endpoint with 409 rules.
+- [x] T3.9 Integration tests for all of the above; E2E-1a (slice happy path) and E2E-3a (failing GSTIN, accept with reason) pass.
 
 **Exit:** `make check` green; `make e2e -k "E2E-1a or E2E-3a"` green; axe zero serious/critical on workbench states; a screenshot at 1440px looks like `DESIGN.md` section 5 wireframe.
 **Fallback trigger:** if this gate is not green at hour 6, stop adding features, fix what is broken, and go to Gate 4 with the reduced scope in PRD section 10.
@@ -78,11 +78,11 @@ Goal: a person can create a case, add three papers, read them (replay or live), 
 
 ## Gate 4: The signature moments (6:00 to 7:30)
 
-- [ ] T4.1 Red-pen sequence: `redpen.js` + CSS per DESIGN 4.8, reduced-motion path, repair endpoint wired to the repair loop, E2E-2 passes.
-- [ ] T4.2 Case settings form (acceptance date, agreement, credit days, Udyam, objection, interest base, as-on date) and eligibility panel text.
-- [ ] T4.3 Clock strip + working page (steps table), bank-rate table UI with "not confirmed" state.
-- [ ] T4.4 Evidence file (dossier): screen layout, print stylesheet, stamp SVG + conditions, originals pages, notice (en, hi) via templates, copy buttons.
-- [ ] T4.5 `make dossier-pdf` + E2E-10.
+- [x] T4.1 Red-pen sequence: `redpen.js` + CSS per DESIGN 4.8, reduced-motion path, repair endpoint wired to the repair loop, E2E-2 passes.
+- [x] T4.2 Case settings form (acceptance date, agreement, credit days, Udyam, objection, interest base, as-on date) and eligibility panel text.
+- [x] T4.3 Clock strip + working page (steps table), bank-rate table UI with "not confirmed" state.
+- [x] T4.4 Evidence file (dossier): screen layout, print stylesheet, stamp SVG + conditions, originals pages, notice (en, hi) via templates, copy buttons.
+- [x] T4.5 `make dossier-pdf` + E2E-10.
 - [ ] T4.6 Golden tests for dossier and notices; bless once after manual review.
 
 **Exit:** E2E-1, E2E-2, E2E-3 and E2E-10 pass; the full demo (DEMO_SCRIPT.md) runs end to end on the replay provider; the printed PDF is 4+ pages A4 and passes visual review.

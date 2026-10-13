@@ -84,4 +84,15 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
 - These numbers come from hand-built synthetic recordings with seeded misreads. They test the checks and the harness, not the model. No live model was reachable (pending-live), so there is no `latest.json`.
 - Bugs found by the new tests: an over-limit image was reported as "cannot be decoded"; a stopped Ollama raised an uncaught `ConnectionError`; a runaway model value was dropped with no finding (VALUE-FORMAT now flags it `needs_review`, and DOMAIN_RULES says so).
 
-STATUS: IN PROGRESS (Gate 3)
+### 2026-10-13 04:45 UTC Gates 3 and 4: the web app, red pen, clock, evidence file
+- Changed: `packages/munim_web/src/munim_web/**` (settings, SQLite schema and repository, i18n with 394 keys in English and Hindi, security middleware, case and paper services, routes, JSON API, templates, CSS, JS, notice templates), `scripts/dossier_pdf.py`, `scripts/check_i18n.py` (key prefixes), tests in `tests/integration/` and `tests/e2e/`, and a CI `e2e` job. Built in small pushed chunks (`b7e0842` to `618a967`).
+- Checked with:
+  - `make check`: exit 0 with "906 passed" and "overall: lines 91.42% ... ok".
+  - `pytest tests/integration`: 16 passed (headers, Host, CSRF, uploads, 413 before parsing, 409 on confirm, acceptance lapsing, stale edits, deletion leaving no rows or text, JSON API, Hindi pages).
+  - `pytest tests/e2e --browser chromium`: 6 passed. They cover E2E-1a, E2E-2 (red pen), E2E-3a, E2E-6 (reduced motion), E2E-10 (A4 PDF, 4 or more pages, CHECKED, Rs 5,40,976.71) and axe with no serious or critical violations on 8 pages in English and Hindi.
+  - CI run 8 (`29c6924`) passed.
+- The demo numbers on screen, from the seeded Bank Rate table: due 19 Apr 2026, 177 days late, interest Rs 40,976.71, owed Rs 5,40,976.71.
+- Bugs found on the way: the `i18n/` string folder shadowed `i18n.py` (now `translate.py`); an audit `kind` detail collided with the event's `kind` argument; a template variable name clash; the status line rendered before its paper was set; Starlette's 404 skipped the error page.
+- T4.6 (golden files for the evidence file and notices) is not done yet.
+
+STATUS: IN PROGRESS (Gate 4: T4.6; then Gate 5)

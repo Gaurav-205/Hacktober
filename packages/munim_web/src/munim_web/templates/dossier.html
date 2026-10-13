@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import verdict, ident, stamp, sheet_tab %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ t("evidence.title") }} | {{ case.title }}{% endblock %}
+{% block body_class %}dossier-page{% endblock %}
+{% block content %}
+<div class="dossier-tools no-print">
+  <a href="/cases/{{ case.id }}">{{ t("working.back") }}</a>
+  <button class="btn btn-secondary" type="button" data-print>{{ icon("print") }} {{ t("evidence.print") }}</button>
+</div>
+
+<article class="dossier">
+  {# Page 1: summary #}
+  <section class="d-page d-summary" aria-labelledby="d-summary">
+    <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=1) }}</span></header>
+    <p class="draft">{{ t("evidence.draft") }}</p>
+    <h1 id="d-summary">{{ t("evidence.title") }}: {{ case.title }}</h1>
+    {% if model.stamp_visible %}<div class="d-stamp">{{ stamp(t, t.date(case.confirmed_at[:10])) }}</div>
+    {% else %}<p class="message message-review">{{ t("evidence.not_confirmed") }}</p>{% endif %}
+    <dl class="d-facts">
+      <div><dt>{{ t("evidence.parties") }}</dt><dd>{{ t("cases.parties", supplier=snap.value("invoice", "supplier_name") or case.supplier_name, buyer=snap.value("invoice", "buyer_name") or case.buyer_name) }}</dd></div>
+      <div><dt>{{ t("field.invoice_number") }}</dt><dd class="num">{{ snap.value("invoice", "invoice_number") or "" }}</dd></div>
+      <div><dt>{{ t("field.invoice_total") }}</dt><dd class="num">{{ snap.value("invoice", "invoice_total") or "" }}</dd></div>
+      {% if result %}
+      <div><dt>{{ t("clock.delivered") }}</dt><dd class="num">{{ t.date(clock.delivered) }}</dd></div>
+      <div><dt>{{ t("clock.due") }}</dt><dd class="num">{{ t.date(result.due_date) }}</dd></div>
+      <div><dt>{{ t("clock.late") }}</dt><dd class="num">{{ result.days_late }}</dd></div>
+      <div><dt>{{ t("clock.interest") }}</dt><dd class="num">{{ result.interest_paise | inr }}</dd></div>
+      <div><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd></div>
+      {% endif %}
+    </dl>
+    {% if model.unresolved %}
+    <h2>{{ t("evidence.unresolved") }}</h2>
+    <ul>{% for f in model.unresolved %}<li>{{ t(f.message_key, f.params) }}</li>{% endfor %}</ul>
+    {% endif %}
+    <h2>{{ t("evidence.assumptions") }}</h2>
+    <ul class="assumptions">{% for key in model.assumptions %}<li>{{ t(key) }}</li>{% endfor %}</ul>
+    <p class="muted">{{ t("legal.notice") }}</p>
+  </section>
+
+  {# Page 2: evidence table #}
+  <section class="d-page" aria-labelledby="d-table">
+    <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=2) }}</span></header>
+    <h2 id="d-table">{{ t("evidence.table") }}</h2>
+    {% for item in papers %}
+      <h3>{{ sheet_tab(item.paper.kind) }} {{ t("paper.kind." ~ item.paper.kind) }}</h3>
+      {% if item.paper.provider %}<p class="muted">{% if item.paper.replayed %}{{ t("evidence.reader.replay") }}{% else %}{{ t("evidence.reader", provider=item.paper.provider, model=item.paper.model, version=item.paper.prompt_version) }}{% endif %}</p>{% endif %}
+      <table class="evidence">
+        <thead><tr><th scope="col">{{ t("claims.col.field") }}</th><th scope="col">{{ t("claims.col.value") }}</th><th scope="col">{{ t("claims.col.check") }}</th><th scope="col">{{ t("claims.col.source") }}</th></tr></thead>
+        <tbody>
+        {% for r in item.rows if r.value or r.value_read %}
+          <tr class="row-{{ r.status }}">
+            <th scope="row">{{ r.label }}</th>
+            <td>{% if r.corrected %}<span class="struck-static">{{ r.display_read or t("claims.notfound") }}</span> <span class="hand">{{ r.display }}</span>{% elif r.gstin %}{{ ident(r.display) }}{% else %}<span class="num">{{ r.display }}</span>{% endif %}
+              {% for reason in r.accepted %}<br><span class="muted">{{ t("claims.accepted", reason=reason) }}</span>{% endfor %}</td>
+            <td>{{ verdict(t, r.status) }}</td>
+            <td>{% if r.box %}<img class="crop" src="/papers/{{ item.paper.id }}/crop?box={{ r.box | join(',') }}" alt="" width="96" height="40">{% else %}<span class="muted">{{ t("claims.notfound") }}</span>{% endif %}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% endfor %}
+  </section>
+
+  {# Page 3: working #}
+  <section class="d-page d-band-pink" aria-labelledby="d-working">
+    <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=3) }}</span></header>
+    <h2 id="d-working">{{ t("evidence.working") }}</h2>
+    {% include "_working_table.html" with context %}
+    {% if unconfirmed %}<p class="message message-review">{{ t("clock.rate.unconfirmed") }}</p>{% endif %}
+  </section>
+
+  {# Page 4+: originals #}
+  {% for item in papers %}
+  <section class="d-page d-original" aria-labelledby="d-orig-{{ loop.index }}">
+    <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.page", n=3 + loop.index) }}</span></header>
+    <h2 id="d-orig-{{ loop.index }}">{{ t("evidence.originals") }}: {{ t("paper.kind." ~ item.paper.kind) }}</h2>
+    <div class="viewer-canvas">
+      <img src="/papers/{{ item.paper.id }}/image" alt="{{ t('paper.photo', kind_key='paper.kind.' ~ item.paper.kind) }}" width="{{ item.paper.width }}" height="{{ item.paper.height }}">
+      <svg class="boxes" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+        {% for r in item.rows if r.box %}<rect x="{{ r.box[1] }}" y="{{ r.box[0] }}" width="{{ r.box[3] - r.box[1] }}" height="{{ r.box[2] - r.box[0] }}" class="box-line box-{{ r.status }}"/>{% endfor %}
+      </svg>
+    </div>
+  </section>
+  {% endfor %}
+
+  {# Last: notices #}
+  <section class="d-page" aria-labelledby="d-notice">
+    <header class="d-head"><span>{{ case.title }}</span><span>{{ t("evidence.notice") }}</span></header>
+    <h2 id="d-notice">{{ t("evidence.notice") }}</h2>
+    {% if notices.en %}
+      <h3>{{ t("notice.en") }}</h3>
+      <pre class="notice" lang="en" id="notice-en">{{ notices.en }}</pre>
+      <button class="btn btn-secondary no-print" type="button" data-copy="notice-en">{{ icon("copy") }} {{ t("notice.copy") }}</button>
+      <h3>{{ t("notice.hi") }}</h3>
+      <p class="muted">{{ t("notice.hindi_draft") }}</p>
+      <pre class="notice" lang="hi" id="notice-hi">{{ notices.hi }}</pre>
+      <button class="btn btn-secondary no-print" type="button" data-copy="notice-hi">{{ icon("copy") }} {{ t("notice.copy") }}</button>
+    {% else %}
+      <p class="muted">{{ t("notice.unavailable") }}</p>
+    {% endif %}
+  </section>
+</article>
+{% endblock %}

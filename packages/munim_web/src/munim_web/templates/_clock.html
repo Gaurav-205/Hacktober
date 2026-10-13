@@ -1,0 +1,26 @@
+<section class="clock sheet" aria-labelledby="clock-title" id="clock">
+  <h2 id="clock-title" class="visually-hidden">{{ t("clock.title") }}</h2>
+  {% if clock.missing %}
+    <p class="clock-missing">{{ t("clock.missing", items=missing) }} <a href="#terms">{{ t("settings.case.title") }}</a></p>
+  {% elif error %}
+    <p class="clock-missing">{{ error }} <a href="/rules#bank">{{ t("rules.bank.title") }}</a></p>
+  {% elif result %}
+    <dl class="clock-strip">
+      <div><dt>{{ t("clock.delivered") }}</dt><dd class="num">{{ t.date(clock.delivered) }}</dd></div>
+      <div><dt>{{ t("clock.due") }}</dt><dd class="num">{{ t.date(result.due_date) }}</dd></div>
+      <div><dt>{{ t("clock.late") }}</dt><dd class="num">{{ result.days_late }}</dd></div>
+      {% if clock.interest_off %}
+      <div class="clock-wide"><dt>{{ t("clock.interest") }}</dt><dd>{{ t("clock.interest_off") }}</dd></div>
+      {% else %}
+      <div><dt>{{ t("clock.interest") }}</dt><dd class="num">{{ result.interest_paise | inr }}</dd></div>
+      <div class="clock-owed"><dt>{{ t("clock.owed") }}</dt><dd class="display-amount" data-owed>{{ result.total_paise | inr }}</dd></div>
+      {% endif %}
+    </dl>
+    <p class="clock-notes">
+      <span>{{ t("clock.as_on", as_on_date=clock.as_on) }}.</span>
+      {% if clock.provisional %}<span>{{ t("clock.provisional") }}</span>{% endif %}
+      <a href="/cases/{{ case.id }}/working">{{ t("clock.working") }}</a>
+    </p>
+    {% if unconfirmed %}<p class="message message-review">{{ t("clock.rate.unconfirmed") }} <a href="/rules#bank">{{ t("rules.bank.title") }}</a></p>{% endif %}
+  {% endif %}
+</section>

@@ -6,7 +6,8 @@ en.json and hi.json are flat objects mapping dotted keys to strings. Checks:
   c  the same {placeholder} names in both languages for each key
   d  no development markers (the missing-key brackets)
   e  no Latin-script words in hi.json except proper nouns, acronyms and units
-  f  every literal key used in templates as t("key") exists
+  f  every literal key used in templates as t("key") exists; a key ending in "." is a prefix
+     completed at run time, and some key must start with it
   g  every literal key used in Python as message_key=, note_key=, basis_key=, *_key params or
      t("key") exists
 
@@ -222,7 +223,12 @@ def main(argv: list[str] | None = None) -> int:
             report.findings += check_pair(en, hi, (en_path, hi_path), (en_raw, hi_raw)).findings
             templates = iter_files(args.templates or DEFAULT_TEMPLATES, (".html", ".j2"))
             for path, line, key in used_keys(templates, TEMPLATE_KEY):
-                if key not in en:
+                if key.endswith("."):  # t("paper.kind." ~ kind): a prefix completed at run time
+                    if not any(k.startswith(key) for k in en):
+                        report.add(
+                            path, line, "f", f"{key}: no key in en.json starts with this prefix"
+                        )
+                elif key not in en:
                     report.add(path, line, "f", f"{key}: used in a template but not in en.json")
             code = iter_files(args.code or DEFAULT_CODE, (".py",))
             for path, line, key in used_keys(code, CODE_KEY):

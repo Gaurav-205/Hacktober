@@ -1,0 +1,28 @@
+Draft for review. Not legal advice.
+
+Date: {{ today }}
+
+To: {{ buyer_name }}{% if buyer_address %}, {{ buyer_address }}{% endif %}
+From: {{ supplier_name }}{% if supplier_address %}, {{ supplier_address }}{% endif %}
+
+Subject: Payment due for invoice {{ invoice_number }} dated {{ invoice_date }}
+
+1. We supplied goods to you{% if po_number %} under purchase order {{ po_number }}{% endif %}.
+   The goods were delivered on {{ delivery_date }} under challan {{ challan_number }},
+   and invoiced under invoice {{ invoice_number }} for {{ invoice_total }}.   {# rule: CLOCK-ACCEPT #}
+
+2. {{ due_basis_sentence }} Payment therefore fell due on {{ due_date }}.      {# rule: CLOCK-DUE #}
+
+3. As on {{ as_on }}, {{ days_late }} days have passed since the due date. Under sections 15 and 16
+   of the Micro, Small and Medium Enterprises Development Act, 2006, interest is payable at three
+   times the Bank Rate notified by the Reserve Bank of India, compounded with monthly rests, from the
+   day after the due date. At the Bank Rate of {{ bank_rate }}%, that is {{ rate }}% a year.
+   Interest to {{ as_on }} is {{ interest }}, making {{ total_owed }} due. The working is attached.  {# rule: CLOCK-INTEREST #}
+
+4. Please pay {{ total_owed }}, with interest accruing until payment, within {{ notice_days }} days of this notice.
+   If we do not receive payment, we reserve all our rights, including referring the dispute to the
+   Micro and Small Enterprises Facilitation Council under section 18 of the Act.   {# rule: SEC-18-REFERENCE #}
+
+{{ supplier_name }}
+Udyam registration: {{ udyam_number }} ({{ udyam_date }})
+Signature: ____________________

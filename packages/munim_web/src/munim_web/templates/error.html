@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ t("error.title") }}{% endblock %}
+{% block content %}
+<div class="reading">
+  <h1>{{ t("error.title") }}</h1>
+  <p class="message message-failed">{{ t(message_key) }}</p>
+  <p class="muted">{{ t("error.generic", ref=ref) }}</p>
+  <p><a href="/">{{ t("error.back") }}</a></p>
+</div>
+{% endblock %}

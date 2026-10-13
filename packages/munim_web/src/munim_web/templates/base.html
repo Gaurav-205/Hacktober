@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="htmx-config" content='{"includeIndicatorStyles": false, "allowEval": false, "allowScriptTags": false, "historyCacheSize": 0}'>
+  <meta name="csrf-token" content="{{ csrf }}">
+  <title>{% block title %}{{ t("app.name") }}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/fonts.css">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/print.css" media="print">
+  <script src="/static/js/vendor/htmx.min.js" defer></script>
+  <script src="/static/js/app.js" type="module"></script>
+</head>
+<body class="{% block body_class %}{% endblock %}" hx-boost="true" hx-headers='{"X-CSRF-Token": "{{ csrf }}"}'>
+  <a class="skip" href="#main">{{ t("nav.skip") }}</a>
+  <header class="topbar">
+    <a class="brand" href="/" lang="{{ lang }}">{{ t("app.name") }}</a>
+    <nav class="nav" aria-label="{{ t('nav.main') }}">
+      <a href="/" {% if path == "/" %}aria-current="page"{% endif %}>{{ t("nav.cases") }}</a>
+      <a href="/rules" {% if path == "/rules" %}aria-current="page"{% endif %}>{{ t("nav.rules") }}</a>
+      <a href="/evaluation" {% if path == "/evaluation" %}aria-current="page"{% endif %}>{{ t("nav.evaluation") }}</a>
+      <a href="/settings" {% if path == "/settings" %}aria-current="page"{% endif %}>{{ t("nav.settings") }}</a>
+      <a href="/about" {% if path == "/about" %}aria-current="page"{% endif %}>{{ t("nav.about") }}</a>
+    </nav>
+    <span class="badge badge-{{ provider_name }}" data-provider="{{ provider_name }}">
+      {%- if provider_name == "replay" %}{{ t("badge.replay") }}{% elif provider_name == "gemini" %}{{ t("badge.hosted") }}{% else %}{{ t("badge.local") }}{% endif -%}
+    </span>
+    {% set other = "hi" if lang == "en" else "en" %}
+    <a class="lang-switch" href="/lang/{{ other }}?back_to={{ path | urlencode }}" lang="{{ other }}" hreflang="{{ other }}">{{ t("lang.switch") }}</a>
+  </header>
+  <main id="main" class="{% block main_class %}page{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+  <div class="toast" role="status" aria-live="polite" data-copied="{{ t('toast.copied') }}"></div>
+</body>
+</html>

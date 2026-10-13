@@ -1,0 +1,82 @@
+"""Draft notice text (docs/CONTENT.md section 2), filled only with values already formatted.
+
+The templates are plain text (.md.j2). Every sentence comes from the template or from the
+clock's basis string; no value from a model is inserted except the confirmed claim values,
+which the person has seen and confirmed.
+"""
+
+from __future__ import annotations
+
+from datetime import date
+from importlib import resources
+
+from jinja2 import Environment, StrictUndefined
+
+from munim_core.dates import DateParseError, parse_date_dayfirst
+from munim_web.services.case_service import CaseSnapshot
+from munim_web.translate import translator
+
+_ENV = Environment(autoescape=False, undefined=StrictUndefined, keep_trailing_newline=True)  # noqa: S701 - plain text, never HTML
+
+
+def _template(lang: str) -> str:
+    return (
+        resources.files("munim_web.notices")
+        .joinpath(f"notice.{lang}.md.j2")
+        .read_text(encoding="utf-8")
+    )
+
+
+def notice_text(snap: CaseSnapshot, lang: str, today: date | None = None) -> str | None:
+    """The filled notice, or None when the clock cannot be worked out yet."""
+    outcome = snap.clock.outcome
+    if outcome is None or outcome.result is None:
+        return None
+    t = translator(lang)
+    result = outcome.result
+    case = snap.case
+    if result.basis_key == "clock.basis.capped":
+        basis = t(result.basis_key, entered=case["credit_days"])
+    else:
+        basis = t(result.basis_key, days=result.credit_days_used)
+    late_steps = [s for s in result.steps if s.bank_rate_percent is not None]
+    bank_rate = str(late_steps[0].bank_rate_percent) if late_steps else ""
+    rate = str(late_steps[0].rate_percent) if late_steps else ""
+
+    def claim_date(kind: str, name: str) -> str:
+        text = snap.value(kind, name)
+        if not text:
+            return ""
+        try:
+            return t.date(parse_date_dayfirst(text).value)
+        except DateParseError:
+            return text
+
+    total_text = snap.value("invoice", "invoice_total") or ""
+    context = {
+        "today": t.date(today or date.today()),
+        "buyer_name": snap.value("invoice", "buyer_name") or case["buyer_name"],
+        "buyer_address": case["buyer_address"] or "",
+        "supplier_name": snap.value("invoice", "supplier_name") or case["supplier_name"],
+        "supplier_address": case["supplier_address"] or "",
+        "invoice_number": snap.value("invoice", "invoice_number") or "",
+        "invoice_date": claim_date("invoice", "invoice_date"),
+        "po_number": snap.value("po", "po_number") or snap.value("invoice", "po_reference") or "",
+        "delivery_date": t.date(snap.clock.delivered) if snap.clock.delivered else "",
+        "challan_number": snap.value("challan", "challan_number") or "",
+        "invoice_total": t.money(snap.clock.principal_paise)
+        if snap.clock.principal_paise
+        else total_text,
+        "due_basis_sentence": basis,
+        "due_date": t.date(result.due_date),
+        "as_on": t.date(snap.clock.as_on),
+        "days_late": result.days_late,
+        "bank_rate": bank_rate,
+        "rate": rate,
+        "interest": t.money(result.interest_paise),
+        "total_owed": t.money(result.total_paise),
+        "notice_days": case["notice_days"],
+        "udyam_number": case["udyam_number"] or "",
+        "udyam_date": t.date(case["udyam_date"]) if case["udyam_date"] else "",
+    }
+    return _ENV.from_string(_template(lang)).render(**context)

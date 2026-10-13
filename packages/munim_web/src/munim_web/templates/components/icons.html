@@ -1,0 +1,18 @@
+{# The dozen icons the product needs (DESIGN.md section 10): 1.5px stroke, square caps, currentColor. #}
+{% macro icon(name, size=16) -%}
+<svg class="icon" width="{{ size }}" height="{{ size }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true" focusable="false">
+{%- if name == "tick" %}<path d="M3 8.5l3 3 7-7"/>
+{%- elif name == "strike" %}<path d="M2 9c2-2 3 1 5-1s3 1 5-1 2 0 2 0"/>
+{%- elif name == "bracket-hand" %}<path d="M5 2H3v12h2M9 8h4M11 6l2 2-2 2"/>
+{%- elif name == "box" %}<path d="M2 2h3M11 2h3v3M14 11v3h-3M5 14H2v-3M2 5V2" /><path d="M5 5h6v6H5z" stroke-dasharray="2 2"/>
+{%- elif name == "sheet" %}<path d="M3 1.5h7l3 3v10H3z"/><path d="M10 1.5v3h3"/>
+{%- elif name == "plus" %}<path d="M8 3v10M3 8h10"/>
+{%- elif name == "trash" %}<path d="M3 4h10M6 4V2.5h4V4M4.5 4l.5 9.5h6l.5-9.5"/>
+{%- elif name == "copy" %}<path d="M5 5h8v8H5z"/><path d="M3 11V3h8"/>
+{%- elif name == "print" %}<path d="M4 6V2h8v4M4 12H2V6h12v6h-2M4 9h8v5H4z"/>
+{%- elif name == "zoom-in" %}<path d="M7 3.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM10 10l4 4M5.5 7h3M7 5.5v3"/>
+{%- elif name == "zoom-out" %}<path d="M7 3.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM10 10l4 4M5.5 7h3"/>
+{%- elif name == "fit" %}<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/>
+{%- endif %}
+</svg>
+{%- endmacro %}

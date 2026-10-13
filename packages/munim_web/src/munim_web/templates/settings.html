@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import button, csrf_field %}
+{% block title %}{{ t("settings.title") }} | {{ t("app.name") }}{% endblock %}
+{% block content %}
+<div class="reading">
+  <h1>{{ t("settings.title") }}</h1>
+  {% if error %}<p class="message message-failed" role="alert">{{ t(error) }}</p>{% endif %}
+  <form method="post" action="/settings" class="sheet">
+    {{ csrf_field(csrf) }}
+    <fieldset>
+      <legend>{{ t("settings.provider") }}</legend>
+      {% if choice.pinned %}<p class="message message-review">{{ t("settings.provider.pinned") | code }}</p>{% endif %}
+      {% for p in providers %}
+      <label class="choice"><input type="radio" name="provider" value="{{ p }}" {% if choice.name == p %}checked{% endif %} {% if choice.pinned %}disabled{% endif %}> {{ t("settings.provider." ~ p) }}</label>
+      {% endfor %}
+      <label class="choice"><input type="checkbox" name="cloud_consent" value="on" {% if choice.consent %}checked{% endif %}> {{ t("settings.consent") }}</label>
+      {% if not settings.gemini_api_key %}<p class="help">{{ t("fix.gemini.key") | code }}</p>{% endif %}
+    </fieldset>
+    <fieldset>
+      <legend>{{ t("settings.language") }}</legend>
+      {% for code in ("en", "hi") %}
+      <label class="choice" lang="{{ code }}"><input type="radio" name="language" value="{{ code }}" {% if stored_lang == code %}checked{% endif %}> {{ t("settings.language." ~ code) }}</label>
+      {% endfor %}
+    </fieldset>
+    {{ button(t("settings.save"), "primary") }}
+  </form>
+
+  <section class="sheet" aria-labelledby="pf-title">
+    <h2 id="pf-title">{{ t("settings.preflight") }}</h2>
+    <p><a class="btn btn-secondary" href="/settings?check=1">{{ t("settings.preflight.run") }}</a></p>
+    {% if preflight %}
+      {% if preflight.error is defined %}
+        <p class="message message-failed">{{ t(preflight.error, fix_params) | code }}</p>
+      {% else %}
+        <p>{{ t("settings.preflight.model", model=preflight.model) }}</p>
+        {% if preflight.vision_ok is not none %}<p>{{ t("settings.preflight.vision", result=t("common.yes") if preflight.vision_ok else t("common.no")) }}</p>{% endif %}
+        {% if preflight.json_format_ok is not none %}<p>{{ t("settings.preflight.json", result=t("common.yes") if preflight.json_format_ok else t("common.no")) }}</p>{% endif %}
+        {% if preflight.ok %}<p class="message message-passed">{{ t("settings.preflight.ok") }}</p>{% endif %}
+        {% for key in preflight.problems %}<p class="message message-failed">{{ t(key, fix_params) | code }}</p>{% endfor %}
+      {% endif %}
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

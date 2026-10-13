@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import button, csrf_field, field, verdict, ident, sheet_tab, stamp %}
+{% from "components/icons.html" import icon %}
+{% block title %}{{ case.title }} | {{ t("app.name") }}{% endblock %}
+{% block main_class %}workbench{% endblock %}
+{% block content %}
+<div class="wb-head">
+  <h1>{{ case.title }}</h1>
+  <p class="muted">{{ t("cases.parties", supplier=case.supplier_name, buyer=case.buyer_name) }}</p>
+  <a class="btn btn-secondary" href="/cases/{{ case.id }}/dossier">{{ t("evidence.open") }}</a>
+</div>
+{% if error %}<p class="message message-failed" role="alert">{{ t(error, n=unresolved | length, field=t("settings.case.as_on")) | code }}</p>{% endif %}
+
+<div class="wb-grid">
+  {# ------------------------------------------------ papers rail #}
+  <nav class="rail sheet" aria-label="{{ t('cases.col.papers') }}">
+    <h2 class="h3">{{ t("cases.col.papers") }}</h2>
+    <ul class="rail-list">
+    {% for kind in kinds %}
+      {% set p = by_kind.get(kind) %}
+      <li class="rail-item{% if p and selected and p.id == selected.id %} is-selected{% endif %}">
+        {{ sheet_tab(kind) }}
+        {% if p %}
+          <a href="/cases/{{ case.id }}?paper={{ p.id }}" {% if selected and p.id == selected.id %}aria-current="true"{% endif %}>{{ t("paper.kind." ~ kind) }}</a>
+          <span class="rail-status muted">{{ t("paper.status." ~ p.status) }}</span>
+        {% else %}
+          <span>{{ t("paper.kind." ~ kind) }}</span>
+          <span class="rail-status muted">{{ t("paper.missing") }}</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+    <form class="dropzone" method="post" action="/cases/{{ case.id }}/papers" enctype="multipart/form-data">
+      {{ csrf_field(csrf) }}
+      <h3 class="h3">{{ t("paper.add") }}</h3>
+      <p class="help">{{ t("paper.drop") }}</p>
+      <label for="file">{{ t("paper.file") }}</label>
+      <input id="file" name="file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,application/pdf,.heic" required>
+      <label for="kind">{{ t("paper.kind") }}</label>
+      <select id="kind" name="kind" required>
+        {% for kind in kinds %}<option value="{{ kind }}" {% if not by_kind.get(kind) and loop.first %}selected{% endif %}>{{ t("paper.kind." ~ kind) }}</option>{% endfor %}
+      </select>
+      <p class="help">{{ t("paper.replaces") }}</p>
+      {{ button(t("paper.upload"), "secondary") }}
+    </form>
+  </nav>
+
+  {# ------------------------------------------------ viewer #}
+  <section class="viewer sheet sheet-{{ selected.kind if selected else 'none' }}" aria-labelledby="viewer-title">
+  {% if selected %}
+    <div class="viewer-head">
+      <h2 id="viewer-title">{{ t("paper.kind." ~ selected.kind) }}</h2>
+      {% if selected.status in ("added", "failed", "read") %}
+      <form method="post" action="/papers/{{ selected.id }}/read" hx-post="/papers/{{ selected.id }}/read" hx-target="#status-{{ selected.id }}" hx-swap="outerHTML">
+        {{ csrf_field(csrf) }}
+        {{ button(t("paper.read") if selected.status == "added" else t("paper.reread"), "primary" if selected.status == "added" else "secondary") }}
+      </form>
+      {% endif %}
+    </div>
+    {% include "_status.html" with context %}
+    {% set paper = selected %}
+    {% if selected.dark %}<p class="message message-review">{{ t("paper.err.dark") }}</p>{% endif %}
+    {% if selected.blurred %}<p class="message message-review">{{ t("paper.err.blur") }}</p>{% endif %}
+    <div class="viewer-tools" role="toolbar" aria-label="{{ t('viewer.fit') }}">
+      <button class="btn btn-quiet" type="button" data-zoom="in" aria-label="{{ t('viewer.zoom_in') }}">{{ icon("zoom-in", 20) }}</button>
+      <button class="btn btn-quiet" type="button" data-zoom="out" aria-label="{{ t('viewer.zoom_out') }}">{{ icon("zoom-out", 20) }}</button>
+      <button class="btn btn-quiet" type="button" data-zoom="fit" aria-label="{{ t('viewer.fit') }}">{{ icon("fit", 20) }}</button>
+      <form method="post" action="/papers/{{ selected.id }}/rotate?deg=90" class="inline">{{ csrf_field(csrf) }}{{ button(t("paper.rotate"), "quiet") }}</form>
+    </div>
+    <div class="viewer-frame" data-viewer tabindex="0">
+      <div class="viewer-canvas" data-canvas>
+        <img src="/papers/{{ selected.id }}/image" alt="{{ t('paper.photo', kind_key='paper.kind.' ~ selected.kind) }}" width="{{ selected.width }}" height="{{ selected.height }}">
+        <svg class="boxes" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="false">
+          {% for r in rows if r.box %}
+          <a href="#row-{{ r.id }}" class="box box-{{ r.status }}" data-claim="{{ r.id }}" aria-label="{{ t('viewer.box', field=r.label, status=t('check.' ~ ('review' if r.status == 'review' else r.status if r.status in ('passed','failed','accepted','skipped') else 'none'))) }}">
+            <rect x="{{ r.box[1] }}" y="{{ r.box[0] }}" width="{{ r.box[3] - r.box[1] }}" height="{{ r.box[2] - r.box[0] }}" class="box-gap"/>
+            <rect x="{{ r.box[1] }}" y="{{ r.box[0] }}" width="{{ r.box[3] - r.box[1] }}" height="{{ r.box[2] - r.box[0] }}" class="box-line"/>
+          </a>
+          {% endfor %}
+        </svg>
+      </div>
+    </div>
+    <div class="viewer-foot">
+      <form method="post" action="/papers/{{ selected.id }}/kind" class="inline">
+        {{ csrf_field(csrf) }}
+        <label for="change-kind" class="visually-hidden">{{ t("paper.kind.change") }}</label>
+        <select id="change-kind" name="kind">{% for kind in kinds %}<option value="{{ kind }}" {% if kind == selected.kind %}selected{% endif %}>{{ t("paper.kind." ~ kind) }}</option>{% endfor %}</select>
+        {{ button(t("paper.kind.change"), "quiet") }}
+      </form>
+      <form method="post" action="/papers/{{ selected.id }}/delete" class="inline">{{ csrf_field(csrf) }}{{ button(t("paper.delete"), "quiet") }}</form>
+    </div>
+  {% else %}
+    <h2 id="viewer-title" class="visually-hidden">{{ t("paper.add") }}</h2>
+    <p class="empty">{{ t("cases.empty") }}</p>
+  {% endif %}
+  </section>
+
+  {# ------------------------------------------------ claims #}
+  <section class="claims sheet" aria-labelledby="claims-title">
+    <h2 id="claims-title">{{ t("claims.title") if selected and selected.status != "failed" else t("claims.title.hand") }}</h2>
+    {% if rows %}
+    <p class="muted" role="status">{{ t("claims.summary", passed=counts.passed, open=counts.open) }}</p>
+    <table class="claims-table">
+      <thead><tr>
+        <th scope="col">{{ t("claims.col.field") }}</th>
+        <th scope="col">{{ t("claims.col.value") }}</th>
+        <th scope="col">{{ t("claims.col.check") }}</th>
+      </tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr id="row-{{ r.id }}" class="row row-{{ r.status }}{% if r.animate %} redpen-animate{% endif %}" data-claim="{{ r.id }}" tabindex="-1">
+          <th scope="row">{{ r.label }}</th>
+          <td class="value-cell">
+            {% if r.corrected %}
+              <span class="struck" title="{{ t('claims.original') }}"><span class="visually-hidden">{{ t("claims.original") }}: </span>{% if r.display_read %}<span class="num">{{ r.display_read }}</span>{% else %}{{ t("claims.notfound") }}{% endif %}<svg class="strike-line" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 C 15 3, 30 8, 50 5 S 85 3, 100 6"/></svg></span>
+              <span class="hand">{% if r.display %}{{ r.display }}{% endif %}</span>
+              <span class="note muted">{{ r.repair_reason if r.source == "repair" and r.repair_reason else t("claims.edited") }}</span>
+            {% elif r.display %}
+              {% if r.gstin %}{{ ident(r.display) }}{% else %}<span class="num">{{ r.display }}</span>{% endif %}
+            {% else %}
+              <span class="muted">{{ t("claims.notfound") }}</span>
+            {% endif %}
+            {% if r.box %}<img class="crop" src="/papers/{{ selected.id }}/crop?box={{ r.box | join(',') }}" alt="" loading="lazy" width="96" height="40">{% endif %}
+            {% if r.repair_outcome in ("unchanged", "check_by_hand") and r.repair_reason %}<p class="note muted">{{ r.repair_reason }}</p>{% endif %}
+            {% for m in r.messages %}<p class="rule-msg">{{ m }}</p>{% endfor %}
+            {% for reason in r.accepted %}<p class="note muted">{{ t("claims.accepted", reason=reason) }}</p>{% endfor %}
+            <details class="edit">
+              <summary>{{ t("claims.edit") }}</summary>
+              <form method="post" action="/claims/{{ r.id }}">
+                {{ csrf_field(csrf) }}
+                <input type="hidden" name="version" value="{{ r.version }}">
+                <label for="v-{{ r.id }}">{{ t("claims.new_value") }}</label>
+                <input id="v-{{ r.id }}" name="value" value="{{ r.value or '' }}" autocomplete="off">
+                {{ button(t("claims.save"), "secondary") }}
+              </form>
+            </details>
+            {% if r.accept_rule %}
+            <details class="accept">
+              <summary>{{ t("claims.accept") }}</summary>
+              <form method="post" action="/claims/{{ r.id }}/accept">
+                {{ csrf_field(csrf) }}
+                <input type="hidden" name="rule_id" value="{{ r.accept_rule }}">
+                <label for="a-{{ r.id }}">{{ t("claims.accept.reason") }}</label>
+                <textarea id="a-{{ r.id }}" name="reason" rows="2" minlength="5" required></textarea>
+                {{ button(t("claims.accept.save"), "secondary") }}
+              </form>
+            </details>
+            {% endif %}
+            {% if r.rereadable %}
+            <form method="post" action="/claims/{{ r.id }}/reread" class="inline">{{ csrf_field(csrf) }}{{ button(t("claims.reread"), "quiet") }}</form>
+            {% endif %}
+          </td>
+          <td class="check-cell">{{ verdict(t, r.status) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="muted">{{ t("claims.empty") }}</p>
+    {% endif %}
+  </section>
+</div>
+
+{# ------------------------------------------------ confirm #}
+<section class="confirm sheet" aria-labelledby="confirm-title">
+  <h2 id="confirm-title" class="visually-hidden">{{ t("confirm.button") }}</h2>
+  {% if case.confirmed_at %}
+    <div class="confirmed">
+      {{ stamp(t, t.date(case.confirmed_at[:10]), animate=request.query_params.get("stamped") == "1") }}
+      <p>{{ t("confirm.done", at=t.date(case.confirmed_at[:10])) }}</p>
+    </div>
+  {% else %}
+    {% if not has_invoice %}<p class="muted">{{ t("confirm.needs_papers") }}</p>
+    {% elif unresolved %}<p class="message message-failed">{{ t("confirm.blocked", n=unresolved | length) }}</p>{% endif %}
+    <form method="post" action="/cases/{{ case.id }}/confirm">
+      {{ csrf_field(csrf) }}
+      {{ button(t("confirm.button"), "primary", disabled=not can_confirm) }}
+    </form>
+  {% endif %}
+</section>
+
+{# ------------------------------------------------ clock strip #}
+{% include "_clock.html" with context %}
+
+{# ------------------------------------------------ terms and payments #}
+<div class="below">
+<section class="sheet" id="terms" aria-labelledby="terms-title">
+  <h2 id="terms-title">{{ t("settings.case.title") }}</h2>
+  <form method="post" action="/cases/{{ case.id }}/settings" class="form-grid">
+    {{ csrf_field(csrf) }}
+    <fieldset>
+      <legend>{{ t("settings.case.agreement") }}</legend>
+      <label class="choice"><input type="radio" name="agreement" value="written" {% if case.agreement == "written" %}checked{% endif %}> {{ t("settings.case.agreement.written") }}</label>
+      <label class="choice"><input type="radio" name="agreement" value="none" {% if case.agreement == "none" %}checked{% endif %}> {{ t("settings.case.agreement.none") }}</label>
+    </fieldset>
+    {{ field("credit_days", t("settings.case.credit_days"), "credit_days", case.credit_days, help=t("settings.case.credit_days.help"), inputmode="numeric") }}
+    {{ field("acceptance_date", t("settings.case.acceptance"), "acceptance_date", t.date(case.acceptance_date) if case.acceptance_date else "", help=t("settings.case.date.help")) }}
+    {{ field("objection_removed_on", t("settings.case.objection"), "objection_removed_on", t.date(case.objection_removed_on) if case.objection_removed_on else "", help=t("settings.case.date.help")) }}
+    {{ field("as_on_date", t("settings.case.as_on"), "as_on_date", t.date(case.as_on_date) if case.as_on_date else "", help=t("settings.case.as_on.help")) }}
+    <div class="field">
+      <label for="interest_base">{{ t("settings.case.base") }}</label>
+      <select id="interest_base" name="interest_base">
+        {% for b in ("invoice_total", "taxable_total") %}<option value="{{ b }}" {% if case.interest_base == b %}selected{% endif %}>{{ t("settings.case.base." ~ b) }}</option>{% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="enterprise_size">{{ t("settings.case.size") }}</label>
+      <select id="enterprise_size" name="enterprise_size">
+        <option value="">{{ t("settings.case.size.unknown") }}</option>
+        {% for s in ("micro", "small", "medium") %}<option value="{{ s }}" {% if case.enterprise_size == s %}selected{% endif %}>{{ t("settings.case.size." ~ s) }}</option>{% endfor %}
+      </select>
+    </div>
+    {{ field("udyam_number", t("settings.case.udyam"), "udyam_number", case.udyam_number) }}
+    {{ field("udyam_date", t("settings.case.udyam_date"), "udyam_date", t.date(case.udyam_date) if case.udyam_date else "", help=t("settings.case.date.help")) }}
+    {{ field("notice_days", t("settings.case.notice_days"), "notice_days", case.notice_days, inputmode="numeric") }}
+    {{ field("supplier_address", t("settings.case.supplier_address"), "supplier_address", case.supplier_address) }}
+    {{ field("buyer_address", t("settings.case.buyer_address"), "buyer_address", case.buyer_address) }}
+    {{ button(t("settings.case.save"), "secondary") }}
+  </form>
+</section>
+
+<section class="sheet" id="payments" aria-labelledby="payments-title">
+  <h2 id="payments-title">{{ t("payments.title") }}</h2>
+  {% if payments %}
+  <table>
+    <thead><tr><th scope="col">{{ t("payments.date") }}</th><th scope="col" class="num">{{ t("payments.amount") }}</th><th scope="col"><span class="visually-hidden">{{ t("payments.delete") }}</span></th></tr></thead>
+    <tbody>{% for p in payments %}
+      <tr><td class="num">{{ t.date(p.paid_on) }}</td><td class="num">{{ p.amount_paise | inr }}</td>
+      <td><form method="post" action="/cases/{{ case.id }}/payments/{{ p.id }}/delete" class="inline">{{ csrf_field(csrf) }}{{ button(t("payments.delete"), "quiet") }}</form></td></tr>
+    {% endfor %}</tbody>
+  </table>
+  {% else %}<p class="muted">{{ t("payments.none") }}</p>{% endif %}
+  <form method="post" action="/cases/{{ case.id }}/payments" class="form-row">
+    {{ csrf_field(csrf) }}
+    {{ field("paid_on", t("payments.date"), "paid_on", help=t("settings.case.date.help")) }}
+    {{ field("amount", t("payments.amount"), "amount", inputmode="decimal") }}
+    {{ button(t("payments.add"), "secondary") }}
+  </form>
+</section>
+
+<section class="sheet reading" aria-labelledby="elig-title">
+  <h2 id="elig-title">{{ t("elig.title") }}</h2>
+  <p>{{ t("elig.body") }}</p>
+  <p class="muted">{{ t("legal.notice") }}</p>
+</section>
+
+<section class="sheet reading" id="delete" aria-labelledby="delete-title">
+  <h2 id="delete-title">{{ t("delete.case") }}</h2>
+  <p>{{ t("delete.confirm") }}</p>
+  <form method="post" action="/cases/{{ case.id }}/delete">
+    {{ csrf_field(csrf) }}
+    <label class="choice"><input type="checkbox" name="sure" value="yes" required> {{ t("delete.confirm.check") }}</label>
+    {{ button(t("delete.case"), "danger") }}
+  </form>
+</section>
+</div>
+{% endblock %}

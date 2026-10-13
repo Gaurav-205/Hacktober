@@ -74,6 +74,8 @@ ignore = [
 "tests/**" = ["S101", "S108", "S603", "S607", "PLR", "S105", "S106"]
 "scripts/**" = ["S603", "S607", "T201"]
 "eval/**" = ["S311"]
+# SQL statements read better on one line than split across string fragments.
+"packages/munim_web/src/munim_web/db.py" = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["munim_core", "munim_ai", "munim_web", "munim_mcp"]

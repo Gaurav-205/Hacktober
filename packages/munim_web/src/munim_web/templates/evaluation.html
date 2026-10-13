@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ t("eval.title") }} | {{ t("app.name") }}{% endblock %}
+{% block content %}
+<div class="reading">
+  <h1>{{ t("eval.title") }}</h1>
+  {% if not report %}
+    <p>{{ t("eval.none") | code }}</p>
+  {% else %}
+    {% set m = report.metrics %}
+    {% if report.provider == "replay" %}<p class="message message-review">{{ t("eval.replay") }}</p>
+    {% else %}<p>{{ t("eval.live", provider=report.provider, model=report.model, date_date=report.date) }}</p>{% endif %}
+    <p class="headline">{{ t("eval.headline", count=m.wrong_and_passed.count, n=m.wrong_and_passed.over_scored_fields.n) }}</p>
+    <p class="muted">{{ t("eval.headline.help") }}</p>
+    <table>
+      <thead><tr><th scope="col">{{ t("eval.metric") }}</th><th scope="col" class="num">{{ t("eval.value") }}</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">{{ t("eval.m.caught") }}</th><td class="num">{{ t("eval.of", count=m.detected_and_flagged.count, n=m.detected_and_flagged.over_wrong_fields.n) }}</td></tr>
+        <tr><th scope="row">{{ t("eval.m.exact") }}</th><td class="num">{{ t("eval.of", count=m.field_exact_match_required.matched, n=m.field_exact_match_required.n) }}</td></tr>
+        <tr><th scope="row">{{ t("eval.m.amounts") }}</th><td class="num">{{ t("eval.of", count=m.amount_exact_match.matched, n=m.amount_exact_match.n) }}</td></tr>
+        <tr><th scope="row">{{ t("eval.m.ids") }}</th><td class="num">{{ t("eval.of", count=m.identifier_exact_match.matched, n=m.identifier_exact_match.n) }}</td></tr>
+        <tr><th scope="row">{{ t("eval.m.boxes") }}</th><td class="num">{{ t("eval.of", count=m.box_iou_at_least_0_5.matched, n=m.box_iou_at_least_0_5.n) }}</td></tr>
+        <tr><th scope="row">{{ t("eval.m.retry") }}</th><td class="num">{{ t("eval.of", count=m.invalid_json.needed_retry, n=m.invalid_json.papers) }}</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">{{ t("eval.synthetic") }}</p>
+    <h2>{{ t("eval.failures") }}</h2>
+    <ul class="failures">
+    {% for f in report.failure_examples[:6] %}
+      <li class="sheet">
+        {% if f.crop %}<img src="{{ f.crop }}" alt="" class="crop-large">{% endif %}
+        <p><code>{{ f.paper }}</code>, {{ f.field }}</p>
+        <p>{{ t("eval.f.truth") }}: <span class="num">{{ f.truth }}</span>. {{ t("eval.f.read") }}: <span class="num">{{ f.read or "" }}</span>.</p>
+        <p>{% if f.caught %}{{ t("eval.f.caught", rules=f.rules | join(", ")) }}{% else %}{{ t("eval.f.missed") }}{% endif %}</p>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}

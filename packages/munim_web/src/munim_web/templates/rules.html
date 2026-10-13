@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import button, csrf_field, field %}
+{% block title %}{{ t("rules.title") }} | {{ t("app.name") }}{% endblock %}
+{% block content %}
+<div class="reading">
+  <h1>{{ t("rules.title") }}</h1>
+  <p>{{ t("rules.intro") }}</p>
+</div>
+<div class="table-wrap">
+<table>
+  <thead><tr>
+    <th scope="col">{{ t("rules.col.id") }}</th>
+    <th scope="col">{{ t("rules.col.version") }}</th>
+    <th scope="col">{{ t("rules.col.severity") }}</th>
+    <th scope="col">{{ t("rules.col.status") }}</th>
+    <th scope="col">{{ t("rules.col.source") }}</th>
+  </tr></thead>
+  <tbody>
+  {% for r in rules %}
+    <tr>
+      <th scope="row"><code>{{ r.id }}</code></th>
+      <td class="num">{{ r.version }}</td>
+      <td>{{ t("rules.severity." ~ r.severity) if r.severity in ("blocking", "warning") else r.severity }}</td>
+      <td>{{ t("rules.basis." ~ r.status) }}</td>
+      <td class="small">{{ r.source }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<section class="sheet reading" id="bank" aria-labelledby="bank-title">
+  <h2 id="bank-title">{{ t("rules.bank.title") }}</h2>
+  {% if error %}<p class="message message-failed" role="alert">{{ t(error) | code }}</p>{% endif %}
+  <table>
+    <thead><tr><th scope="col">{{ t("rules.bank.from") }}</th><th scope="col" class="num">{{ t("rules.bank.percent") }}</th><th scope="col">{{ t("rules.col.source") }}</th><th scope="col">{{ t("rules.bank.confirmed") }}</th></tr></thead>
+    <tbody>
+    {% for rate in rates %}
+      <tr>
+        <td class="num">{{ t.date(rate.effective_from) }}</td>
+        <td class="num">{{ rate.percent }}%</td>
+        <td class="small">{{ rate.source }}</td>
+        <td>
+          {% if rate.confirmed %}{{ t("rules.bank.confirmed") }}
+          {% else %}
+          <span>{{ t("rules.bank.not_confirmed") }}</span>
+          <form method="post" action="/rules/bank-rate" class="inline">
+            {{ csrf_field(csrf) }}
+            <input type="hidden" name="effective_from" value="{{ rate.effective_from }}">
+            <input type="hidden" name="percent" value="{{ rate.percent }}">
+            <input type="hidden" name="source" value="{{ rate.source }}">
+            <input type="hidden" name="confirmed" value="on">
+            {{ button(t("rules.bank.confirm"), "quiet") }}
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <h3>{{ t("rules.bank.add") }}</h3>
+  <form method="post" action="/rules/bank-rate">
+    {{ csrf_field(csrf) }}
+    {{ field("effective_from", t("rules.bank.from"), "effective_from", help=t("settings.case.date.help")) }}
+    {{ field("percent", t("rules.bank.percent"), "percent", inputmode="decimal") }}
+    {{ field("source", t("rules.bank.source"), "source") }}
+    <label class="choice"><input type="checkbox" name="confirmed" value="on"> {{ t("rules.bank.confirmed") }}</label>
+    {{ button(t("rules.bank.add"), "secondary") }}
+  </form>
+</section>
+{% endblock %}

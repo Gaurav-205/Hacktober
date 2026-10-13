@@ -1,0 +1,46 @@
+{% from "components/icons.html" import icon %}
+
+{% macro button(label, kind="secondary", type="submit", name=None, value=None, disabled=False, extra="") -%}
+<button class="btn btn-{{ kind }}" type="{{ type }}"{% if name %} name="{{ name }}" value="{{ value }}"{% endif %}{% if disabled %} disabled aria-disabled="true"{% endif %} {{ extra }}>{{ label }}</button>
+{%- endmacro %}
+
+{% macro csrf_field(token) -%}
+<input type="hidden" name="csrf_token" value="{{ token }}">
+{%- endmacro %}
+
+{% macro field(id, label, name, value="", help=None, type="text", inputmode=None, required=False) -%}
+<div class="field">
+  <label for="{{ id }}">{{ label }}</label>
+  <input id="{{ id }}" name="{{ name }}" type="{{ type }}" value="{{ value if value is not none else '' }}"{% if inputmode %} inputmode="{{ inputmode }}"{% endif %}{% if required %} required{% endif %}{% if help %} aria-describedby="{{ id }}-help"{% endif %}>
+  {% if help %}<p class="help" id="{{ id }}-help">{{ help | code }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro verdict(t, status) -%}
+<span class="verdict verdict-{{ status }}">
+  {%- if status == "passed" %}{{ icon("tick") }}<span>{{ t("check.passed") }}</span>
+  {%- elif status == "failed" %}{{ icon("strike") }}<span>{{ t("check.failed") }}</span>
+  {%- elif status == "review" %}{{ icon("bracket-hand") }}<span>{{ t("check.review") }}</span>
+  {%- elif status == "accepted" %}{{ icon("tick") }}<span>{{ t("check.accepted") }}</span>
+  {%- elif status == "skipped" %}<span>{{ t("check.skipped") }}</span>
+  {%- else %}<span>{{ t("check.none") }}</span>{% endif -%}
+</span>
+{%- endmacro %}
+
+{% macro ident(value) -%}
+{%- set groups = gstin_groups(value) -%}
+<span class="ident">{% for g in groups %}<span>{{ g }}</span>{% endfor %}</span>
+{%- endmacro %}
+
+{% macro sheet_tab(kind) -%}
+<span class="sheet-tab sheet-tab-{{ kind }}" aria-hidden="true"></span>
+{%- endmacro %}
+
+{% macro stamp(t, on_date, animate=False) -%}
+<svg class="stamp{% if animate %} stamp-land{% endif %}" viewBox="0 0 220 96" role="img" aria-label="{{ t('stamp.label', on=on_date) }}">
+  <rect x="3" y="3" width="214" height="90" rx="3" class="stamp-outer"/>
+  <rect x="9" y="9" width="202" height="78" rx="2" class="stamp-inner"/>
+  <text x="110" y="48" text-anchor="middle" class="stamp-word" {% if t.lang == "hi" %}lang="hi"{% endif %}>{{ t("stamp.word") }}</text>
+  <text x="110" y="74" text-anchor="middle" class="stamp-date">{{ on_date }}</text>
+</svg>
+{%- endmacro %}

@@ -1,0 +1,35 @@
+{% if result %}
+<p>{{ basis }}</p>
+{% for line in rates %}<p>{{ line }}</p>{% endfor %}
+<div class="table-wrap">
+<table class="working">
+  <thead><tr>
+    <th scope="col">{{ t("working.col.period") }}</th>
+    <th scope="col">{{ t("working.col.kind") }}</th>
+    <th scope="col" class="num">{{ t("working.col.rate") }}</th>
+    <th scope="col" class="num">{{ t("working.col.opening") }}</th>
+    <th scope="col" class="num">{{ t("working.col.interest") }}</th>
+    <th scope="col" class="num">{{ t("working.col.closing") }}</th>
+  </tr></thead>
+  <tbody>
+  {% for s in result.steps %}
+    <tr>
+      <td class="num">{{ t.date(s.start) }} &ndash; {{ t.date(s.end) }}</td>
+      <td>{{ step_label(s, t) }}</td>
+      <td class="num">{{ s.rate_percent }}%</td>
+      <td class="num">{{ s.opening_paise | inr }}</td>
+      <td class="num">{{ s.interest_paise | inr }}</td>
+      <td class="num">{{ s.closing_paise | inr }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  <tfoot><tr>
+    <th scope="row" colspan="4">{{ t("clock.owed") }}</th>
+    <td class="num">{{ result.interest_paise | inr }}</td>
+    <td class="num">{{ result.total_paise | inr }}</td>
+  </tr></tfoot>
+</table>
+</div>
+{% else %}
+<p class="muted">{{ t("notice.unavailable") }}</p>
+{% endif %}

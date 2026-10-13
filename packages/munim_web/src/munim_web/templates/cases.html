@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% from "components/macros.html" import button, csrf_field, field, sheet_tab %}
+{% block title %}{{ t("cases.title") }} | {{ t("app.name") }}{% endblock %}
+{% block content %}
+<div class="reading">
+  <h1>{{ t("cases.title") }}</h1>
+  <p class="lede">{{ t("app.tagline") }}</p>
+</div>
+{% if request.query_params.get("deleted") %}<p class="message message-passed" role="status">{{ t("delete.done") }}</p>{% endif %}
+{% if rows %}
+<div class="table-wrap">
+<table class="cases">
+  <thead><tr>
+    <th scope="col">{{ t("cases.col.case") }}</th>
+    <th scope="col">{{ t("cases.col.parties") }}</th>
+    <th scope="col">{{ t("cases.col.papers") }}</th>
+    <th scope="col" class="num">{{ t("cases.col.owed") }}</th>
+    <th scope="col">{{ t("cases.col.updated") }}</th>
+  </tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td><a href="/cases/{{ r.case.id }}">{{ r.case.title }}</a></td>
+      <td>{{ t("cases.parties", supplier=r.case.supplier_name, buyer=r.case.buyer_name) }}</td>
+      <td><span class="tabs">{% for k in r.kinds %}{{ sheet_tab(k) }}<span class="visually-hidden">{{ t("paper.kind." ~ k) }}</span>{% endfor %}</span></td>
+      <td class="num">{% if r.owed is not none %}{{ r.owed | inr }}{% else %}<span class="muted">{{ t("cases.owed.none") }}</span>{% endif %}</td>
+      <td class="num">{{ t.date(r.case.updated_at[:10]) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="sheet empty reading">
+  <p>{{ t("cases.empty") }}</p>
+</div>
+{% endif %}
+<section class="sheet reading new-case" aria-labelledby="new-case-title">
+  <h2 id="new-case-title">{{ t("cases.new") }}</h2>
+  {% if form_error %}<p class="message message-failed" role="alert">{{ t(form_error) }}</p>{% endif %}
+  <form method="post" action="/cases">
+    {{ csrf_field(csrf) }}
+    {{ field("title", t("case.form.title"), "title", form.title if form else "", help=t("case.form.title.help"), required=True) }}
+    {{ field("supplier_name", t("case.form.supplier"), "supplier_name", form.supplier_name if form else "", required=True) }}
+    {{ field("buyer_name", t("case.form.buyer"), "buyer_name", form.buyer_name if form else "", required=True) }}
+    {{ button(t("cases.new"), "primary") }}
+  </form>
+</section>
+{% endblock %}

@@ -211,3 +211,18 @@ def test_string_file_that_cannot_be_read_is_a_tool_error(tmp_path: Path) -> None
     (i18n / "hi.json").write_text(json.dumps(GOOD_HI, ensure_ascii=False), "utf-8")
 
     assert_tool_error(run_dir(i18n), "en.json")
+
+
+def test_template_key_prefix_passes_when_a_key_has_that_prefix(tmp_path: Path) -> None:
+    template = '<p>{{ t("nav." ~ name) }}</p>'
+    result = run(tmp_path, GOOD_EN, GOOD_HI, template=template)
+    assert result.returncode == 0, result.stdout
+
+
+def test_template_key_prefix_with_no_matching_key_is_reported(tmp_path: Path) -> None:
+    template = '<p>{{ t("nothing.here." ~ name) }}</p>'
+    result = run(tmp_path, GOOD_EN, GOOD_HI, template=template)
+    assert result.returncode == 1
+    assert (
+        "page.html:1: f: nothing.here.: no key in en.json starts with this prefix" in result.stdout
+    )

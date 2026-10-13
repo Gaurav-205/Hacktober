@@ -103,16 +103,16 @@ input[type="radio"], input[type="checkbox"] { width: 20px; height: 20px; accent-
 .message-passed { border-left-color: var(--color-tick); }
 .message-review { border-left-color: var(--color-highlighter); }
 .verdict {
-  display: inline-flex; align-items: center; gap: var(--space-1); min-height: 28px;
-  padding: 1px var(--space-2); border: 1px solid var(--color-hairline-strong);
-  border-radius: var(--radius-field); font-size: var(--type-check-size); line-height: var(--type-check-line);
-  font-weight: var(--type-check-weight); color: var(--color-ink); background: var(--color-sheet);
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  padding: 1px var(--space-2); border-left: 3px solid var(--color-hairline-strong);
+  font-size: var(--type-check-size); line-height: var(--type-check-line);
+  font-weight: var(--type-check-weight); color: var(--color-ink);
 }
-.verdict-passed, .verdict-accepted { border-color: var(--color-tick); background: var(--color-tick-wash); }
+.verdict-passed, .verdict-accepted { border-left-color: var(--color-tick); }
 .verdict-passed .icon, .verdict-accepted .icon { color: var(--color-tick); }
-.verdict-failed { border-color: var(--color-red-pen); background: var(--color-red-wash); }
+.verdict-failed { border-left-color: var(--color-red-pen); }
 .verdict-failed .icon { color: var(--color-red-pen); }
-.verdict-review { border-color: var(--color-ink); background: var(--color-highlighter-wash); }
+.verdict-review { border-left-color: var(--color-ink); }
 
 /* ------------------------------------------------ workbench */
 .workbench { padding: var(--space-4) var(--space-5) 0; max-width: 1600px; }
@@ -183,11 +183,13 @@ details input, details textarea { margin-bottom: var(--space-2); background: var
 @keyframes stamp { from { transform: var(--motion-stamp-from); } to { transform: var(--motion-stamp-to); } }
 
 /* clock strip (DESIGN.md 4.9) */
-.clock { position: sticky; bottom: 0; border-top: 1px solid var(--color-hairline-strong); z-index: 2; }
+.clock { position: sticky; bottom: 0; border-top: 2px solid var(--color-hairline-strong); z-index: 2; }
 .clock-strip { display: flex; flex-wrap: wrap; gap: var(--space-5) var(--space-6); margin: 0; }
 .clock-strip dt { font-size: var(--type-label-size); font-weight: var(--type-label-weight); color: var(--color-ink-2); }
 .clock-strip dd { margin: 0; }
-.clock-owed { margin-left: auto; }
+.clock-verdict { display: flex; align-items: center; align-self: center; }
+.clock-owed { margin-left: auto; text-align: right; }
+.clock-interest { margin: var(--space-1) 0 0; font-size: var(--type-body-sm-size); color: var(--color-ink-2); }
 .display-amount { font-size: var(--type-display-amount-size); line-height: var(--type-display-amount-line); font-weight: var(--type-display-amount-weight); letter-spacing: var(--type-display-amount-tracking); font-variant-numeric: tabular-nums lining-nums; }
 .display { font-size: var(--type-display-size); line-height: var(--type-display-line); font-weight: var(--type-display-weight); letter-spacing: var(--type-display-tracking); }
 .verdict-hero { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }

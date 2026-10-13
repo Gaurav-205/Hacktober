@@ -93,6 +93,18 @@ def test_line_with_a_missing_rate_is_skipped() -> None:
     assert only(findings, "INV-LINE-AMOUNT")[0].status is Status.SKIPPED
 
 
+def test_line_amount_with_discount_passes() -> None:
+    findings = run_invoice(lines_with(quantity="10", rate="1,000.00", discount="500.00", amount="9,500.00"))
+    assert only(findings, "INV-LINE-AMOUNT")[0].status is Status.PASSED
+
+
+def test_line_amount_with_discount_fails_when_mismatched() -> None:
+    findings = run_invoice(lines_with(quantity="10", rate="1,000.00", discount="500.00", amount="9,000.00"))
+    line = only(findings, "INV-LINE-AMOUNT")[0]
+    assert line.status is Status.FAILED
+    assert line.params == {"n": "1", "computed_paise": "950000", "printed_paise": "900000"}
+
+
 # ---------------------------------------------------------------- INV-TAXABLE-SUM
 
 

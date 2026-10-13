@@ -82,12 +82,23 @@ def _one(
 
 def _runaway(ref: FieldRef) -> Finding:
     """The model wrote an over-long value that was dropped (AI_SPEC 6): someone must look."""
+    severity = Severity.WARNING
+    if ref.paper_kind in FIELD_KINDS:
+        for name, _, _, sev in FIELD_KINDS[ref.paper_kind]:
+            if name == ref.field:
+                severity = sev
+                break
+    if ref.paper_kind in LINE_KINDS and ref.index is not None:
+        for name, _, _, sev in LINE_KINDS[ref.paper_kind]:
+            if name == ref.field:
+                severity = sev
+                break
     return finding(
         "VALUE-FORMAT",
         Status.NEEDS_REVIEW,
         (ref,),
         message_key="rule.VALUE-FORMAT.runaway",
-        severity=Severity.WARNING,
+        severity=severity,
     )
 
 

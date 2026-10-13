@@ -45,7 +45,7 @@ def test_keyboard_only_edit_and_cancel(page: Page, server: str) -> None:
     # The focus ring is visible on a control reached by keyboard.
     button = page.get_by_role("button", name="Read this paper again")
     tab_to(page, button)
-    assert button.evaluate("el => getComputedStyle(el).outlineStyle") == "solid"
+    expect(button).to_have_css("outline-style", "solid")
 
 
 def test_phone_width_has_no_sideways_scroll_and_44px_targets(page: Page, server: str) -> None:

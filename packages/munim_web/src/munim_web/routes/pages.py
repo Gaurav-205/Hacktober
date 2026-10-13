@@ -75,7 +75,10 @@ async def cases(request: Request) -> Response:
         snap = load_case(db, case["id"], today(request))
         owed = None
         if snap and snap.clock.outcome and snap.clock.outcome.result:
-            owed = snap.clock.outcome.result.total_paise
+            if snap.clock.interest_off:
+                owed = snap.clock.outcome.result.total_paise - snap.clock.outcome.result.interest_paise
+            else:
+                owed = snap.clock.outcome.result.total_paise
         rows.append(
             {"case": case, "kinds": [p["kind"] for p in db.papers(case["id"])], "owed": owed}
         )

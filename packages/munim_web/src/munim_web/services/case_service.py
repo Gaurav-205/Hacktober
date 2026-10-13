@@ -166,6 +166,7 @@ def _state(case: sqlite3.Row, claims: list[sqlite3.Row], as_on: date) -> CaseSta
         },
         as_on=as_on,
         udyam_number=case["udyam_number"],
+        extra={"acceptance_date": case["acceptance_date"] or ""},
     )
 
 
@@ -197,15 +198,23 @@ def _clock(
     missing: list[str] = []
     delivered: date | None = None
     delivered_from: str | None = None
-    if case["acceptance_date"]:
-        delivered, delivered_from = date.fromisoformat(case["acceptance_date"]), "case"
-    elif received := _parse_day(claim("challan", "received_date")):
+    if received := _parse_day(claim("challan", "received_date")):
         delivered, delivered_from = received, "received_date"
     elif challan := _parse_day(claim("challan", "challan_date")):
         delivered, delivered_from = challan, "challan_date"
+
+    acceptance: date | None = None
     if case["objection_removed_on"]:
-        delivered, delivered_from = date.fromisoformat(case["objection_removed_on"]), "case"
+        acceptance, delivered_from = date.fromisoformat(case["objection_removed_on"]), "case"
+    elif case["acceptance_date"]:
+        acceptance, delivered_from = date.fromisoformat(case["acceptance_date"]), "case"
+    elif delivered is not None:
+        acceptance = delivered
+
     if delivered is None:
+        delivered = acceptance
+
+    if acceptance is None:
         missing.append("acceptance_date")
     agreement = case["agreement"]
     if agreement is None:
@@ -223,9 +232,9 @@ def _clock(
         missing.append(base)
     interest_off = case["enterprise_size"] == "medium"
     outcome = None
-    if not missing and delivered is not None and principal is not None:
+    if not missing and acceptance is not None and principal is not None:
         inp = ClockInput(
-            acceptance_date=delivered,
+            acceptance_date=acceptance,
             agreement=_agreement(agreement),
             credit_days=case["credit_days"],
             principal_paise=principal,

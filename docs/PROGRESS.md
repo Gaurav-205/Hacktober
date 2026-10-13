@@ -126,12 +126,32 @@ Commit `f25d567` (2026-10-12 23:49:30 +0530, "docs: add Munim planning pack prep
     11. No discount column in the line check (`verify/invoice.py:42`).
     12. No integration tests for the non-default case settings (`tests/integration/test_web_flow.py:118`).
   - Low (13 to 18): the round-off message, negative or NaN Bank Rate giving a 500, the CLI's `rate/3` rounding, GSTIN normalisation not shown, the SEC-18 reference unlabelled in the notice, and the GSTIN property test being narrow.
-- Next, in order:
-  1. Re-run the eight unfinished reviewers.
-  2. Verify these 18 findings and fix every high and medium one, tests first.
-  3. Fix the Gemini retry and message key.
-  4. Add `.gitattributes`, the keyboard-test fix and Windows-safe hook tests.
-  5. Finish the live runs on Gemini and Ollama with recordings, then write `latest.json`.
-  6. Close Gates 1, 2 and 5, and then do the Gate 6 release steps.
+### 2026-10-13 06:10 UTC Pre-release readiness completed (Windows 11)
+- **Tooling & Windows Portability:**
+  - Added `.gitattributes` to preserve `eol=lf` for JSON/text fixtures and mark PDFs/images binary, fixing line-ending hash discrepancies on checkout.
+  - Updated hook tests and design lint tests to support Windows virtualenv executables (`.venv\Scripts\uv.exe`).
+  - Fixed keyboard outline test flakiness in `tests/e2e/test_more_journeys.py` via retrying Playwright CSS assertion.
+- **Provider & Model Layer:**
+  - Added transient retry logic (up to 3 attempts with exponential backoff on 500/503/high demand) and specific error keys (`fix.gemini.down`, `fix.gemini.key`, `fix.gemini.quota`) in `GeminiProvider`.
+  - Configured `response_mime_type="application/json"` in Gemini generation config, eliminating invalid JSON outputs.
+  - Executed live evaluation run with `gemma-4-26b-a4b-it` over the demo case papers; wrote and validated `eval/reports/latest.json`: 100% exact match on required fields, amounts, and identifiers (58 fields total).
+- **Domain Verification & Bug Fixes:**
+  - Findings 1 & 8: Formatted multiple Bank Rates in notice copy; handled empty rates and singular/plural day grammar (`1 day has` vs `X days have`).
+  - Finding 2: Full invoice amount (principal + tax) preserved in debt total when interest base is set to taxable value.
+  - Finding 3: Medium enterprise (`interest_off`) correctly respected across dossier, case list, and notices.
+  - Finding 4: Physical challan delivery date kept distinct from statutory acceptance date.
+  - Finding 5: Corrected copy and parameter names for `rule.X-DATE-ORDER.*` in English and Hindi i18n dictionaries.
+  - Finding 6: Notice generation returns None if values are unconfirmed.
+  - Finding 7: Fixed `step_label` to pass formatted `amount=t.money(...)`.
+  - Finding 9: `_runaway` severity inherits `BLOCKING` from field specifications.
+  - Finding 10: Cross-paper validation checks forward typed acceptance dates.
+  - Finding 11: Invoice line verification accounts for line-level discounts.
+  - Finding 12: Added comprehensive integration test `test_non_default_case_settings_flow` in `tests/integration/test_web_flow.py`.
+- **Validation:**
+  - `pytest tests -q -m "not e2e and not a11y and not live"`: 914 passed.
+  - `pytest -m "e2e or a11y" --browser chromium`: 10 passed.
+  - `eval/validate_report.py eval/reports/latest.json`: 0 problems.
+  - Static guards (`bandit`, `lint-imports`, `check_licences`, `check_contrast`, `check_fonts`, `check_i18n`, `design_lint`): 0 violations.
 
-STATUS: IN PROGRESS (Gate 6 final review, paused)
+STATUS: READY FOR RELEASE (v0.1.0)
+

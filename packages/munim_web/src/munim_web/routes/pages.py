@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+from collections.abc import Mapping
 from datetime import date
 from decimal import Decimal, InvalidOperation
 from typing import Annotated, Any
@@ -562,10 +563,10 @@ async def discrepancies_page(request: Request, case_id: str) -> Response:
     inv_paper = snap.state.papers.get("invoice")
     ch_paper = snap.state.papers.get("challan")
 
-    inv_lines = [
+    inv_lines: list[Mapping[str, Any]] = [
         {k: v.text for k, v in line.items()} for line in (inv_paper.lines if inv_paper else ())
     ]
-    ch_lines = [
+    ch_lines: list[Mapping[str, Any]] = [
         {k: v.text for k, v in line.items()} for line in (ch_paper.lines if ch_paper else ())
     ]
     heatmap = build_discrepancy_map(inv_lines, ch_lines)
